@@ -32,6 +32,8 @@
             this.sendTextButton = new System.Windows.Forms.Button();
             this.openImageButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // sentFileButton
@@ -42,7 +44,7 @@
             this.sentFileButton.TabIndex = 1;
             this.sentFileButton.Text = "Sent File";
             this.sentFileButton.UseVisualStyleBackColor = true;
-            this.sentFileButton.Click += new System.EventHandler(this.button1_Click_1);
+            this.sentFileButton.Click += new System.EventHandler(this.sentFileButton_Click);
             // 
             // sendTextButton
             // 
@@ -52,6 +54,7 @@
             this.sendTextButton.TabIndex = 2;
             this.sendTextButton.Text = "Sent Text";
             this.sendTextButton.UseVisualStyleBackColor = true;
+            this.sendTextButton.Click += new System.EventHandler(this.sendTextButton_Click);
             // 
             // openImageButton
             // 
@@ -61,6 +64,7 @@
             this.openImageButton.TabIndex = 3;
             this.openImageButton.Text = "Open Image";
             this.openImageButton.UseVisualStyleBackColor = true;
+            this.openImageButton.Click += new System.EventHandler(this.openImageButton_Click);
             // 
             // listBox1
             // 
@@ -69,26 +73,40 @@
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 16;
             this.listBox1.Items.AddRange(new object[] {
-            "[hh:mm] Starting Window",
-            "Hardware Component Not Connected!"});
+            "Starting Window",
+            "Hardward component is not connected!"});
             this.listBox1.Location = new System.Drawing.Point(314, 364);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(674, 160);
             this.listBox1.TabIndex = 4;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(9, 100);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(981, 86);
+            this.pictureBox1.TabIndex = 5;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = global::POVWheel.Properties.Resources.mainbackgroundimage1;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1000, 540);
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.openImageButton);
             this.Controls.Add(this.sendTextButton);
             this.Controls.Add(this.sentFileButton);
             this.DoubleBuffered = true;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "MainWindow";
             this.Text = "POV Whell - Group 38";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -99,6 +117,7 @@
         private System.Windows.Forms.Button sendTextButton;
         private System.Windows.Forms.Button openImageButton;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
 
     }
 }

@@ -1,1 +1,9 @@
 D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.exe.config
+D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.exe
+D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.pdb
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.csprojResolveAssemblyReference.cache
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.MainWindow.resources
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.Properties.Resources.resources
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.csproj.GenerateResource.Cache
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.exe
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.pdb
