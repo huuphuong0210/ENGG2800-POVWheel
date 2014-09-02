@@ -51,6 +51,7 @@ namespace POVWheel
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex.StackTrace);
                    addLog("Error: " + ex.Message);
                 }
             }

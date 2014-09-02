@@ -7,6 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Collections;
 
 namespace POVWheel.DataAccess
 {
@@ -44,7 +45,7 @@ namespace POVWheel.DataAccess
         /// <returns>Return 1 - Reading Success | -1 Errors</returns>
         public static System.Drawing.Bitmap readData(string filePath)
         {
-            int[] fileInfo = new int[3] {0,0,0}; // Widht, Heigh, Maximum Brighness
+            int[] fileInfo = new int[4] {0,0,0,0}; // Widht, Heigh, Maximum Brighness, Data Line
             bool foundAllInfo = false;
             int magicNumber;
             int numberCount = 0; //count the numbers found in the header of the file
@@ -54,15 +55,17 @@ namespace POVWheel.DataAccess
             
             //Initilise StreamReader
             StreamReader myFile = File.OpenText(filePath);
-
+           
             // Header error or file is not supported
             if (magicNumber == -1) return (new System.Drawing.Bitmap(360,32)); 
 
             //Finding width and hight information
-            string line = myFile.ReadLine();
+            string line = " ";
             while (line != null && !foundAllInfo)
             {
-                line = line.Trim(); // Trim the trailing and leading white-space if exsist
+                line = myFile.ReadLine();
+                fileInfo[3]++;
+                //line = line.Trim(); // Trim the trailing and leading white-space if exsist
                 string[] line_partition = line.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string p in line_partition)
                 {
@@ -78,7 +81,7 @@ namespace POVWheel.DataAccess
                         break; // Found width, heigh, and maximum brightness
                     }             
                 }
-                line = myFile.ReadLine(); 
+                
             }
 
             if (line == null) return (new System.Drawing.Bitmap(360, 32)); // Header error does not have enough information;
@@ -88,6 +91,7 @@ namespace POVWheel.DataAccess
             {
                 char[] data = new char[fileInfo[0] * fileInfo[1]];
                 int offset = 0;
+                line = myFile.ReadLine();
                 while (line != null)
                 {
                     //Console.WriteLine(line);
@@ -95,16 +99,15 @@ namespace POVWheel.DataAccess
                     foreach (string p in line_partition)
                     {
                         if (p[0] == '#') break; // Skip comments
-                        for (int i=0; i < p.Length; i++)
+                        for (int i = 0; i < p.Length; i++)
                         {
                             data[offset] = p[i];
                             offset++;
                         }
-                        
                     }
-                    line = myFile.ReadLine(); 
+                    line = myFile.ReadLine();
                 }
-                
+                myFile.Close();
                 //Convert chars array to bitmap
                 return (bitMapFromData(data, fileInfo[0], fileInfo[1]));
             }
@@ -114,9 +117,11 @@ namespace POVWheel.DataAccess
             {
 
                 Console.WriteLine("Maximum Brightness" + fileInfo[2]);
-                byte maximumBrightness = (byte)fileInfo[2];
+                
                 byte[] data = new byte[fileInfo[0] * fileInfo[1]];
                 int offset = 0;
+
+                line = myFile.ReadLine();
                 while (line != null)
                 {
                     Console.WriteLine(line);
@@ -124,87 +129,143 @@ namespace POVWheel.DataAccess
                     foreach (string p in line_partition)
                     {
                         if (p[0] == '#') break; // Skip comments
-                        data[offset] = (byte)100*Math.Round(byte(byte.Parse(p) / maximumBrightness));
+                        data[offset] = (byte)Convert.ToByte(255*int.Parse(p)/fileInfo[2]);
                         offset++;
                     }
                     line = myFile.ReadLine();
                 }
 
-                Console.WriteLine("Image Data");
-                for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
+                //Console.WriteLine("Image Data");
+                //for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
+                //{
+                //    Console.WriteLine(data[i]);
+                //}
+
+                //Convert chars array to bitmap
+                myFile.Close();
+                return (bitMapFromData(data, fileInfo[0], fileInfo[1]));
+
+            }
+
+            myFile.Close(); // Close Text Reader
+            //Binary pbm file
+            if (magicNumber == 4)
+            {
+                Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
+                Console.WriteLine("LIne: " + fileInfo[3]);
+                BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
+                int lineCount = 0;
+                char temp;
+                //Move stream postion to data line
+                while (lineCount < fileInfo[3])
                 {
-                    Console.Write(data[i]);
+                    temp = reader.ReadChar();
+                    if (temp == '\n')
+                       lineCount++;
+                }
+                Console.WriteLine("LIneCount: " + lineCount);
+
+                byte[] dataBytes = new byte[reader.BaseStream.Length - reader.BaseStream.Position];
+                int offset = 0;
+                while (reader.BaseStream.Position != reader.BaseStream.Length)
+                {
+                    dataBytes[offset] = reader.ReadByte();
+                    offset++;
+                    //Console.WriteLine(offset);                    
+                }
+                
+                //BitArray dataBits = new BitArray(dataBytes);
+                BitArray dataBitsRevered = new BitArray(fileInfo[0]*fileInfo[1]);
+                Console.WriteLine("Bits length" + dataBitsRevered.Length);
+                int numberOfByteForRow = (int)Math.Ceiling(fileInfo[0] / 8.0);
+                int remainderBit = fileInfo[0] % 8;
+                Console.WriteLine("Row " + numberOfByteForRow + " Remainder " + remainderBit);
+                offset = 0;
+
+                for (int k = 0; k < dataBytes.Length; k++ )
+                {
+
+                    BitArray bits = new BitArray(new Byte[1] { dataBytes[k] });
+                  
+                    if ( (remainderBit != 0) && (((k+1) % numberOfByteForRow) == 0) )
+                    {
+                        Console.WriteLine("Byte Number: " + k + "Bit Length:" + bits.Length);
+                        for (int i = 7; i >= (8 - remainderBit); i--)
+                        {
+                            //Console.WriteLine("OFFSET:" + offset);
+                            dataBitsRevered.Set(offset, bits.Get(i));
+                            offset++;
+                        }
+                        continue;
+                    }
+                    else
+                    for (int i = 7; i >= 0; i--)
+                    {
+                        //Console.WriteLine("OFFSET:" + offset);
+                        dataBitsRevered.Set(offset, bits.Get(i));
+                        offset++;
+                    }
+                }
+
+                //Convert chars array to bitmap
+                reader.Close();
+                return (bitMapFromData(dataBitsRevered, fileInfo[0], fileInfo[1]));
+                
+            }
+
+            //Binary pgm file
+            if (magicNumber == 5)
+            {
+                Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
+                Console.WriteLine("Max: " + fileInfo[2]);
+                Console.WriteLine("Line: " + fileInfo[3]);
+
+                BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
+                int lineCount = 0;
+                char temp;
+                //Move stream postion to data line
+                while (lineCount < fileInfo[3])
+                {
+                    temp = reader.ReadChar();
+                    if (temp == '\n')
+                        lineCount++;
+                }
+                Console.WriteLine("LIneCount: " + lineCount);
+
+                byte[] dataBytes = new byte[reader.BaseStream.Length - reader.BaseStream.Position];
+                Console.WriteLine("Byte Lenght: " + dataBytes.Length);
+
+                int offset = 0;
+                while (reader.BaseStream.Position != reader.BaseStream.Length)
+                {
+                    //Console.WriteLine(offset);  
+                    dataBytes[offset] = (byte)Convert.ToByte(255 * reader.ReadByte() / fileInfo[2]);
+                    Console.WriteLine("["+offset+"] "+dataBytes[offset]);
+                    offset++;
+                                      
                 }
                
+             
+                //Convert chars array to bitmap
+                reader.Close();
+                return (bitMapFromData(dataBytes, fileInfo[0], fileInfo[1]));
+
             }
 
 
             return (new System.Drawing.Bitmap(360, 32)); // Error
-            //Binary File
-            //if (magicNumber == 4 | magicNumber == 5)
-            //{
-                //while (line != null)
-                //{
-                //    string[] line_partition = line.split((char[])null, stringsplitoptions.removeemptyentries);
-                //    foreach (string p in line_partition)
-                //    {
-                //        //for (int i = 0; i < p.length; i++)
-                //        //{
-                //        //    data[offset] = p[i];
-                //        //    offset++;
-                //        //}
-                //        console.writeline(p[0]);
-
-                //    }
-                //    line = myfile.readline();
-                //}
-            //}
-           
-            //Console.WriteLine("OFFSET " + offset);
-            //return -1;
+          
         }
-
-        //public static char[] readChars(int dataStartFromLine, int width, int height)
-        //{
-        //    char[] data = new char[width*height];
-        //    int offset = 0;
-        //    while (line != null)
-        //    {
-        //        //Console.WriteLine(line);
-        //        string[] line_partition = line.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
-        //        foreach (string p in line_partition)
-        //        {
-        //            if (p[0] == '#') break; // Skip comments
-        //            for (int i = 0; i < p.Length; i++)
-        //            {
-        //                data[offset] = p[i];
-        //                offset++;
-        //            }
-
-        //        }
-        //        line = myFile.ReadLine();
-        //    }
-
-        //    Console.WriteLine("Image Data");
-        //    for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
-        //    {
-        //        Console.Write(data[i]);
-        //    }
-
-        //    //Convert chars array to bitmap
-        //    return (bitmapFromChars(data, fileInfo[0], fileInfo[1]));
-        //}
 
         public static System.Drawing.Bitmap bitMapFromData(char[] pixels, int width, int height)
         {
             System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
-            Console.WriteLine("Width: " + width + ", Height:" + height);
-
+          
             for (int y = 0; y < resultBitmap.Height; y++)
             {
                 for (int x = 0; x < resultBitmap.Width; x++)
                 {
-                    Console.WriteLine("X= " + x + "Y= " + y);
+                   // Console.WriteLine("X= " + x + "Y= " + y);
                     if (pixels[y * resultBitmap.Width + x] == '1')
                     {
                         resultBitmap.SetPixel(x, y, System.Drawing.Color.Black);                       
@@ -217,17 +278,38 @@ namespace POVWheel.DataAccess
             return resultBitmap;
         }
 
-        public static System.Drawing.Bitmap bitMapFromData(byte[] pixels, int width, int height) 
+        public static System.Drawing.Bitmap bitMapFromData(BitArray pixels, int width, int height)
         {
             System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
-            Console.WriteLine("Width: " + width + ", Height:" + height);
+
             for (int y = 0; y < resultBitmap.Height; y++)
             {
                 for (int x = 0; x < resultBitmap.Width; x++)
                 {
-                    Console.WriteLine("X= " + x + "Y= " + y);
-                    resultBitmap.SetPixel(x, y, System.Drawing.Color.Black);
-                    resultBitmap.SetPixel(x, y, System.Drawing.Color.White);
+                    // Console.WriteLine("X= " + x + "Y= " + y);
+                    if (pixels.Get(y * resultBitmap.Width + x))
+                    {
+                        resultBitmap.SetPixel(x, y, System.Drawing.Color.Black);
+                    }
+                    else
+                        resultBitmap.SetPixel(x, y, System.Drawing.Color.White);
+
+                }
+            }
+            return resultBitmap;
+        }
+        public static System.Drawing.Bitmap bitMapFromData(byte[] pixels, int width, int height) 
+        {
+            System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
+   
+            int index = 0;
+            for (int y = 0; y < resultBitmap.Height; y++)
+            {
+                for (int x = 0; x < resultBitmap.Width; x++)
+                {
+                    index = y * resultBitmap.Width + x;
+                    //Console.WriteLine("X= " + x + "Y= " + y);
+                    resultBitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixels[index], pixels[index], pixels[index]));
 
                 }
             }
