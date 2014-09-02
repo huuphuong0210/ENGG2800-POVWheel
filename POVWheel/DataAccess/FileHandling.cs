@@ -40,19 +40,23 @@ namespace POVWheel.DataAccess
         /// Read data from image File
         /// </summary>
         /// <param name="filePath">THe file path in the system</param>
-        /// <param name="image">Return Image</param>
+        /// <param name="bitmapImage">Return Image</param>
         /// <returns>Return 1 - Reading Success | -1 Errors</returns>
-        public static int readData(string filePath, System.Windows.Media.Imaging.BitmapImage image)
+        public static System.Drawing.Bitmap readData(string filePath)
         {
-            int[] fileInfo = new int[3] {0,0,0};
+            int[] fileInfo = new int[3] {0,0,0}; // Widht, Heigh, Maximum Brighness
             bool foundAllInfo = false;
             int magicNumber;
             int numberCount = 0; //count the numbers found in the header of the file
 
+            //Get magic number
             magicNumber = DataAccess.FileHandling.readMagicNumber(filePath);
-            StreamReader myFile = File.OpenText(filePath);
             
-            if (magicNumber == -1) return -1; // Header error or not supported file
+            //Initilise StreamReader
+            StreamReader myFile = File.OpenText(filePath);
+
+            // Header error or file is not supported
+            if (magicNumber == -1) return (new System.Drawing.Bitmap(360,32)); 
 
             //Finding width and hight information
             string line = myFile.ReadLine();
@@ -66,7 +70,6 @@ namespace POVWheel.DataAccess
                     if (System.Text.RegularExpressions.Regex.IsMatch(p, @"^\d+$"))
                     {
                         fileInfo[numberCount] = Int32.Parse(p);
-                        Console.WriteLine(p);
                         numberCount++;
                     }
                     if (numberCount == 3 |  ((magicNumber == 1 | magicNumber == 4) && numberCount == 2) )
@@ -77,13 +80,14 @@ namespace POVWheel.DataAccess
                 }
                 line = myFile.ReadLine(); 
             }
-           
-            if (line == null) return -1; // Header error does not have enough information;
 
-            char[] data = new char[fileInfo[0] * fileInfo[1]];
-            int offset = 0;
-            if (magicNumber == 1 | magicNumber == 2)
+            if (line == null) return (new System.Drawing.Bitmap(360, 32)); // Header error does not have enough information;
+
+            //ASCII pbm files
+            if (magicNumber == 1)
             {
+                char[] data = new char[fileInfo[0] * fileInfo[1]];
+                int offset = 0;
                 while (line != null)
                 {
                     //Console.WriteLine(line);
@@ -100,17 +104,45 @@ namespace POVWheel.DataAccess
                     }
                     line = myFile.ReadLine(); 
                 }
+                
+                //Convert chars array to bitmap
+                return (bitMapFromData(data, fileInfo[0], fileInfo[1]));
             }
-            //Console.WriteLn("GO THERE");
-            for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
+            
+            //ASCII pgm file 
+            else if (magicNumber == 2)
             {
-                Console.Write(data[i]);
+
+                Console.WriteLine("Maximum Brightness" + fileInfo[2]);
+                byte maximumBrightness = (byte)fileInfo[2];
+                byte[] data = new byte[fileInfo[0] * fileInfo[1]];
+                int offset = 0;
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    string[] line_partition = line.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string p in line_partition)
+                    {
+                        if (p[0] == '#') break; // Skip comments
+                        data[offset] = (byte)100*Math.Round(byte(byte.Parse(p) / maximumBrightness));
+                        offset++;
+                    }
+                    line = myFile.ReadLine();
+                }
+
+                Console.WriteLine("Image Data");
+                for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
+                {
+                    Console.Write(data[i]);
+                }
+               
             }
 
-            image = bmpFromPBM(data, fileInfo[0], fileInfo[1]);
 
-            if (magicNumber == 4 | magicNumber == 5)
-            {
+            return (new System.Drawing.Bitmap(360, 32)); // Error
+            //Binary File
+            //if (magicNumber == 4 | magicNumber == 5)
+            //{
                 //while (line != null)
                 //{
                 //    string[] line_partition = line.split((char[])null, stringsplitoptions.removeemptyentries);
@@ -126,63 +158,81 @@ namespace POVWheel.DataAccess
                 //    }
                 //    line = myfile.readline();
                 //}
-            }
+            //}
            
             //Console.WriteLine("OFFSET " + offset);
-            return -1;
+            //return -1;
         }
 
+        //public static char[] readChars(int dataStartFromLine, int width, int height)
+        //{
+        //    char[] data = new char[width*height];
+        //    int offset = 0;
+        //    while (line != null)
+        //    {
+        //        //Console.WriteLine(line);
+        //        string[] line_partition = line.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
+        //        foreach (string p in line_partition)
+        //        {
+        //            if (p[0] == '#') break; // Skip comments
+        //            for (int i = 0; i < p.Length; i++)
+        //            {
+        //                data[offset] = p[i];
+        //                offset++;
+        //            }
 
-        public static System.Windows.Media.Imaging.BitmapImage bmpFromPBM(char[] pixels, int width, int height)
+        //        }
+        //        line = myFile.ReadLine();
+        //    }
+
+        //    Console.WriteLine("Image Data");
+        //    for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
+        //    {
+        //        Console.Write(data[i]);
+        //    }
+
+        //    //Convert chars array to bitmap
+        //    return (bitmapFromChars(data, fileInfo[0], fileInfo[1]));
+        //}
+
+        public static System.Drawing.Bitmap bitMapFromData(char[] pixels, int width, int height)
         {
-            //Remember that pixels is simply a string of "0"s and "1"s. Width and Height are integers.
+            System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
+            Console.WriteLine("Width: " + width + ", Height:" + height);
 
-            int Width = width;
-            int Height = height;
-
-            //Create our bitmap
-            using (Bitmap B = new Bitmap(Width, Height))
+            for (int y = 0; y < resultBitmap.Height; y++)
             {
-                //Will hold our byte as a string of bits
-                //string Bits = null;
-
-                //Current X,Y co-ordinates of the Bitmap object
-                int X = 0;
-                int Y = 0;
-
-                //Loop through all of the bits
-                for (int i = 0; i < pixels.Length; i++)
+                for (int x = 0; x < resultBitmap.Width; x++)
                 {
-                    //Below, we're comparing the value with "0". If it is a zero, then we change the pixel white, else make it black.
-                    B.SetPixel(X, Y, pixels[i] == '0' ? System.Drawing.Color.White : System.Drawing.Color.Black);
-
-                    //Increment our X position
-
-                    X += 1;//Move along the right
-
-                    //If we're passed the right boundry, reset the X and move the Y to the next line
-
-                    if (X >= Width)
+                    Console.WriteLine("X= " + x + "Y= " + y);
+                    if (pixels[y * resultBitmap.Width + x] == '1')
                     {
-                        X = 0;//reset
-                        Y += 1;//Add another row
+                        resultBitmap.SetPixel(x, y, System.Drawing.Color.Black);                       
                     }
-                }
+                    else
+                        resultBitmap.SetPixel(x, y, System.Drawing.Color.White);
 
-                //return B;
-                MemoryStream ms = new MemoryStream();
-                B.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                ms.Position = 0;
-                System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                bi.BeginInit();
-                bi.StreamSource = ms;
-                bi.EndInit();
-                B.Save(System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "Output3.bmp"), System.Drawing.Imaging.ImageFormat.Bmp);
-                return bi;
-                //Output the bitmap to the desktop
-               
+                }
             }
+            return resultBitmap;
         }
+
+        public static System.Drawing.Bitmap bitMapFromData(byte[] pixels, int width, int height) 
+        {
+            System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
+            Console.WriteLine("Width: " + width + ", Height:" + height);
+            for (int y = 0; y < resultBitmap.Height; y++)
+            {
+                for (int x = 0; x < resultBitmap.Width; x++)
+                {
+                    Console.WriteLine("X= " + x + "Y= " + y);
+                    resultBitmap.SetPixel(x, y, System.Drawing.Color.Black);
+                    resultBitmap.SetPixel(x, y, System.Drawing.Color.White);
+
+                }
+            }
+            return resultBitmap;
  
+        }
     }
 }

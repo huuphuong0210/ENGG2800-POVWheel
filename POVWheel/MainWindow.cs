@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 namespace POVWheel
 {
     public partial class MainWindow : Form
@@ -35,23 +35,23 @@ namespace POVWheel
 
         private void openImageButton_Click(object sender, EventArgs e)
         {
-            //Stream myStream = null;
+            
             OpenFileDialog openDialog = new OpenFileDialog();
-            openDialog.Filter = "PBM Files - Netpbm Portable BitMap (*.pbm)|*.pbm";
+            //openDialog.Filter = "PBM Files (*.pbm)|*.pbm | PGM Files (*.pgm) |*.pgm";
 
             if (openDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    addLog("Open file: " +openDialog.FileName);
-                    System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
-                    DataAccess.FileHandling.readData(openDialog.FileName, image);
-                    pictureBox1.Image = Image.FromFile(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + @"\Output3.bmp");
+                    addLog("Open file: " + openDialog.FileName);
+                    //System.Drawing.Bitmap imageBitmap = new System.Drawing.Bitmap(1,1);
+                    System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(openDialog.FileName);
+                    pictureBox1.Image = imageBitmap;
                     pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                   addLog("Error: " + ex.Message);
                 }
             }
         }
@@ -69,6 +69,24 @@ namespace POVWheel
         private void MainWindow_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void pictureBox1_Paint(object sender, PaintEventArgs e)
+        {
+            //Graphics g = e.Graphics;
+            //int numOfCells = 200;
+            //int cellSize = 10;
+            //Pen p = new Pen(System.Drawing.ColorTranslator.FromHtml("#eaeff2"));
+
+            //for (int y = 0; y < numOfCells; ++y)
+            //{
+            //    g.DrawLine(p, 0, y * cellSize, numOfCells * cellSize, y * cellSize);
+            //}
+
+            //for (int x = 0; x < numOfCells; ++x)
+            //{
+            //    g.DrawLine(p, x * cellSize, 0, x * cellSize, numOfCells * cellSize);
+            //}
         }
     }
 }
