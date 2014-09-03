@@ -31,6 +31,19 @@ namespace POVWheel
             return image;
         }
 
+        //Scale bitmap image to the size of 360x32 
+        public static Bitmap resizeToSent(Bitmap Image)
+        {
+            return null;
+        }
+
+        public static Bitmap resizeToDisplay(Bitmap Image)
+        {
+            return null;
+        }
+
+        
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>

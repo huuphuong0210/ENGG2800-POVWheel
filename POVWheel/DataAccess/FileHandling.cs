@@ -56,8 +56,8 @@ namespace POVWheel.DataAccess
             //Initilise StreamReader
             StreamReader myFile = File.OpenText(filePath);
            
-            // Header error or file is not supported
-            if (magicNumber == -1) return (new System.Drawing.Bitmap(360,32)); 
+            // Header error or file is not supported - Throw exception
+            if (magicNumber == -1) throw new Exception("header error or file is not supported"); 
 
             //Finding width and hight information
             string line = " ";
@@ -84,7 +84,10 @@ namespace POVWheel.DataAccess
                 
             }
 
-            if (line == null) return (new System.Drawing.Bitmap(360, 32)); // Header error does not have enough information;
+            //If the image is larger than 360x32 throw error
+            if (fileInfo[0] > 360 | fileInfo[1] > 32) throw new Exception("Image size is larger than 320x32");
+            // Header error does not have enough information;
+            if (line == null) throw new Exception("file does not have enough information"); 
 
             //ASCII pbm files
             if (magicNumber == 1)
@@ -112,7 +115,7 @@ namespace POVWheel.DataAccess
             }
             
             //ASCII pgm file 
-            else if (magicNumber == 2)
+            if (magicNumber == 2)
             {
 
                 //Console.WriteLine("Maximum Brightness" + fileInfo[2]);
@@ -257,8 +260,7 @@ namespace POVWheel.DataAccess
 
             }
 
-
-            return (new System.Drawing.Bitmap(360, 32)); // Error
+            throw new Exception("Unkown error occured"); ; // Error
           
         }
 
@@ -303,6 +305,7 @@ namespace POVWheel.DataAccess
             }
             return resultBitmap;
         }
+
         public static System.Drawing.Bitmap bitMapFromData(byte[] pixels, int width, int height) 
         {
             System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
@@ -321,5 +324,7 @@ namespace POVWheel.DataAccess
             return resultBitmap;
  
         }
-    }
+        
+
+}
 }
