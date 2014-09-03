@@ -103,6 +103,7 @@
             this.renderButton.TabIndex = 6;
             this.renderButton.Text = "Render";
             this.renderButton.UseVisualStyleBackColor = true;
+            this.renderButton.Click += new System.EventHandler(this.renderButton_Click);
             // 
             // textBox1
             // 

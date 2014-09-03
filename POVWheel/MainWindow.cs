@@ -74,7 +74,12 @@ namespace POVWheel
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            //Graphics g = e.Graphics;
+            Graphics g = e.Graphics;
+            //using (Font arialFont = new Font("Arial", 10))
+            //{
+            //    g.DrawString("HEHEHEH", arialFont, Brushes.Blue, new PointF(10f, 10f));
+            //    //g.DrawString("HIHIHIHI", arialFont, Brushes.Red, new PointF(10f, 10f));
+            //}
             //int numOfCells = 200;
             //int cellSize = 10;
             //Pen p = new Pen(System.Drawing.ColorTranslator.FromHtml("#eaeff2"));
@@ -88,6 +93,19 @@ namespace POVWheel
             //{
             //    g.DrawLine(p, x * cellSize, 0, x * cellSize, numOfCells * cellSize);
             //}
+        }
+
+        private void renderButton_Click(object sender, EventArgs e)
+        {
+            renderButton.Enabled = false;
+            String textInput = textBox1.Text;
+            textBox1.Clear();
+            System.Drawing.Bitmap image = Program.renderImageFromText(textInput);
+            Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
+            pictureBox1.Image = image;
+            renderButton.Enabled = true;
+            //pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+
         }
     }
 }
