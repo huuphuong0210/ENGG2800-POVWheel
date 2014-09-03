@@ -94,7 +94,6 @@ namespace POVWheel.DataAccess
                 line = myFile.ReadLine();
                 while (line != null)
                 {
-                    //Console.WriteLine(line);
                     string[] line_partition = line.Split((char[])null, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string p in line_partition)
                     {
@@ -116,8 +115,7 @@ namespace POVWheel.DataAccess
             else if (magicNumber == 2)
             {
 
-                Console.WriteLine("Maximum Brightness" + fileInfo[2]);
-                
+                //Console.WriteLine("Maximum Brightness" + fileInfo[2]);
                 byte[] data = new byte[fileInfo[0] * fileInfo[1]];
                 int offset = 0;
 
@@ -134,25 +132,21 @@ namespace POVWheel.DataAccess
                     }
                     line = myFile.ReadLine();
                 }
-
-                //Console.WriteLine("Image Data");
-                //for (int i = 0; i < (fileInfo[0] * fileInfo[1]); i++)
-                //{
-                //    Console.WriteLine(data[i]);
-                //}
-
+                
                 //Convert chars array to bitmap
                 myFile.Close();
                 return (bitMapFromData(data, fileInfo[0], fileInfo[1]));
 
             }
 
-            myFile.Close(); // Close Text Reader
+            myFile.Close(); // Close Text Reader For opening The Binary Reader
+
             //Binary pbm file
             if (magicNumber == 4)
             {
                 Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
                 Console.WriteLine("LIne: " + fileInfo[3]);
+                
                 BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
                 int lineCount = 0;
                 char temp;
@@ -163,8 +157,7 @@ namespace POVWheel.DataAccess
                     if (temp == '\n')
                        lineCount++;
                 }
-                Console.WriteLine("LIneCount: " + lineCount);
-
+                
                 byte[] dataBytes = new byte[reader.BaseStream.Length - reader.BaseStream.Position];
                 int offset = 0;
                 while (reader.BaseStream.Position != reader.BaseStream.Length)
@@ -189,7 +182,6 @@ namespace POVWheel.DataAccess
                   
                     if ( (remainderBit != 0) && (((k+1) % numberOfByteForRow) == 0) )
                     {
-                        Console.WriteLine("Byte Number: " + k + "Bit Length:" + bits.Length);
                         for (int i = 7; i >= (8 - remainderBit); i--)
                         {
                             //Console.WriteLine("OFFSET:" + offset);
@@ -223,6 +215,7 @@ namespace POVWheel.DataAccess
                 BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
                 int lineCount = 0;
                 char temp;
+
                 //Move stream postion to data line
                 while (lineCount < fileInfo[3])
                 {
@@ -230,22 +223,34 @@ namespace POVWheel.DataAccess
                     if (temp == '\n')
                         lineCount++;
                 }
-                Console.WriteLine("LIneCount: " + lineCount);
 
                 byte[] dataBytes = new byte[reader.BaseStream.Length - reader.BaseStream.Position];
                 Console.WriteLine("Byte Lenght: " + dataBytes.Length);
 
                 int offset = 0;
-                while (reader.BaseStream.Position != reader.BaseStream.Length)
-                {
-                    //Console.WriteLine(offset);  
-                    dataBytes[offset] = (byte)Convert.ToByte(255 * reader.ReadByte() / fileInfo[2]);
-                    Console.WriteLine("["+offset+"] "+dataBytes[offset]);
-                    offset++;
-                                      
+                
+                if (fileInfo[2] > 255)
+                {   //Two byte per pixel
+                    while (offset <= (fileInfo[0] * fileInfo[1]))
+                    {
+                        //Console.WriteLine(offset);  
+                        dataBytes[offset] = (byte)Convert.ToByte(255 * (reader.ReadInt16() / fileInfo[2]));
+                        offset++;
+
+                    }
                 }
-               
+                else
+                {   //One byte per pixel
+                    while (offset <= (fileInfo[0] * fileInfo[1]))
+                    {
+                        //Console.WriteLine(offset);  
+                        dataBytes[offset] = (byte)Convert.ToByte(255 * reader.ReadByte() / fileInfo[2]);
+                        offset++;
+
+                    }
+                }
              
+               
                 //Convert chars array to bitmap
                 reader.Close();
                 return (bitMapFromData(dataBytes, fileInfo[0], fileInfo[1]));

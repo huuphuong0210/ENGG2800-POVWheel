@@ -43,7 +43,7 @@ namespace POVWheel
             {
                 try
                 {
-                    addLog("Open file: " + openDialog.FileName);
+                    addLog("Openned file: " + openDialog.SafeFileName);
                     //System.Drawing.Bitmap imageBitmap = new System.Drawing.Bitmap(1,1);
                     System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(openDialog.FileName);
                     pictureBox1.Image = imageBitmap;

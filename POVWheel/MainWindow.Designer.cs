@@ -33,11 +33,14 @@
             this.openImageButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.renderButton = new System.Windows.Forms.Button();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // sentFileButton
             // 
+            this.sentFileButton.Enabled = false;
             this.sentFileButton.Location = new System.Drawing.Point(110, 8);
             this.sentFileButton.Name = "sentFileButton";
             this.sentFileButton.Size = new System.Drawing.Size(84, 34);
@@ -48,7 +51,8 @@
             // 
             // sendTextButton
             // 
-            this.sendTextButton.Location = new System.Drawing.Point(510, 8);
+            this.sendTextButton.Enabled = false;
+            this.sendTextButton.Location = new System.Drawing.Point(597, 8);
             this.sendTextButton.Name = "sendTextButton";
             this.sendTextButton.Size = new System.Drawing.Size(84, 34);
             this.sendTextButton.TabIndex = 2;
@@ -91,6 +95,23 @@
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             // 
+            // renderButton
+            // 
+            this.renderButton.Location = new System.Drawing.Point(507, 8);
+            this.renderButton.Name = "renderButton";
+            this.renderButton.Size = new System.Drawing.Size(84, 34);
+            this.renderButton.TabIndex = 6;
+            this.renderButton.Text = "Render";
+            this.renderButton.UseVisualStyleBackColor = true;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(203, 10);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(295, 32);
+            this.textBox1.TabIndex = 7;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -98,6 +119,8 @@
             this.BackgroundImage = global::POVWheel.Properties.Resources.mainbackgroundimage1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1000, 540);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.renderButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.openImageButton);
@@ -111,6 +134,7 @@
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -121,6 +145,8 @@
         private System.Windows.Forms.Button openImageButton;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button renderButton;
+        private System.Windows.Forms.TextBox textBox1;
 
     }
 }
