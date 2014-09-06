@@ -43,11 +43,11 @@ namespace POVWheel
             {
                 try
                 {
-                    addLog("Openned file: " + openDialog.SafeFileName);
                     //System.Drawing.Bitmap imageBitmap = new System.Drawing.Bitmap(1,1);
-                    System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(openDialog.FileName);
-                    pictureBox1.Image = imageBitmap;
-                    pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                    System.Drawing.Bitmap image = Program.openImage(openDialog.FileName);
+                    pictureBox1.Image = image;
+                    //pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                    addLog("Openned file: " + openDialog.SafeFileName);
                 }
                 catch (Exception ex)
                 {
@@ -99,13 +99,30 @@ namespace POVWheel
         {
             renderButton.Enabled = false;
             String textInput = textBox1.Text;
-            textBox1.Clear();
+            //textBox1.Clear();
             System.Drawing.Bitmap image = Program.renderImageFromText(textInput);
             Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
             pictureBox1.Image = image;
             renderButton.Enabled = true;
-            //pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
 
+        }
+
+        private void previewButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Drawing.Bitmap image = Program.getWheelPreview(Program.resizeBitmap(Program.renderImageFromText(textBox1.Text), 360, 32), 290, 290);
+                Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
+                pictureBox2.Image = image;
+                //pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
+                addLog("Error: " + ex.Message);
+            }
         }
     }
 }

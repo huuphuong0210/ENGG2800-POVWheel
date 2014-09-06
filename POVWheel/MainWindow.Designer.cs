@@ -36,6 +36,7 @@
             this.renderButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.previewButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
@@ -117,11 +118,22 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(10, 231);
+            this.pictureBox2.BackColor = System.Drawing.SystemColors.ActiveBorder;
+            this.pictureBox2.Location = new System.Drawing.Point(9, 235);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(290, 290);
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
+            // 
+            // previewButton
+            // 
+            this.previewButton.Location = new System.Drawing.Point(219, 205);
+            this.previewButton.Name = "previewButton";
+            this.previewButton.Size = new System.Drawing.Size(75, 21);
+            this.previewButton.TabIndex = 9;
+            this.previewButton.Text = "Preview";
+            this.previewButton.UseVisualStyleBackColor = true;
+            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
             // 
             // MainWindow
             // 
@@ -130,6 +142,7 @@
             this.BackgroundImage = global::POVWheel.Properties.Resources.mainbackgroundimage1;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1000, 540);
+            this.Controls.Add(this.previewButton);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.renderButton);
@@ -161,6 +174,7 @@
         private System.Windows.Forms.Button renderButton;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Button previewButton;
 
     }
 }

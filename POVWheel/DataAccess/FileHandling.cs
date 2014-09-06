@@ -57,7 +57,7 @@ namespace POVWheel.DataAccess
             StreamReader myFile = File.OpenText(filePath);
            
             // Header error or file is not supported - Throw exception
-            if (magicNumber == -1) throw new Exception("header error or file is not supported"); 
+            if (magicNumber == -1) throw new Exception("Header error or file is not supported"); 
 
             //Finding width and hight information
             string line = " ";
@@ -87,7 +87,7 @@ namespace POVWheel.DataAccess
             //If the image is larger than 360x32 throw error
             if (fileInfo[0] > 360 | fileInfo[1] > 32) throw new Exception("Image size is larger than 320x32");
             // Header error does not have enough information;
-            if (line == null) throw new Exception("file does not have enough information"); 
+            if (line == null) throw new Exception("File does not have enough information"); 
 
             //ASCII pbm files
             if (magicNumber == 1)
