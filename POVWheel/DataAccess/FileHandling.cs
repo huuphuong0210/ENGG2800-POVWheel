@@ -32,6 +32,8 @@ namespace POVWheel.DataAccess
                 else if (magicNumber.Equals("P2")) return 2; // ASCII Portable Gray Scale File
                 else if (magicNumber.Equals("P4")) return 4; // Binary Portable Bitmap File
                 else if (magicNumber.Equals("P5")) return 5; // Binary Portable Gray Scale File
+                else if (magicNumber.Equals("P3")) return 3; // ASCII Color File
+                else if (magicNumber.Equals("P6")) return 6; // Binary Color File
                 else return -1; // Error header or not supported file
             }
 
@@ -142,6 +144,32 @@ namespace POVWheel.DataAccess
 
             }
 
+            //ASCII Image File
+            if (magicNumber == 3)
+            {
+                //Console.WriteLine("Maximum Brightness" + fileInfo[2]);
+                byte[] data = new byte[fileInfo[0]*fileInfo[1]*3];
+                int offset = 0;
+
+                line = myFile.ReadLine();
+                while (line != null)
+                {
+                    Console.WriteLine(line);
+                    string[] line_partition = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (string p in line_partition)
+                    {
+                        if (p[0] == '#') break; // Skip comments
+                        data[offset] = (byte)Convert.ToByte(255 * int.Parse(p) / fileInfo[2]);
+                        offset++;
+                    }
+                    line = myFile.ReadLine();
+                }
+
+                //Convert chars array to bitmap
+                myFile.Close();
+                return (bitMapFromDataColor(data, fileInfo[0], fileInfo[1]));
+            }
+
             myFile.Close(); // Close Text Reader For opening The Binary Reader
 
             //Binary pbm file
@@ -209,7 +237,7 @@ namespace POVWheel.DataAccess
             }
 
             //Binary pgm file
-            if (magicNumber == 5)
+            if (magicNumber == 5 )
             {
                 Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
                 Console.WriteLine("Max: " + fileInfo[2]);
@@ -258,6 +286,56 @@ namespace POVWheel.DataAccess
                 reader.Close();
                 return (bitMapFromData(dataBytes, fileInfo[0], fileInfo[1]));
 
+            }
+
+            //Binary ppm file
+            if (magicNumber == 6)
+            {
+                Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
+                Console.WriteLine("Max: " + fileInfo[2]);
+                Console.WriteLine("Line: " + fileInfo[3]);
+
+                BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
+                int lineCount = 0;
+                char temp;
+
+                //Move stream postion to data line
+                while (lineCount < fileInfo[3])
+                {
+                    temp = reader.ReadChar();
+                    if (temp == '\n')
+                        lineCount++;
+                }
+
+                byte[] dataBytes = new byte[reader.BaseStream.Length - reader.BaseStream.Position];
+                Console.WriteLine("Byte Lenght: " + dataBytes.Length);
+
+                int offset = 0;
+
+                if (fileInfo[2] > 255)
+                {   //Two byte per pixel
+                    while (offset <= (fileInfo[0] * fileInfo[1]*3))
+                    {
+                        //Console.WriteLine(offset);  
+                        dataBytes[offset] = (byte)Convert.ToByte(255 * (reader.ReadInt16() / fileInfo[2]));
+                        offset++;
+
+                    }
+                }
+                else
+                {   //One byte per pixel
+                    while (offset <= (fileInfo[0] * fileInfo[1]*3))
+                    {
+                        //Console.WriteLine(offset);  
+                        dataBytes[offset] = (byte)Convert.ToByte(255 * reader.ReadByte() / fileInfo[2]);
+                        offset++;
+
+                    }
+                }
+                //Convert chars array to bitmap
+                reader.Close();
+                
+                    return (bitMapFromDataColor(dataBytes, fileInfo[0], fileInfo[1]));
             }
 
             throw new Exception("Unkown error occured"); ; // Error
@@ -323,6 +401,25 @@ namespace POVWheel.DataAccess
             }
             return resultBitmap;
  
+        }
+
+        public static System.Drawing.Bitmap bitMapFromDataColor(byte[] pixels, int width, int height)
+        {
+            System.Drawing.Bitmap resultBitmap = new System.Drawing.Bitmap(width, height);
+
+            int index = 0;
+            for (int y = 0; y < resultBitmap.Height; y++)
+            {
+                for (int x = 0; x < resultBitmap.Width; x++)
+                {
+                    index = y * resultBitmap.Width*3 + x*3;
+                    //Console.WriteLine("X= " + x + "Y= " + y);
+                    resultBitmap.SetPixel(x, y, System.Drawing.Color.FromArgb(pixels[index], pixels[index+1], pixels[index+2]));
+
+                }
+            }
+            return resultBitmap;
+
         }
         
 

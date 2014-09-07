@@ -42,7 +42,7 @@ namespace POVWheel
 
         public static System.Drawing.Bitmap renderImageFromText(String textInput)
         {
-            Font objFont = new Font("Arial", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            Font objFont = new Font("Ariald", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             Bitmap image = new Bitmap(360, 32);
             Graphics graphic = Graphics.FromImage(image);
             int intWidth = (int)Math.Floor(graphic.MeasureString(textInput, objFont).Width);
@@ -160,7 +160,7 @@ namespace POVWheel
                                         
                 }
             }
-            g.DrawEllipse(System.Drawing.Pens.Black, innerRectangle);
+            g.DrawEllipse(System.Drawing.Pens.Gray, innerRectangle);
 
             //Rectangle Control
             Rectangle temp;
@@ -190,12 +190,12 @@ namespace POVWheel
             //Test
             //Point O = new Point(width - 1 / 2, width - 1 / 2);
 
-            System.Windows.Vector o = new System.Windows.Vector(0,-60);
-            System.Windows.Vector b = new System.Windows.Vector(60,0);
-            System.Windows.Vector c = new System.Windows.Vector(-60, 0);
+            //System.Windows.Vector o = new System.Windows.Vector(0,-60);
+            //System.Windows.Vector b = new System.Windows.Vector(60,0);
+            //System.Windows.Vector c = new System.Windows.Vector(-60, 0);
 
             
-            Console.WriteLine("Angle " + System.Windows.Vector.AngleBetween(o, b));
+            //Console.WriteLine("Angle " + System.Windows.Vector.AngleBetween(o, b));
             return previewImage;
 
         }
@@ -218,11 +218,7 @@ namespace POVWheel
             return null;
         }
 
-        public static Bitmap resizeToDisplay(Bitmap Image)
-        {
-            return null;
-        }
-
+        
         
 
         /// <summary>
