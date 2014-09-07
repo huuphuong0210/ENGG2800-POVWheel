@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
 namespace POVWheel
@@ -13,39 +14,74 @@ namespace POVWheel
     {
         public static System.Drawing.Bitmap openImage(String filePath)
         {
+            
             System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(filePath);
-            if (imageBitmap.Width == 360 && imageBitmap.Height == 32) return imageBitmap;
+            if (imageBitmap.Width == 360 && imageBitmap.Height == 32) {
+                return imageBitmap;
+            }
+            
             else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32)
             {
+                Bitmap returnImage = new Bitmap(360, 32);
+                using (Graphics g = Graphics.FromImage((Image)returnImage))
+                {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    g.FillRectangle(System.Drawing.Brushes.White,new Rectangle(0,0,360,32));
+                    g.DrawImage(imageBitmap,new Point((360-imageBitmap.Width)/2,0));
+                }
+                return returnImage;
 
             }
             else
             {
-
+                ////////////////////////////////////////////////////////CHUA LAM
             }
             return null;
         }
 
         public static System.Drawing.Bitmap renderImageFromText(String textInput)
         {
-            Font objFont = new Font("Arial", 24, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            Font objFont = new Font("Arial", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             Bitmap image = new Bitmap(360, 32);
             Graphics graphic = Graphics.FromImage(image);
+            int intWidth = (int)Math.Floor(graphic.MeasureString(textInput, objFont).Width);
+            int intHeight = (int)Math.Floor(graphic.MeasureString(textInput, objFont).Height);
 
-            Bitmap objBmpImage = new Bitmap(1, 1);
-            int intWidth = (int)graphic.MeasureString(textInput, objFont).Width;
-            int intHeight = (int)graphic.MeasureString(textInput, objFont).Height;
+            Console.WriteLine("OrginalW " + intWidth + " OrginalH " + intHeight);
 
             image = new System.Drawing.Bitmap(image, intWidth, intHeight);
             graphic = Graphics.FromImage(image);
 
+            graphic.InterpolationMode = InterpolationMode.NearestNeighbor;
+            graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+            graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
             graphic.Clear(Color.White);
+
             //graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             //graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             graphic.DrawString(textInput, objFont, new SolidBrush(Color.FromArgb(0, 0, 0)), 0, 0);
             graphic.Flush();
+            
+            if (image.Width == 360 && image.Height == 32)
+            {
+                return image;
+            }
 
-            return image;
+            else if (image.Width <= 360 && image.Height <= 32)
+            {
+                Bitmap returnImage = new Bitmap(360, 32);
+                using (Graphics g = Graphics.FromImage((Image)returnImage))
+                {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    g.FillRectangle(System.Drawing.Brushes.White, new Rectangle(0, 0, 360, 32));
+                    g.DrawImage(image, new Point((360 - image.Width) / 2, 0));
+                }
+                return returnImage;
+
+            }
+            else return resizeBitmap(image, 360, 32);
         }
 
         public static Bitmap getWheelPreview(Bitmap image, int w, int h)
@@ -79,16 +115,7 @@ namespace POVWheel
             //Create 31 circle
             Console.WriteLine("Outer Size: " + outerRectangle.Width + "Inner Size: " + innerRectangle.Width);
             Console.WriteLine("ExtraSize " + extraCirleSize);
-            Rectangle temp;
-            for (int i = 32; i < 33; i++)
-            {
-                int newW = innerRectangle.Width + i * extraCirleSize;
-                //Console.WriteLine(innerRectangle.Width + i * extraCirleSize);
-                temp = new System.Drawing.Rectangle((width - 1) / 2 - newW / 2, (width - 1) / 2 - newW / 2, newW, newW);
-                //g.DrawRectangle(System.Drawing.Pens.Red, temp);
-                g.DrawEllipse(System.Drawing.Pens.Black, temp);
-            }
-
+           
             
             int largestW = innerRectangle.Width + 32 * extraCirleSize;
             System.Windows.Vector origin = new System.Windows.Vector(0, 50); // Point down 90 degrees vector
@@ -129,12 +156,22 @@ namespace POVWheel
                         previewImage.SetPixel(x, y, pixelColour);
                     }
 
-                    g.DrawEllipse(System.Drawing.Pens.Black, innerRectangle);
+                    
                                         
                 }
             }
+            g.DrawEllipse(System.Drawing.Pens.Black, innerRectangle);
 
-            
+            //Rectangle Control
+            Rectangle temp;
+            for (int i = 32; i < 33; i++)
+            {
+                int newW = innerRectangle.Width + i * extraCirleSize;
+                //Console.WriteLine(innerRectangle.Width + i * extraCirleSize);
+                temp = new System.Drawing.Rectangle((width - 1) / 2 - newW / 2, (width - 1) / 2 - newW / 2, newW, newW);
+                //g.DrawRectangle(System.Drawing.Pens.Red, temp);
+                g.DrawEllipse(System.Drawing.Pens.Gray, temp);
+            }
 
             //Create 361 line
             //float x1 = width / 2;
@@ -169,6 +206,7 @@ namespace POVWheel
             using (Graphics g = Graphics.FromImage((Image)result))
             {
                 g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
                 g.DrawImage(b, 0, 0, nWidth, nHeight);
             }
             return result;

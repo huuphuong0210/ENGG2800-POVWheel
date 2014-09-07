@@ -1,0 +1,137 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace POVWheel
+{
+    static class Program
+    {
+        public static System.Drawing.Bitmap renderImageFromText(String textInput)
+        {
+            Font objFont = new Font("Arial", 24, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            Bitmap image = new Bitmap(360, 32);
+            Graphics graphic = Graphics.FromImage(image);
+
+            Bitmap objBmpImage = new Bitmap(1, 1);
+            int intWidth = (int)graphic.MeasureString(textInput, objFont).Width;
+            int intHeight = (int)graphic.MeasureString(textInput, objFont).Height;
+
+            image = new System.Drawing.Bitmap(image, intWidth, intHeight);
+            graphic = Graphics.FromImage(image);
+
+            graphic.Clear(Color.White);
+            graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+            graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+            graphic.DrawString(textInput, objFont, new SolidBrush(Color.FromArgb(0, 0, 0)), 0, 0);
+            graphic.Flush();
+
+            return image;
+        }
+
+        public static Bitmap getWheelPreview(Bitmap image)
+        {
+            //Create test image
+            Bitmap testImage = resizeBitmap(renderImageFromText("ENGG2800"), 360, 32);
+            //Initialize the preview image
+            int width = 300;
+            int heigh = 300;
+            Bitmap previewImage = new Bitmap(width,heigh);
+            Graphics g = Graphics.FromImage(previewImage);
+            
+            //Bound rectangle
+            Rectangle outerRectangle = new System.Drawing.Rectangle(0,0,299,299);
+            g.DrawRectangle(System.Drawing.Pens.Red, outerRectangle);
+            g.DrawEllipse(System.Drawing.Pens.Black, outerRectangle);
+
+            //Bound centre rectangle
+            int innerSquareSize = width/4 ;
+            Rectangle innerRectangle = new Rectangle((width - 1) / 2 - innerSquareSize / 2, (heigh - 1) / 2 - innerSquareSize / 2, innerSquareSize, innerSquareSize);
+            g.DrawRectangle(System.Drawing.Pens.Red, innerRectangle);
+            g.DrawEllipse(System.Drawing.Pens.Black, innerRectangle);
+            //g.DrawRectangle(System.Drawing.Pens.Red, rectangle);
+           
+
+            
+
+            int extraCirleSize = (outerRectangle.Width - innerRectangle.Width)/32;
+            //Create 31 circle
+            Console.WriteLine("Outer Size: " + outerRectangle.Width + "Inner Size: " + innerRectangle.Width);
+            Console.WriteLine("ExtraSize " + extraCirleSize);
+            Rectangle temp;
+            for (int i = 1; i < 3; i++)
+            {
+                int newW = innerRectangle.Width + i * extraCirleSize;
+                Console.WriteLine(innerRectangle.Width + i * extraCirleSize);
+                temp = new System.Drawing.Rectangle((width - 1) / 2 + newW/2, (width - 1)/2 + newW, newW, newW);
+                g.DrawRectangle(System.Drawing.Pens.Red, temp);
+            }
+
+            // g.DrawRectangle(System.Drawing.Pens.Black,16,16,1,1 );
+            //previewImage.SetPixel(16, 16, Color.Black);
+
+            //Test
+            //Point O = new Point(width - 1 / 2, width - 1 / 2);
+
+            System.Windows.Vector o = new System.Windows.Vector(0,-60);
+            System.Windows.Vector b = new System.Windows.Vector(60,0);
+            System.Windows.Vector c = new System.Windows.Vector(-60, 0);
+
+            
+            Console.WriteLine("Angle " + System.Windows.Vector.AngleBetween(c, o));
+            return resizeBitmap(previewImage, width, heigh);
+
+        }
+
+        private static Bitmap resizeBitmap(Bitmap b, int nWidth, int nHeight)
+        {
+            Bitmap result = new Bitmap(nWidth, nHeight);
+            using (Graphics g = Graphics.FromImage((Image)result))
+            {
+                g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                g.DrawImage(b, 0, 0, nWidth, nHeight);
+            }
+            return result;
+        }
+
+        //Scale bitmap image to the size of 360x32 
+        public static Bitmap resizeToSent(Bitmap Image)
+        {
+            return null;
+        }
+
+        public static Bitmap resizeToDisplay(Bitmap Image)
+        {
+            return null;
+        }
+
+        
+
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new MainWindow());
+            
+
+            //Console.Write(DataAccess.FileHandling.readMagicNumber(@"C:\Users\HuuPhuong\Desktop\demofile.pbm"));
+            //int magicNumber;
+            //int width;
+            //int height;
+            //int temp;
+            //string filePath = @"C:\Users\HuuPhuong\Desktop\demofile.pbm";
+            //System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
+            //DataAccess.FileHandling.readData(filePath, image);
+            //Console.ReadLine();
+            
+        }
+    }
+}

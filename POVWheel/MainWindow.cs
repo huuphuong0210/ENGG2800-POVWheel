@@ -43,10 +43,14 @@ namespace POVWheel
             {
                 try
                 {
-                    //System.Drawing.Bitmap imageBitmap = new System.Drawing.Bitmap(1,1);
+                    //Get Image From File
                     System.Drawing.Bitmap image = Program.openImage(openDialog.FileName);
-                    pictureBox1.Image = image;
-                    //pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+                    pictureBox1.Image = Program.resizeBitmap(image,980,87);
+
+                    //Display Preview Image
+                    System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, 290, 290);
+                    pictureBox2.Image = previewImage;
+    
                     addLog("Openned file: " + openDialog.SafeFileName);
                 }
                 catch (Exception ex)
@@ -102,9 +106,15 @@ namespace POVWheel
             //textBox1.Clear();
             System.Drawing.Bitmap image = Program.renderImageFromText(textInput);
             Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
-            pictureBox1.Image = image;
+            pictureBox1.Image = Program.resizeBitmap(image, 980, 87);
+
+            //Display Preview Image
+            System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, 290, 290);
+            pictureBox2.Image = previewImage;
+
+            addLog("Render Sucessfully: " + textInput);
             renderButton.Enabled = true;
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+           
 
         }
 
