@@ -12,10 +12,13 @@ namespace POVWheel
 {
     static class Program
     {
-        public static System.Drawing.Bitmap openImage(String filePath)
+        public static System.Drawing.Bitmap openImage(String filePath,ref int originalW,ref int orginalH)
         {
             
             System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(filePath);
+            originalW = imageBitmap.Width;
+            orginalH = imageBitmap.Height;
+
             if (imageBitmap.Width == 360 && imageBitmap.Height == 32) {
                 return imageBitmap;
             }
@@ -35,14 +38,15 @@ namespace POVWheel
             }
             else
             {
-                ////////////////////////////////////////////////////////CHUA LAM
+                Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
+                throw new Exception("Image size is larger than 320x32");
             }
             return null;
         }
 
         public static System.Drawing.Bitmap renderImageFromText(String textInput)
         {
-            Font objFont = new Font("Ariald", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
+            Font objFont = new Font("Arial", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             Bitmap image = new Bitmap(360, 32);
             Graphics graphic = Graphics.FromImage(image);
             int intWidth = (int)Math.Floor(graphic.MeasureString(textInput, objFont).Width);
@@ -102,7 +106,7 @@ namespace POVWheel
             //g.DrawEllipse(System.Drawing.Pens.Black, outerRectangle);
 
             //Bound centre rectangle
-            int innerSquareSize = 77 ;
+            int innerSquareSize = 65 ;
             Rectangle innerRectangle = new Rectangle((width - 1) / 2 - innerSquareSize / 2, (heigh - 1) / 2 - innerSquareSize / 2, innerSquareSize, innerSquareSize);
             //g.DrawRectangle(System.Drawing.Pens.Red, innerRectangle);
             //g.DrawEllipse(System.Drawing.Pens.Black, innerRectangle);
@@ -229,7 +233,9 @@ namespace POVWheel
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainWindow());
+            MainWindow Window = new MainWindow();
+            Window.ClearFileInfor();
+            Application.Run(Window);
             
 
             //Console.Write(DataAccess.FileHandling.readMagicNumber(@"C:\Users\HuuPhuong\Desktop\demofile.pbm"));

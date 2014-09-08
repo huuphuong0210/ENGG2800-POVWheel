@@ -47,6 +47,17 @@ namespace POVWheel.DataAccess
         /// <returns>Return 1 - Reading Success | -1 Errors</returns>
         public static System.Drawing.Bitmap readData(string filePath)
         {
+            string fileExtension = Path.GetExtension(filePath);
+            fileExtension = fileExtension.ToUpper();
+            //Support BMP, GIF, EXIF, JPG, PNG and TIFF
+            if (fileExtension.Equals(".BMP") | fileExtension.Equals(".GIF") | fileExtension.Equals(".EXIF")
+                | fileExtension.Equals(".JPG") | fileExtension.Equals(".PNG") | fileExtension.Equals(".TIFF"))
+            {
+                System.Drawing.Image image = System.Drawing.Image.FromFile(filePath);
+                return (new Bitmap(image));
+            }
+            
+            
             int[] fileInfo = new int[4] {0,0,0,0}; // Widht, Heigh, Maximum Brighness, Data Line
             bool foundAllInfo = false;
             int magicNumber;
@@ -87,7 +98,7 @@ namespace POVWheel.DataAccess
             }
 
             //If the image is larger than 360x32 throw error
-            if (fileInfo[0] > 360 | fileInfo[1] > 32) throw new Exception("Image size is larger than 320x32");
+            //if (fileInfo[0] > 360 | fileInfo[1] > 32) throw new Exception("Image size is larger than 320x32");
             // Header error does not have enough information;
             if (line == null) throw new Exception("File does not have enough information"); 
 
@@ -324,7 +335,7 @@ namespace POVWheel.DataAccess
                 }
                 else
                 {   //One byte per pixel
-                    while (offset <= (fileInfo[0] * fileInfo[1]*3))
+                    while (reader.BaseStream.Position != reader.BaseStream.Length)
                     {
                         //Console.WriteLine(offset);  
                         dataBytes[offset] = (byte)Convert.ToByte(255 * reader.ReadByte() / fileInfo[2]);

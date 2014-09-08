@@ -28,40 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.sentFileButton = new System.Windows.Forms.Button();
-            this.sendTextButton = new System.Windows.Forms.Button();
+            this.NewFileButton = new System.Windows.Forms.Button();
+            this.UploadButton = new System.Windows.Forms.Button();
             this.openImageButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.renderButton = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.previewButton = new System.Windows.Forms.Button();
+            this.FileNameLabel = new System.Windows.Forms.Label();
+            this.FileTypeLabel = new System.Windows.Forms.Label();
+            this.FileWidthLabel = new System.Windows.Forms.Label();
+            this.FileHeightLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.SuspendLayout();
             // 
-            // sentFileButton
+            // NewFileButton
             // 
-            this.sentFileButton.Enabled = false;
-            this.sentFileButton.Location = new System.Drawing.Point(110, 8);
-            this.sentFileButton.Name = "sentFileButton";
-            this.sentFileButton.Size = new System.Drawing.Size(84, 34);
-            this.sentFileButton.TabIndex = 1;
-            this.sentFileButton.Text = "Sent File";
-            this.sentFileButton.UseVisualStyleBackColor = true;
-            this.sentFileButton.Click += new System.EventHandler(this.sentFileButton_Click);
+            this.NewFileButton.Enabled = false;
+            this.NewFileButton.Location = new System.Drawing.Point(110, 8);
+            this.NewFileButton.Name = "NewFileButton";
+            this.NewFileButton.Size = new System.Drawing.Size(84, 34);
+            this.NewFileButton.TabIndex = 1;
+            this.NewFileButton.Text = "New File";
+            this.NewFileButton.UseVisualStyleBackColor = true;
+            this.NewFileButton.Click += new System.EventHandler(this.sentFileButton_Click);
             // 
-            // sendTextButton
+            // UploadButton
             // 
-            this.sendTextButton.Enabled = false;
-            this.sendTextButton.Location = new System.Drawing.Point(597, 8);
-            this.sendTextButton.Name = "sendTextButton";
-            this.sendTextButton.Size = new System.Drawing.Size(84, 34);
-            this.sendTextButton.TabIndex = 2;
-            this.sendTextButton.Text = "Sent Text";
-            this.sendTextButton.UseVisualStyleBackColor = true;
-            this.sendTextButton.Click += new System.EventHandler(this.sendTextButton_Click);
+            this.UploadButton.Enabled = false;
+            this.UploadButton.Location = new System.Drawing.Point(597, 8);
+            this.UploadButton.Name = "UploadButton";
+            this.UploadButton.Size = new System.Drawing.Size(84, 34);
+            this.UploadButton.TabIndex = 2;
+            this.UploadButton.Text = "Upload";
+            this.UploadButton.UseVisualStyleBackColor = true;
+            this.UploadButton.Click += new System.EventHandler(this.sendTextButton_Click);
             // 
             // openImageButton
             // 
@@ -75,24 +78,26 @@
             // 
             // listBox1
             // 
+            this.listBox1.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBox1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listBox1.ForeColor = System.Drawing.Color.White;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 16;
+            this.listBox1.ItemHeight = 15;
             this.listBox1.Items.AddRange(new object[] {
             "Starting Window",
             "Hardward component is not connected!"});
-            this.listBox1.Location = new System.Drawing.Point(314, 364);
+            this.listBox1.Location = new System.Drawing.Point(395, 292);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(674, 160);
+            this.listBox1.Size = new System.Drawing.Size(593, 270);
             this.listBox1.TabIndex = 4;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.BackColor = System.Drawing.Color.DarkGray;
-            this.pictureBox1.Location = new System.Drawing.Point(9, 100);
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Location = new System.Drawing.Point(12, 89);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(980, 87);
+            this.pictureBox1.Size = new System.Drawing.Size(976, 87);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -118,39 +123,86 @@
             // 
             // pictureBox2
             // 
-            this.pictureBox2.BackColor = System.Drawing.Color.White;
-            this.pictureBox2.Location = new System.Drawing.Point(9, 235);
+            this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox2.Location = new System.Drawing.Point(14, 213);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(290, 290);
+            this.pictureBox2.Size = new System.Drawing.Size(350, 350);
             this.pictureBox2.TabIndex = 8;
             this.pictureBox2.TabStop = false;
             // 
-            // previewButton
+            // FileNameLabel
             // 
-            this.previewButton.Location = new System.Drawing.Point(219, 205);
-            this.previewButton.Name = "previewButton";
-            this.previewButton.Size = new System.Drawing.Size(75, 21);
-            this.previewButton.TabIndex = 9;
-            this.previewButton.Text = "Preview";
-            this.previewButton.UseVisualStyleBackColor = true;
-            this.previewButton.Click += new System.EventHandler(this.previewButton_Click);
+            this.FileNameLabel.BackColor = System.Drawing.Color.Transparent;
+            this.FileNameLabel.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileNameLabel.ForeColor = System.Drawing.Color.White;
+            this.FileNameLabel.Location = new System.Drawing.Point(788, 72);
+            this.FileNameLabel.Name = "FileNameLabel";
+            this.FileNameLabel.Size = new System.Drawing.Size(200, 14);
+            this.FileNameLabel.TabIndex = 9;
+            this.FileNameLabel.Text = "FileName";
+            this.FileNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.FileNameLabel.Click += new System.EventHandler(this.label1_Click_1);
+            // 
+            // FileTypeLabel
+            // 
+            this.FileTypeLabel.AutoSize = true;
+            this.FileTypeLabel.BackColor = System.Drawing.Color.Transparent;
+            this.FileTypeLabel.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileTypeLabel.ForeColor = System.Drawing.Color.White;
+            this.FileTypeLabel.Location = new System.Drawing.Point(21, 218);
+            this.FileTypeLabel.Name = "FileTypeLabel";
+            this.FileTypeLabel.Size = new System.Drawing.Size(35, 14);
+            this.FileTypeLabel.TabIndex = 10;
+            this.FileTypeLabel.Text = "Type";
+            // 
+            // FileWidthLabel
+            // 
+            this.FileWidthLabel.AutoSize = true;
+            this.FileWidthLabel.BackColor = System.Drawing.Color.Transparent;
+            this.FileWidthLabel.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileWidthLabel.ForeColor = System.Drawing.Color.White;
+            this.FileWidthLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.FileWidthLabel.Location = new System.Drawing.Point(311, 218);
+            this.FileWidthLabel.Name = "FileWidthLabel";
+            this.FileWidthLabel.Size = new System.Drawing.Size(42, 15);
+            this.FileWidthLabel.TabIndex = 11;
+            this.FileWidthLabel.Text = "Width";
+            this.FileWidthLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // FileHeightLabel
+            // 
+            this.FileHeightLabel.AutoSize = true;
+            this.FileHeightLabel.BackColor = System.Drawing.Color.Transparent;
+            this.FileHeightLabel.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FileHeightLabel.ForeColor = System.Drawing.Color.White;
+            this.FileHeightLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.FileHeightLabel.Location = new System.Drawing.Point(311, 233);
+            this.FileHeightLabel.Name = "FileHeightLabel";
+            this.FileHeightLabel.Size = new System.Drawing.Size(49, 15);
+            this.FileHeightLabel.TabIndex = 12;
+            this.FileHeightLabel.Text = "Height";
+            this.FileHeightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.FileHeightLabel.Click += new System.EventHandler(this.FileHeightLabel_Click);
             // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackgroundImage = global::POVWheel.Properties.Resources.mainbackgroundimage1;
+            this.BackgroundImage = global::POVWheel.Properties.Resources.App_BackGround;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.ClientSize = new System.Drawing.Size(1000, 540);
-            this.Controls.Add(this.previewButton);
+            this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.FileHeightLabel);
+            this.Controls.Add(this.FileWidthLabel);
+            this.Controls.Add(this.FileTypeLabel);
+            this.Controls.Add(this.FileNameLabel);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.renderButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.openImageButton);
-            this.Controls.Add(this.sendTextButton);
-            this.Controls.Add(this.sentFileButton);
+            this.Controls.Add(this.UploadButton);
+            this.Controls.Add(this.NewFileButton);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -166,15 +218,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Button sentFileButton;
-        private System.Windows.Forms.Button sendTextButton;
+        private System.Windows.Forms.Button NewFileButton;
+        private System.Windows.Forms.Button UploadButton;
         private System.Windows.Forms.Button openImageButton;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button renderButton;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button previewButton;
+        private System.Windows.Forms.Label FileNameLabel;
+        private System.Windows.Forms.Label FileTypeLabel;
+        private System.Windows.Forms.Label FileWidthLabel;
+        private System.Windows.Forms.Label FileHeightLabel;
 
     }
 }

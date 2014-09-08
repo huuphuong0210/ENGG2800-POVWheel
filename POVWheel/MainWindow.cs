@@ -17,6 +17,21 @@ namespace POVWheel
             InitializeComponent();
         }
 
+        public void AddFileInfor(string fileName, string fileType, string fileWidth, string fileHeight)
+        {
+            FileNameLabel.Text = fileName;
+            FileTypeLabel.Text = fileType;
+            FileWidthLabel.Text = "W: " + fileWidth +"px";
+            FileHeightLabel.Text = "H: " + fileHeight + "px";
+        }
+
+        public void ClearFileInfor()
+        {
+            FileNameLabel.Text = " ";
+            FileTypeLabel.Text = " ";
+            FileWidthLabel.Text = " ";
+            FileHeightLabel.Text = " ";
+        }
         public void addLog(string message)
         {
             DateTime saveNow = DateTime.Now;
@@ -43,15 +58,24 @@ namespace POVWheel
             {
                 try
                 {
+                    String FilePath = openDialog.FileName;
                     //Get Image From File
-                    System.Drawing.Bitmap image = Program.openImage(openDialog.FileName);
-                    pictureBox1.Image = Program.resizeBitmap(image,980,87);
+                    int OriginalW = 0;
+                    int OrginalH = 0;
+                    System.Drawing.Bitmap image = Program.openImage(FilePath, ref OriginalW, ref OrginalH);
+                    pictureBox1.Image = Program.resizeBitmap(image,976,87);
 
                     //Display Preview Image
-                    System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, 290, 290);
+                    System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
                     pictureBox2.Image = previewImage;
-    
+                    
                     addLog("Openned file: " + openDialog.SafeFileName);
+                    string FileName = Path.GetFileNameWithoutExtension(FilePath);
+                    string FileType = Path.GetExtension(FilePath);
+                    string FileWidth = OriginalW.ToString();
+                    string FileHeight = OrginalH.ToString();
+
+                    AddFileInfor(FileName, FileType, FileWidth, FileHeight);
                 }
                 catch (Exception ex)
                 {
@@ -106,10 +130,10 @@ namespace POVWheel
             //textBox1.Clear();
             System.Drawing.Bitmap image = Program.renderImageFromText(textInput);
             Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
-            pictureBox1.Image = Program.resizeBitmap(image, 980, 87);
+            pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
 
             //Display Preview Image
-            System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, 290, 290);
+            System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
             pictureBox2.Image = previewImage;
 
             addLog("Render Sucessfully: " + textInput);
@@ -118,21 +142,19 @@ namespace POVWheel
 
         }
 
-        private void previewButton_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
-            try
-            {
-                System.Drawing.Bitmap image = Program.getWheelPreview(Program.resizeBitmap(Program.renderImageFromText(textBox1.Text), 360, 32), 290, 290);
-                Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
-                pictureBox2.Image = image;
-                //pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                Console.WriteLine(ex.StackTrace);
-                addLog("Error: " + ex.Message);
-            }
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FileHeightLabel_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
