@@ -53,18 +53,18 @@
             this.NewFileButton.TabIndex = 1;
             this.NewFileButton.Text = "New File";
             this.NewFileButton.UseVisualStyleBackColor = true;
-            this.NewFileButton.Click += new System.EventHandler(this.sentFileButton_Click);
+            this.NewFileButton.Click += new System.EventHandler(this.NewFileButton_Click);
             // 
             // UploadButton
             // 
-            this.UploadButton.Enabled = false;
             this.UploadButton.Location = new System.Drawing.Point(597, 8);
             this.UploadButton.Name = "UploadButton";
             this.UploadButton.Size = new System.Drawing.Size(84, 34);
             this.UploadButton.TabIndex = 2;
             this.UploadButton.Text = "Upload";
+            this.UploadButton.UseMnemonic = false;
             this.UploadButton.UseVisualStyleBackColor = true;
-            this.UploadButton.Click += new System.EventHandler(this.sendTextButton_Click);
+            this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
             // 
             // openImageButton
             // 
@@ -86,7 +86,7 @@
             this.listBox1.ItemHeight = 15;
             this.listBox1.Items.AddRange(new object[] {
             "Starting Window",
-            "Hardward component is not connected!"});
+            "Hardware component is not connected!"});
             this.listBox1.Location = new System.Drawing.Point(395, 292);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(593, 270);

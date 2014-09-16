@@ -7,3 +7,4 @@ D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.Properties.Resource
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.csproj.GenerateResource.Cache
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.exe
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.pdb
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.COMPortForm.resources

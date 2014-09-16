@@ -36,6 +36,7 @@ namespace POVWheel
         {
             DateTime saveNow = DateTime.Now;
             listBox1.Items.Add('[' + saveNow.ToString() + "]  " + message);
+            listBox1.TopIndex = listBox1.Items.Count - 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -43,9 +44,24 @@ namespace POVWheel
 
         }
 
-        private void sentFileButton_Click(object sender, EventArgs e)
+        private void UploadButton_Click(object sender, EventArgs e)
         {
-
+            COMPortForm testDialog = new COMPortForm();
+            testDialog.StartPosition = FormStartPosition.CenterParent;
+           
+            // Show testDialog as a modal dialog and determine if DialogResult = OK. 
+            if (testDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                // Read the contents of testDialog's TextBox. 
+                //this.txtResult.Text = testDialog.TextBox1.Text;
+                Console.WriteLine("OK");
+            }
+            else
+            {
+                Console.WriteLine("Cancel");
+                //this.txtResult.Text = "Cancelled";
+            }
+            testDialog.Dispose();
         }
 
         private void openImageButton_Click(object sender, EventArgs e)
@@ -85,10 +101,7 @@ namespace POVWheel
             }
         }
 
-        private void sendTextButton_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -153,6 +166,11 @@ namespace POVWheel
         }
 
         private void FileHeightLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NewFileButton_Click(object sender, EventArgs e)
         {
 
         }

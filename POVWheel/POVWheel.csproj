@@ -51,6 +51,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="COMPortForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="COMPortForm.Designer.cs">
+      <DependentUpon>COMPortForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataAccess\FileHandling.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -60,6 +66,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="COMPortForm.resx">
+      <DependentUpon>COMPortForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>

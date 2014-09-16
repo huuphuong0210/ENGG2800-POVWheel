@@ -7,7 +7,7 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
-
+using System.Threading;
 namespace POVWheel
 {
     static class Program
@@ -59,7 +59,7 @@ namespace POVWheel
 
             graphic.InterpolationMode = InterpolationMode.NearestNeighbor;
             graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-            graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixel;
+            graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
             graphic.Clear(Color.White);
 
             //graphic.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -231,12 +231,16 @@ namespace POVWheel
         [STAThread]
         static void Main()
         {
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             MainWindow Window = new MainWindow();
             Window.ClearFileInfor();
             Application.Run(Window);
             
+            
+            
+            //
 
             //Console.Write(DataAccess.FileHandling.readMagicNumber(@"C:\Users\HuuPhuong\Desktop\demofile.pbm"));
             //int magicNumber;
