@@ -12,17 +12,41 @@ namespace POVWheel
 {
     static class Program
     {
+        public static int ImageType; // 1 - blackwhite | 2 - grayscale | 3 - color
+        public static Bitmap CurrentImage;
         public static System.Drawing.Bitmap openImage(String filePath,ref int originalW,ref int orginalH)
         {
-            
+            int PictureType = DataAccess.FileHandling.readMagicNumber(filePath);
+            switch (PictureType)
+            {
+                case 1:
+                    ImageType = 1;
+                    break;
+                case 2:
+                    ImageType = 2;
+                    break;
+                case 3:
+                    ImageType = 3;
+                    break;
+                case 4:
+                    ImageType = 1;
+                    break;
+                case 5:
+                    ImageType = 2;
+                    break;
+                case 6:
+                    ImageType = 3;
+                    break;
+            }
+
             System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(filePath);
+            CurrentImage = imageBitmap;
             originalW = imageBitmap.Width;
             orginalH = imageBitmap.Height;
 
             if (imageBitmap.Width == 360 && imageBitmap.Height == 32) {
                 return imageBitmap;
-            }
-            
+            }            
             else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32)
             {
                 Bitmap returnImage = new Bitmap(360, 32);
@@ -41,7 +65,7 @@ namespace POVWheel
                 Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
                 throw new Exception("Image size is larger than 320x32");
             }
-            return null;
+            
         }
 
         public static System.Drawing.Bitmap renderImageFromText(String textInput)
@@ -55,6 +79,8 @@ namespace POVWheel
             Console.WriteLine("OrginalW " + intWidth + " OrginalH " + intHeight);
 
             image = new System.Drawing.Bitmap(image, intWidth, intHeight);
+            CurrentImage = image;
+            ImageType = 2;
             graphic = Graphics.FromImage(image);
 
             graphic.InterpolationMode = InterpolationMode.NearestNeighbor;

@@ -22,6 +22,12 @@ namespace POVWheel.DataAccess
         /// </returns>
         public static int readMagicNumber(string filePath)
         {
+            string fileExtension = Path.GetExtension(filePath);
+            if (fileExtension.Equals(".BMP") | fileExtension.Equals(".GIF") | fileExtension.Equals(".EXIF")
+               | fileExtension.Equals(".JPG") | fileExtension.Equals(".PNG") | fileExtension.Equals(".TIFF"))
+            {
+                return 6;
+            }
             //Initialize the file streem to open and read the file, the files is not shared until the file is closed
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None))
             {
