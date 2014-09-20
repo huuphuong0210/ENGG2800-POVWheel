@@ -1,4 +1,4 @@
-﻿namespace POVWheel
+﻿namespace POVWheel.GUI
 {
     partial class COMPortForm
     {
@@ -39,14 +39,13 @@
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.Font = new System.Drawing.Font("Arial Narrow", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
-            string[] portName = System.IO.Ports.SerialPort.GetPortNames();
-            this.comboBox1.Items.AddRange(portName);
-            this.comboBox1.SelectedIndex = 0;
+            this.comboBox1.Items.AddRange(new object[] {
+            "COM4",
+            "COM3"});
             this.comboBox1.Location = new System.Drawing.Point(12, 27);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 41);
             this.comboBox1.TabIndex = 0;
-            
             // 
             // button1
             // 
@@ -89,6 +88,7 @@
             this.Controls.Add(this.comboBox1);
             this.Name = "COMPortForm";
             this.Text = "COMPortForm";
+            this.Load += new System.EventHandler(this.COMPortForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

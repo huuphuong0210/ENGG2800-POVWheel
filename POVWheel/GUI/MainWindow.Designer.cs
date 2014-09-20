@@ -1,4 +1,4 @@
-﻿namespace POVWheel
+﻿namespace POVWheel.GUI
 {
     partial class MainWindow
     {
@@ -46,7 +46,6 @@
             // 
             // NewFileButton
             // 
-            this.NewFileButton.Enabled = false;
             this.NewFileButton.Location = new System.Drawing.Point(110, 8);
             this.NewFileButton.Name = "NewFileButton";
             this.NewFileButton.Size = new System.Drawing.Size(84, 34);

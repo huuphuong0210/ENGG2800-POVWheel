@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-namespace POVWheel
+namespace POVWheel.GUI
 {
     public partial class MainWindow : Form
     {
@@ -47,6 +47,7 @@ namespace POVWheel
         private void UploadButton_Click(object sender, EventArgs e)
         {
             COMPortForm testDialog = new COMPortForm();
+       
             testDialog.StartPosition = FormStartPosition.CenterParent;
            
             // Show testDialog as a modal dialog and determine if DialogResult = OK. 
@@ -172,7 +173,22 @@ namespace POVWheel
 
         private void NewFileButton_Click(object sender, EventArgs e)
         {
+            NewFileForm testDialog = new NewFileForm();
+            testDialog.StartPosition = FormStartPosition.CenterParent;
 
+            // Show testDialog as a modal dialog and determine if DialogResult = OK. 
+            if (testDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                // Read the contents of testDialog's TextBox. 
+                //this.txtResult.Text = testDialog.TextBox1.Text;
+                Console.WriteLine("OK");
+            }
+            else
+            {
+                Console.WriteLine("Cancel");
+                //this.txtResult.Text = "Cancelled";
+            }
+            testDialog.Dispose();
         }
     }
 }

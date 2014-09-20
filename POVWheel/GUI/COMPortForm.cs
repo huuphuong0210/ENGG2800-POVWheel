@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
-namespace POVWheel
+namespace POVWheel.GUI
 {
     public partial class COMPortForm : Form
     {
@@ -88,6 +88,11 @@ namespace POVWheel
 
             //Console.Read();
             ///////////////////////////////////////
+        }
+
+        private void COMPortForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

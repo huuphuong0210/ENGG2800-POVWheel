@@ -260,7 +260,7 @@ namespace POVWheel
             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            MainWindow Window = new MainWindow();
+            GUI.MainWindow Window = new GUI.MainWindow();
             Window.ClearFileInfor();
             Application.Run(Window);
             
