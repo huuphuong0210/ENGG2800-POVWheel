@@ -12,6 +12,8 @@ namespace POVWheel.GUI
 {
     public partial class MainWindow : Form
     {
+        private bool Pencil = false;
+        private System.Drawing.Color Color = System.Drawing.Color.Black;
         public MainWindow()
         {
             InitializeComponent();
@@ -47,7 +49,7 @@ namespace POVWheel.GUI
         private void UploadButton_Click(object sender, EventArgs e)
         {
             COMPortForm testDialog = new COMPortForm();
-       
+            testDialog.SetComPorts(System.IO.Ports.SerialPort.GetPortNames());
             testDialog.StartPosition = FormStartPosition.CenterParent;
            
             // Show testDialog as a modal dialog and determine if DialogResult = OK. 
@@ -173,11 +175,11 @@ namespace POVWheel.GUI
 
         private void NewFileButton_Click(object sender, EventArgs e)
         {
-            NewFileForm testDialog = new NewFileForm();
-            testDialog.StartPosition = FormStartPosition.CenterParent;
+            NewFileForm NewFileDialog = new NewFileForm();
+            NewFileDialog.StartPosition = FormStartPosition.CenterParent;
 
             // Show testDialog as a modal dialog and determine if DialogResult = OK. 
-            if (testDialog.ShowDialog(this) == DialogResult.OK)
+            if (NewFileDialog.ShowDialog(this) == DialogResult.OK)
             {
                 // Read the contents of testDialog's TextBox. 
                 //this.txtResult.Text = testDialog.TextBox1.Text;
@@ -187,8 +189,81 @@ namespace POVWheel.GUI
             {
                 Console.WriteLine("Cancel");
                 //this.txtResult.Text = "Cancelled";
+            }           
+            //pictureBox1.Image = NewFileDialog.Image;
+            pictureBox1.Image = new Bitmap(976,87);
+            Graphics g = Graphics.FromImage(pictureBox1.Image);
+            g.Clear(Color.White);
+            AddFileInfor(NewFileDialog.ImageName, " ", NewFileDialog.Image.Width.ToString() , NewFileDialog.Image.Height.ToString());
+            NewFileDialog.Dispose();
+
+        }
+
+        private bool mouseDown = false;
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            mouseDown = true;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown == true)
+            {
+                Bitmap image = (Bitmap)pictureBox1.Image;
+                Graphics g = Graphics.FromImage(image);
+                if (e.X >= 0 && e.Y >= 0)
+                {
+                    float x,y;
+
+                    if (e.X >= 1) x = e.X - 1;
+                    else x = e.X;
+                    y = e.Y + 1;
+                    //image.SetPixel(e.X, e.Y, Color.Black);
+                    //image.SetPixel(e.X, e.Y, Color.Black);
+                    g.FillRectangle(new SolidBrush(Color), x, y, (float)2.7, (float)2.7);
+                    //Console.WriteLine("X: " + e.X + " Y: " + e.Y);
+                    pictureBox1.Image = image;
+                }
+                
             }
-            testDialog.Dispose();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            ColorDialog ColorChoser = new ColorDialog();
+            if (ColorChoser.ShowDialog(this) == DialogResult.OK)
+            {
+                Color = ColorChoser.Color;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Bitmap image = (Bitmap)pictureBox1.Image;
+            image = Program.resizeBitmap(image, 360, 32);
+            System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
+            pictureBox2.Image = previewImage;
+
+        }
+
+        private void button1_MouseEnter(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void button1_MouseHover(object sender, EventArgs e)
+        {
+           
         }
     }
 }

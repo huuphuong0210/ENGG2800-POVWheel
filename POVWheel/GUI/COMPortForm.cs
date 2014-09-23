@@ -12,6 +12,9 @@ namespace POVWheel.GUI
 {
     public partial class COMPortForm : Form
     {
+        public void SetComPorts(string[] ports){
+            comboBox1.Items.AddRange(ports);
+        }
         public COMPortForm()
         {
             InitializeComponent();
@@ -40,50 +43,50 @@ namespace POVWheel.GUI
             //List the coms port           
            
             //Initialize the serialport class
-            //System.IO.Ports.SerialPort sp = new System.IO.Ports.SerialPort((string)comboBox1.Items[comboBox1.SelectedIndex], 19200);
-            ////4 5 3
-            //char[] c = new char[3] { '3', '4', '5' };
-            //sp.Open();
-            //Random rm = new Random();
-            //int sleep = 200;
-            //while (true)
-            //{
-            //    Console.WriteLine("Sequential Display");
-            //    for (int k = 0; k < 20; k++)
-            //    {
-            //        //light up
-            //        for (int i = 0; i < 3; i++)
-            //        {
-            //            sp.Write(c, i, 1);
-            //            Thread.Sleep(sleep);
-            //        }
-            //        //Turn off
+            System.IO.Ports.SerialPort sp = new System.IO.Ports.SerialPort((string)comboBox1.Items[comboBox1.SelectedIndex], 19200);
+            //4 5 3
+            char[] c = new char[3] { '3', '4', '5' };
+            sp.Open();
+            Random rm = new Random();
+            int sleep = 200;
+            while (true)
+            {
+                Console.WriteLine("Sequential Display");
+                for (int k = 0; k < 20; k++)
+                {
+                    //light up
+                    for (int i = 0; i < 3; i++)
+                    {
+                        sp.Write(c, i, 1);
+                        Thread.Sleep(sleep);
+                    }
+                    //Turn off
 
-            //        //for (int i = 2; i >= 0; i--)
-            //        //{
-            //        //    sp.Write(c, i, 1);
-            //        //    Thread.Sleep(sleep);
-            //        //}
-            //    }
+                    //for (int i = 2; i >= 0; i--)
+                    //{
+                    //    sp.Write(c, i, 1);
+                    //    Thread.Sleep(sleep);
+                    //}
+                }
 
-            //    //Flash three line
-            //    Console.WriteLine("Flashing three light");
-            //    for (int k = 0; k < 20; k++)
-            //    {
-            //        sp.Write(c, 0, 3);
-            //        Thread.Sleep(sleep);
-            //    }
-            //    //
-            //    sp.Write(c, 0, 1);
-            //    sp.Write(c, 2, 1);
-            //    for (int k = 0; k < 30; k++)
-            //    {
-            //        sp.Write(c, 0, 3);
-            //        Thread.Sleep(400);
-            //    }
-            //    sp.Write(c, 0, 1);
-            //    sp.Write(c, 2, 1);
-            //}
+                //Flash three line
+                Console.WriteLine("Flashing three light");
+                for (int k = 0; k < 20; k++)
+                {
+                    sp.Write(c, 0, 3);
+                    Thread.Sleep(sleep);
+                }
+                //
+                sp.Write(c, 0, 1);
+                sp.Write(c, 2, 1);
+                for (int k = 0; k < 30; k++)
+                {
+                    sp.Write(c, 0, 3);
+                    Thread.Sleep(400);
+                }
+                sp.Write(c, 0, 1);
+                sp.Write(c, 2, 1);
+            }
 
 
             //Console.Read();
@@ -91,6 +94,11 @@ namespace POVWheel.GUI
         }
 
         private void COMPortForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
 
         }
