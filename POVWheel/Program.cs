@@ -14,7 +14,7 @@ namespace POVWheel
     {
         public static int ImageType; // 1 - blackwhite | 2 - grayscale | 3 - color
         public static Bitmap CurrentImage;
-        public static System.Drawing.Bitmap openImage(String filePath,ref int originalW,ref int orginalH)
+        public static System.Drawing.Bitmap openImage(String filePath,ref int originalW,ref int originalH)
         {
             int PictureType = DataAccess.FileHandling.readMagicNumber(filePath);
             switch (PictureType)
@@ -42,29 +42,32 @@ namespace POVWheel
             System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(filePath);
             CurrentImage = imageBitmap;
             originalW = imageBitmap.Width;
-            orginalH = imageBitmap.Height;
+            originalH = imageBitmap.Height;
 
-            if (imageBitmap.Width == 360 && imageBitmap.Height == 32) {
-                return imageBitmap;
-            }            
-            else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32)
-            {
-                Bitmap returnImage = new Bitmap(360, 32);
-                using (Graphics g = Graphics.FromImage((Image)returnImage))
+            
+
+                if (imageBitmap.Width == 360 && imageBitmap.Height == 32)
                 {
-                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                    g.FillRectangle(System.Drawing.Brushes.White,new Rectangle(0,0,360,32));
-                    g.DrawImage(imageBitmap,new Point((360-imageBitmap.Width)/2,0));
+                    return imageBitmap;
                 }
-                return returnImage;
+                else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32)
+                {
+                    Bitmap returnImage = new Bitmap(360, 32);
+                    using (Graphics g = Graphics.FromImage((Image)returnImage))
+                    {
+                        g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                        g.FillRectangle(System.Drawing.Brushes.White, new Rectangle(0, 0, 360, 32));
+                        g.DrawImage(imageBitmap, new Point((360 - imageBitmap.Width) / 2, 0));
+                    }
+                    return returnImage;
 
-            }
-            else
-            {
-                Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
-                throw new Exception("Image size is larger than 320x32");
-            }
+                }
+                else
+                {
+                    Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
+                    throw new Exception("Image size is larger than 320x32");
+                }
             
         }
 

@@ -95,6 +95,8 @@ namespace POVWheel.GUI
                     string FileHeight = OrginalH.ToString();
 
                     AddFileInfor(FileName, FileType, FileWidth, FileHeight);
+
+
                 }
                 catch (Exception ex)
                 {
@@ -154,6 +156,17 @@ namespace POVWheel.GUI
 
             addLog("Render Sucessfully: " + textInput);
             renderButton.Enabled = true;
+
+            //Dipslay image RGB value
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    Console.WriteLine("R: " + image.GetPixel(x, y).R
+                        + " B: " + image.GetPixel(x, y).B
+                        + " G: " + image.GetPixel(x, y).G);
+                }
+            } 
            
 
         }
@@ -184,6 +197,10 @@ namespace POVWheel.GUI
                 // Read the contents of testDialog's TextBox. 
                 //this.txtResult.Text = testDialog.TextBox1.Text;
                 Console.WriteLine("OK");
+                pictureBox1.Image = new Bitmap(976, 87);
+                Graphics g = Graphics.FromImage(pictureBox1.Image);
+                g.Clear(Color.White);
+                AddFileInfor(NewFileDialog.ImageName, " ", NewFileDialog.Image.Width.ToString(), NewFileDialog.Image.Height.ToString());
             }
             else
             {
@@ -191,10 +208,7 @@ namespace POVWheel.GUI
                 //this.txtResult.Text = "Cancelled";
             }           
             //pictureBox1.Image = NewFileDialog.Image;
-            pictureBox1.Image = new Bitmap(976,87);
-            Graphics g = Graphics.FromImage(pictureBox1.Image);
-            g.Clear(Color.White);
-            AddFileInfor(NewFileDialog.ImageName, " ", NewFileDialog.Image.Width.ToString() , NewFileDialog.Image.Height.ToString());
+           
             NewFileDialog.Dispose();
 
         }

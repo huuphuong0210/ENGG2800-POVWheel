@@ -19,10 +19,25 @@ namespace POVWheel.DataAccess
                 BytesArray[0] = 1; // Black and White Image
                 BytesArray[1] = (byte)Width;
                 BytesArray[2] = (byte)Height;
-                 
-                for (int i = 3; i < BytesArray.Length; i++)
-                {
+                int byteOffSet = 3;
+                int bitOffSet = 0;
 
+                //Go thought the bitmap
+                for (int x = 0; x < Width; x++)
+                {
+                    for (int y = 0; y < Height; y++)
+                    {
+                        byte mask = (byte)(1 << bitOffSet);
+                        if (Program.CurrentImage.GetPixel(x, y) == System.Drawing.Color.Black)
+                            BytesArray[byteOffSet] |= mask; // Set the bit
+                        bitOffSet++;
+
+                        if (bitOffSet == 8)
+                        {
+                            bitOffSet = 0;
+                            byteOffSet++;
+                        }
+                    }
                 }
 
             }
@@ -32,11 +47,12 @@ namespace POVWheel.DataAccess
                 BytesArray[0] = 2; // Black and White Image
                 BytesArray[1] = (byte)Width;
                 BytesArray[2] = (byte)Height;
-                int Offset = 3;
+                int byteOffSet = 3;
                 for (int y=0; y < Width ; y++){
                     for (int x=0; x < Height; x++){
                         System.Drawing.Color gray = Program.CurrentImage.GetPixel(x,y);
-                        BytesArray[Offset] = gray.A;
+                        BytesArray[byteOffSet] = gray.A;
+                        byteOffSet++;
                     }
                 }
             }//Color Image
@@ -46,6 +62,21 @@ namespace POVWheel.DataAccess
                 BytesArray[0] = 3; // I
                 BytesArray[1] = (byte)Width;
                 BytesArray[2] = (byte)Height;
+                int byteOffSet = 3;
+                //Convert RGB Pixel to GrayScale
+                for (int y = 0; y < Width; y++)
+                {
+                    for (int x = 0; x < Height; x++)
+                    {
+                        byte R = Program.CurrentImage.GetPixel(x,y).R;
+                        byte G = Program.CurrentImage.GetPixel(x,y).G;
+                        byte B = Program.CurrentImage.GetPixel(x,y).B;
+                        byte grayScale = (int)((R * .3) + (G * .59) + (B * .11));
+
+                        BytesArray[byteOffSet] = grayScale;
+                        byteOffSet++;
+                    }
+                }
             }
 
             return BytesArray;
