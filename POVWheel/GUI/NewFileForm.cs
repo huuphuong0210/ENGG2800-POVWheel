@@ -62,5 +62,10 @@ namespace POVWheel.GUI
         {
             this.Dispose();
         }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

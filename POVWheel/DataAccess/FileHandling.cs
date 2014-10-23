@@ -144,7 +144,7 @@ namespace POVWheel.DataAccess
                 line = myFile.ReadLine();
                 while (line != null)
                 {
-                    Console.WriteLine(line);
+                    //Console.WriteLine(line);
                     string[] line_partition = line.Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string p in line_partition)
                     {
@@ -171,7 +171,7 @@ namespace POVWheel.DataAccess
                 line = myFile.ReadLine();
                 while (line != null)
                 {
-                    Console.WriteLine(line);
+                    //Console.WriteLine(line);
                     string[] line_partition = line.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     foreach (string p in line_partition)
                     {
@@ -192,8 +192,8 @@ namespace POVWheel.DataAccess
             //Binary pbm file
             if (magicNumber == 4)
             {
-                Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
-                Console.WriteLine("LIne: " + fileInfo[3]);
+                //Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
+                //Console.WriteLine("LIne: " + fileInfo[3]);
                 
                 BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
                 int lineCount = 0;
@@ -217,10 +217,10 @@ namespace POVWheel.DataAccess
                 
                 //BitArray dataBits = new BitArray(dataBytes);
                 BitArray dataBitsRevered = new BitArray(fileInfo[0]*fileInfo[1]);
-                Console.WriteLine("Bits length" + dataBitsRevered.Length);
+                //Console.WriteLine("Bits length" + dataBitsRevered.Length);
                 int numberOfByteForRow = (int)Math.Ceiling(fileInfo[0] / 8.0);
                 int remainderBit = fileInfo[0] % 8;
-                Console.WriteLine("Row " + numberOfByteForRow + " Remainder " + remainderBit);
+                //Console.WriteLine("Row " + numberOfByteForRow + " Remainder " + remainderBit);
                 offset = 0;
 
                 for (int k = 0; k < dataBytes.Length; k++ )
@@ -256,9 +256,9 @@ namespace POVWheel.DataAccess
             //Binary pgm file
             if (magicNumber == 5 )
             {
-                Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
-                Console.WriteLine("Max: " + fileInfo[2]);
-                Console.WriteLine("Line: " + fileInfo[3]);
+                //Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
+                //Console.WriteLine("Max: " + fileInfo[2]);
+                //Console.WriteLine("Line: " + fileInfo[3]);
 
                 BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
                 int lineCount = 0;
@@ -308,9 +308,9 @@ namespace POVWheel.DataAccess
             //Binary ppm file
             if (magicNumber == 6)
             {
-                Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
-                Console.WriteLine("Max: " + fileInfo[2]);
-                Console.WriteLine("Line: " + fileInfo[3]);
+                //Console.WriteLine("W: " + fileInfo[0] + " H: " + fileInfo[1]);
+                //Console.WriteLine("Max: " + fileInfo[2]);
+                //Console.WriteLine("Line: " + fileInfo[3]);
 
                 BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
                 int lineCount = 0;

@@ -81,7 +81,7 @@ namespace POVWheel.GUI
                     //Get Image From File
                     int OriginalW = 0;
                     int OrginalH = 0;
-                    System.Drawing.Bitmap image = Program.openImage(FilePath, ref OriginalW, ref OrginalH);
+                    System.Drawing.Bitmap image = Program.OpenImage(FilePath, ref OriginalW, ref OrginalH);
                     pictureBox1.Image = Program.resizeBitmap(image,976,87);
 
                     //Display Preview Image

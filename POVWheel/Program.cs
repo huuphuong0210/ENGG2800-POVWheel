@@ -12,63 +12,75 @@ namespace POVWheel
 {
     static class Program
     {
-        public static int ImageType; // 1 - blackwhite | 2 - grayscale | 3 - color
-        public static Bitmap CurrentImage;
-        public static System.Drawing.Bitmap openImage(String filePath,ref int originalW,ref int originalH)
+        public static int ImageType; // 1 - Blackwhite | 2 - Grayscale | 3 - Color |  Image Type of Current Display Image
+        public static Bitmap CurrentImage; // Current Image Data
+
+        /// <summary>
+        /// This method used to open image file
+        /// </summary>
+        /// <param name="filePath">The image file path</param>
+        /// <param name="originalW">Reference argument to return the orginial with of image</param>
+        /// <param name="originalH">Reference argument to return the orginial with of image</param>
+        /// <returns>Return Bitmap image for dipsplaying</returns>
+        public static System.Drawing.Bitmap OpenImage(String filePath, ref int originalW, ref int originalH)
         {
+            //Reading Magic Number 
             int PictureType = DataAccess.FileHandling.readMagicNumber(filePath);
+
+            //Store Image Type
             switch (PictureType)
             {
-                case 1:
+                case 1: // ASCII Black-White
                     ImageType = 1;
                     break;
-                case 2:
+                case 2: // ASCII Gray-Scale
                     ImageType = 2;
                     break;
-                case 3:
+                case 3: // ASCII Color Image
                     ImageType = 3;
                     break;
-                case 4:
+                case 4: // Binary Black-White
                     ImageType = 1;
                     break;
-                case 5:
+                case 5: // Binary Gray-Scale
                     ImageType = 2;
                     break;
-                case 6:
+                case 6: // Binary Color Image
                     ImageType = 3;
                     break;
             }
 
+            //Reading Image Data
             System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(filePath);
-            CurrentImage = imageBitmap;
+
+            CurrentImage = new Bitmap(imageBitmap);
             originalW = imageBitmap.Width;
             originalH = imageBitmap.Height;
+            CurrentImage = imageBitmap;
 
-            
+            if (imageBitmap.Width == 360 && imageBitmap.Height == 32) //Return Image If image size = 360x32
+            {
+                return imageBitmap;
+            }
+            else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32) // Image size smaller than 360x32
+            {
+                Bitmap returnImage = new Bitmap(360, 32); //Prepare image for dipslay - adding background 
+                using (Graphics g = Graphics.FromImage((Image)returnImage))
+                {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
+                    g.FillRectangle(new SolidBrush(ColorTranslator.FromHtml("#646464")), new Rectangle(0, 0, 360, 32));
+                    g.DrawImage(imageBitmap, new Point((360 - imageBitmap.Width) / 2, 0));
+                }
+                return returnImage;
 
-                if (imageBitmap.Width == 360 && imageBitmap.Height == 32)
-                {
-                    return imageBitmap;
-                }
-                else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32)
-                {
-                    Bitmap returnImage = new Bitmap(360, 32);
-                    using (Graphics g = Graphics.FromImage((Image)returnImage))
-                    {
-                        g.InterpolationMode = InterpolationMode.NearestNeighbor;
-                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                        g.FillRectangle(System.Drawing.Brushes.White, new Rectangle(0, 0, 360, 32));
-                        g.DrawImage(imageBitmap, new Point((360 - imageBitmap.Width) / 2, 0));
-                    }
-                    return returnImage;
+            }
+            else // Throw error when image lager than 360x32
+            {
+                Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
+                throw new Exception("Image size is larger than 320x32 pixels");
+            }
 
-                }
-                else
-                {
-                    Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
-                    throw new Exception("Image size is larger than 320x32");
-                }
-            
         }
 
         public static System.Drawing.Bitmap renderImageFromText(String textInput)
@@ -95,7 +107,7 @@ namespace POVWheel
             //graphic.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             graphic.DrawString(textInput, objFont, new SolidBrush(Color.FromArgb(0, 0, 0)), 0, 0);
             graphic.Flush();
-            
+
             if (image.Width == 360 && image.Height == 32)
             {
                 return image;
@@ -122,51 +134,52 @@ namespace POVWheel
             //Check image size 360x32
             if (image.Width != 360 | image.Height != 32) return new Bitmap(w, h);
             //Create test image
-            
+
             //Initialize the preview image
             int width = w;
             int heigh = h;
-            Bitmap previewImage = new Bitmap(width,heigh);
+            Bitmap previewImage = new Bitmap(width, heigh);
             Graphics g = Graphics.FromImage(previewImage);
-            
+
             //Bound rectangle
-            Rectangle outerRectangle = new System.Drawing.Rectangle(0, 0, width-1, heigh-1);
+            Rectangle outerRectangle = new System.Drawing.Rectangle(0, 0, width - 1, heigh - 1);
             //g.DrawRectangle(System.Drawing.Pens.Red, outerRectangle);
             //g.DrawEllipse(System.Drawing.Pens.Black, outerRectangle);
 
             //Bound centre rectangle
-            int innerSquareSize = 65 ;
+            int innerSquareSize = 65;
             Rectangle innerRectangle = new Rectangle((width - 1) / 2 - innerSquareSize / 2, (heigh - 1) / 2 - innerSquareSize / 2, innerSquareSize, innerSquareSize);
             //g.DrawRectangle(System.Drawing.Pens.Red, innerRectangle);
             //g.DrawEllipse(System.Drawing.Pens.Black, innerRectangle);
             //g.DrawRectangle(System.Drawing.Pens.Red, rectangle);
 
-          
-            
 
-            int extraCirleSize = (outerRectangle.Width - innerRectangle.Width)/32;
+
+
+            int extraCirleSize = (outerRectangle.Width - innerRectangle.Width) / 32;
             //Create 31 circle
             Console.WriteLine("Outer Size: " + outerRectangle.Width + "Inner Size: " + innerRectangle.Width);
             Console.WriteLine("ExtraSize " + extraCirleSize);
-           
-            
+
+
             int largestW = innerRectangle.Width + 32 * extraCirleSize;
             System.Windows.Vector origin = new System.Windows.Vector(0, 50); // Point down 90 degrees vector
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < heigh; y++)
                 {
-                    
-                    float length = (float)Math.Sqrt(Math.Pow(width/2 - x,2) + Math.Pow(width/2 - y,2));
+
+                    float length = (float)Math.Sqrt(Math.Pow(width / 2 - x, 2) + Math.Pow(width / 2 - y, 2));
                     int rowPosition = (int)Math.Ceiling((length - (float)innerSquareSize / 2) / ((float)extraCirleSize / 2));
-                    
-                    if (length > largestW/2| length < innerSquareSize/2){
+
+                    if (length > largestW / 2 | length < innerSquareSize / 2)
+                    {
                         //previewImage.SetPixel(x, y, System.Drawing.Color.Black);
                     }
-                       
+
                     else
                     {
-                       
+
                         //Row control
                         //if ((rowPosition % 2 == 1) && rowPosition < 33)
                         //    previewImage.SetPixel(x, y, System.Drawing.Color.Red);
@@ -182,15 +195,15 @@ namespace POVWheel
                         //if ((angle % 2 == 0) && angle < 0 && angle > -90 )
                         //previewImage.SetPixel(x, y, System.Drawing.Color.Yellow);
 
-                         //Get pixel color from original image
+                        //Get pixel color from original image
                         //Console.WriteLine("Angle " + angle + "Row " + rowPosition);
-                        System.Drawing.Color pixelColour = image.GetPixel(angle -1 , rowPosition -1);
+                        System.Drawing.Color pixelColour = image.GetPixel(angle - 1, rowPosition - 1);
 
                         previewImage.SetPixel(x, y, pixelColour);
                     }
 
-                    
-                                        
+
+
                 }
             }
             g.DrawEllipse(System.Drawing.Pens.Gray, innerRectangle);
@@ -227,13 +240,13 @@ namespace POVWheel
             //System.Windows.Vector b = new System.Windows.Vector(60,0);
             //System.Windows.Vector c = new System.Windows.Vector(-60, 0);
 
-            
+
             //Console.WriteLine("Angle " + System.Windows.Vector.AngleBetween(o, b));
             return previewImage;
 
         }
 
-        public  static Bitmap resizeBitmap(Bitmap b, int nWidth, int nHeight)
+        public static Bitmap resizeBitmap(Bitmap b, int nWidth, int nHeight)
         {
             Bitmap result = new Bitmap(nWidth, nHeight);
             using (Graphics g = Graphics.FromImage((Image)result))
@@ -251,8 +264,8 @@ namespace POVWheel
             return null;
         }
 
-        
-        
+
+
 
         /// <summary>
         /// The main entry point for the application.
@@ -260,15 +273,15 @@ namespace POVWheel
         [STAThread]
         static void Main()
         {
-            
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             GUI.MainWindow Window = new GUI.MainWindow();
             Window.ClearFileInfor();
             Application.Run(Window);
-            
-            
-            
+
+
+
             //
 
             //Console.Write(DataAccess.FileHandling.readMagicNumber(@"C:\Users\HuuPhuong\Desktop\demofile.pbm"));
@@ -280,7 +293,7 @@ namespace POVWheel
             //System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
             //DataAccess.FileHandling.readData(filePath, image);
             //Console.ReadLine();
-            
+
         }
     }
 }
