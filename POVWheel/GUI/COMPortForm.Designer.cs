@@ -111,10 +111,11 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
             this.Name = "COMPortForm";
-            this.Text = "COMPortForm";
+            this.Text = "Upload to Firmware";
             this.Load += new System.EventHandler(this.COMPortForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 
         }
 

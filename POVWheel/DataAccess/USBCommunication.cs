@@ -96,6 +96,7 @@ namespace POVWheel.DataAccess
 
         public static void UploadData(string comPort, int baudRate)
         {
+                
                 System.IO.Ports.SerialPort Com = new System.IO.Ports.SerialPort(comPort, baudRate);
                 byte[] Data = GetBytesFromCurrentImage(); // Get image data for sending
                 int offset = 0;
@@ -110,8 +111,6 @@ namespace POVWheel.DataAccess
                     offset += 32 * 4;
                     Com.ReadByte();
                 }
-
-
                 Com.Close(); //Close port
            
             

@@ -28,11 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.UploadButton = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.renderButton = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.FileNameLabel = new System.Windows.Forms.Label();
             this.FileTypeLabel = new System.Windows.Forms.Label();
@@ -50,21 +48,16 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uploadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripPointerButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripBrushButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripEraserButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripColorPickerButton = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // UploadButton
-            // 
-            this.UploadButton.Location = new System.Drawing.Point(404, 32);
-            this.UploadButton.Name = "UploadButton";
-            this.UploadButton.Size = new System.Drawing.Size(84, 34);
-            this.UploadButton.TabIndex = 2;
-            this.UploadButton.Text = "Upload";
-            this.UploadButton.UseMnemonic = false;
-            this.UploadButton.UseVisualStyleBackColor = true;
-            this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
             // 
             // listBox1
             // 
@@ -73,6 +66,7 @@
             this.listBox1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listBox1.ForeColor = System.Drawing.Color.White;
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 15;
             this.listBox1.Items.AddRange(new object[] {
             "Starting Window",
@@ -95,24 +89,6 @@
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
-            // 
-            // renderButton
-            // 
-            this.renderButton.Location = new System.Drawing.Point(314, 32);
-            this.renderButton.Name = "renderButton";
-            this.renderButton.Size = new System.Drawing.Size(84, 34);
-            this.renderButton.TabIndex = 6;
-            this.renderButton.Text = "Render";
-            this.renderButton.UseVisualStyleBackColor = true;
-            this.renderButton.Click += new System.EventHandler(this.renderButton_Click);
-            // 
-            // textBox1
-            // 
-            this.textBox1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(12, 32);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(295, 32);
-            this.textBox1.TabIndex = 7;
             // 
             // pictureBox2
             // 
@@ -265,7 +241,7 @@
             // 
             this.newToolStripMenuItem.Name = "newToolStripMenuItem";
             this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.newToolStripMenuItem.Text = "New";
             this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
             // 
@@ -273,37 +249,96 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(143, 6);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Enabled = false;
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // renderToolStripMenuItem
             // 
             this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
-            this.renderToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
-            this.renderToolStripMenuItem.Text = "Render Text";
+            this.renderToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.renderToolStripMenuItem.Text = "Text-Render";
             this.renderToolStripMenuItem.Click += new System.EventHandler(this.renderToolStripMenuItem_Click);
             // 
             // uploadToolStripMenuItem1
             // 
             this.uploadToolStripMenuItem1.Name = "uploadToolStripMenuItem1";
+            this.uploadToolStripMenuItem1.ShortcutKeys = System.Windows.Forms.Keys.F12;
             this.uploadToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
             this.uploadToolStripMenuItem1.Text = "Upload";
             this.uploadToolStripMenuItem1.Click += new System.EventHandler(this.uploadToolStripMenuItem1_Click);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.BackColor = System.Drawing.Color.Transparent;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Enabled = false;
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripPointerButton,
+            this.toolStripBrushButton,
+            this.toolStripEraserButton,
+            this.toolStripColorPickerButton});
+            this.toolStrip1.Location = new System.Drawing.Point(17, 28);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.toolStrip1.Size = new System.Drawing.Size(178, 39);
+            this.toolStrip1.Stretch = true;
+            this.toolStrip1.TabIndex = 18;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripPointerButton
+            // 
+            this.toolStripPointerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripPointerButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripPointerButton.Image")));
+            this.toolStripPointerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripPointerButton.Name = "toolStripPointerButton";
+            this.toolStripPointerButton.Size = new System.Drawing.Size(36, 36);
+            this.toolStripPointerButton.Text = "toolStripButton1";
+            this.toolStripPointerButton.Click += new System.EventHandler(this.toolStripPointerButton_Click);
+            // 
+            // toolStripBrushButton
+            // 
+            this.toolStripBrushButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripBrushButton.Image = global::POVWheel.Properties.Resources.paint_brush;
+            this.toolStripBrushButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripBrushButton.Name = "toolStripBrushButton";
+            this.toolStripBrushButton.Size = new System.Drawing.Size(36, 36);
+            this.toolStripBrushButton.Text = "toolStripButton2";
+            this.toolStripBrushButton.Click += new System.EventHandler(this.toolStripBrushButton_Click);
+            // 
+            // toolStripEraserButton
+            // 
+            this.toolStripEraserButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripEraserButton.Image = global::POVWheel.Properties.Resources.Eraser_icon;
+            this.toolStripEraserButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripEraserButton.Name = "toolStripEraserButton";
+            this.toolStripEraserButton.Size = new System.Drawing.Size(36, 36);
+            this.toolStripEraserButton.Text = "toolStripButton4";
+            // 
+            // toolStripColorPickerButton
+            // 
+            this.toolStripColorPickerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripColorPickerButton.Image = global::POVWheel.Properties.Resources.painters;
+            this.toolStripColorPickerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripColorPickerButton.Name = "toolStripColorPickerButton";
+            this.toolStripColorPickerButton.Size = new System.Drawing.Size(36, 36);
+            this.toolStripColorPickerButton.Text = "toolStripButton5";
             // 
             // MainWindow
             // 
@@ -312,6 +347,7 @@
             this.BackgroundImage = global::POVWheel.Properties.Resources.App_BackGround;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1000, 600);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -321,11 +357,8 @@
             this.Controls.Add(this.FileTypeLabel);
             this.Controls.Add(this.FileNameLabel);
             this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.renderButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.UploadButton);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -338,6 +371,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -345,11 +380,8 @@
 
         #endregion
 
-        private System.Windows.Forms.Button UploadButton;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button renderButton;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.Label FileNameLabel;
         private System.Windows.Forms.Label FileTypeLabel;
@@ -367,6 +399,11 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem renderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uploadToolStripMenuItem1;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripBrushButton;
+        private System.Windows.Forms.ToolStripButton toolStripEraserButton;
+        private System.Windows.Forms.ToolStripButton toolStripPointerButton;
+        private System.Windows.Forms.ToolStripButton toolStripColorPickerButton;
 
     }
 }

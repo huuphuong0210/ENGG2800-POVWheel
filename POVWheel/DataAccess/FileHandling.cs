@@ -496,7 +496,7 @@ namespace POVWheel.DataAccess
                         for (int x = 0; x < image.Width; x++)
                         {
                             byte R = image.GetPixel(x, y).R;
-                            Writer.Write(R); //Gray Scale Value
+                            Writer.Write(R+" "); //Gray Scale Value
                         }
                         Writer.WriteLine();
                     }

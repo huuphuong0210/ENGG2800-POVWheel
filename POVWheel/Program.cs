@@ -15,13 +15,7 @@ namespace POVWheel
         public static int ImageType; // 1 - Blackwhite | 2 - Grayscale | 3 - Color |  Image Type of Current Display Image
         public static Bitmap CurrentImage; // Current Image Data
         public static string CurrentFileName;
-        /// <summary>
-        /// This method is called to open image file
-        /// </summary>
-        /// <param name="filePath">The image file path</param>
-        /// <param name="originalW">Reference argument to return the orginial with of image</param>
-        /// <param name="originalH">Reference argument to return the orginial with of image</param>
-        /// <returns>Return Bitmap image for dipsplaying</returns>
+      
         public static System.Drawing.Bitmap OpenImage(String filePath, ref int originalW, ref int originalH)
         {
             //Reading Magic Number 
@@ -91,6 +85,7 @@ namespace POVWheel
         public static System.Drawing.Bitmap CreateNewImage(int imageType, int width, int heigh, string fileName)
         {
             CurrentFileName = fileName;
+            ImageType = imageType;
             //Create new bitmap
             CurrentImage = new Bitmap(width, heigh);
 
@@ -106,14 +101,14 @@ namespace POVWheel
             Font objFont = new Font("Arial", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);
             Bitmap image = new Bitmap(360, 32);
             Graphics graphic = Graphics.FromImage(image);
+
             int intWidth = (int)Math.Floor(graphic.MeasureString(textInput, objFont).Width);
             int intHeight = (int)Math.Floor(graphic.MeasureString(textInput, objFont).Height);
 
             Console.WriteLine("OrginalW " + intWidth + " OrginalH " + intHeight);
 
             image = new System.Drawing.Bitmap(image, intWidth, intHeight);
-            CurrentImage = image;
-            ImageType = 2;
+          
             graphic = Graphics.FromImage(image);
 
             graphic.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -126,14 +121,16 @@ namespace POVWheel
             graphic.DrawString(textInput, objFont, new SolidBrush(Color.FromArgb(0, 0, 0)), 0, 0);
             graphic.Flush();
 
+
+            Bitmap returnImage;
             if (image.Width == 360 && image.Height == 32)
             {
-                return image;
+                returnImage = image;
             }
 
             else if (image.Width <= 360 && image.Height <= 32)
             {
-                Bitmap returnImage = new Bitmap(360, 32);
+                returnImage = new Bitmap(360, 32);
                 using (Graphics g = Graphics.FromImage((Image)returnImage))
                 {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
@@ -141,10 +138,13 @@ namespace POVWheel
                     g.FillRectangle(System.Drawing.Brushes.White, new Rectangle(0, 0, 360, 32));
                     g.DrawImage(image, new Point((360 - image.Width) / 2, 0));
                 }
-                return returnImage;
-
             }
-            else return resizeBitmap(image, 360, 32);
+            else returnImage = resizeBitmap(image, 360, 32);
+
+            CurrentImage = returnImage;
+            ImageType = 2;
+
+            return returnImage;
         }
 
         public static Bitmap getWheelPreview(Bitmap image, int w, int h)
@@ -176,8 +176,8 @@ namespace POVWheel
 
             int extraCirleSize = (outerRectangle.Width - innerRectangle.Width) / 32;
             //Create 31 circle
-            Console.WriteLine("Outer Size: " + outerRectangle.Width + "Inner Size: " + innerRectangle.Width);
-            Console.WriteLine("ExtraSize " + extraCirleSize);
+            //Console.WriteLine("Outer Size: " + outerRectangle.Width + "Inner Size: " + innerRectangle.Width);
+            //Console.WriteLine("ExtraSize " + extraCirleSize);
 
 
             int largestW = innerRectangle.Width + 32 * extraCirleSize;
