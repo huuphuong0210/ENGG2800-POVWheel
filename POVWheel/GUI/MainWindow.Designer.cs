@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.NewFileButton = new System.Windows.Forms.Button();
             this.UploadButton = new System.Windows.Forms.Button();
-            this.openImageButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.renderButton = new System.Windows.Forms.Button();
@@ -44,23 +42,22 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.renderToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uploadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // NewFileButton
-            // 
-            this.NewFileButton.Location = new System.Drawing.Point(110, 8);
-            this.NewFileButton.Name = "NewFileButton";
-            this.NewFileButton.Size = new System.Drawing.Size(84, 34);
-            this.NewFileButton.TabIndex = 1;
-            this.NewFileButton.Text = "New File";
-            this.NewFileButton.UseVisualStyleBackColor = true;
-            this.NewFileButton.Click += new System.EventHandler(this.NewFileButton_Click);
             // 
             // UploadButton
             // 
-            this.UploadButton.Location = new System.Drawing.Point(597, 8);
+            this.UploadButton.Location = new System.Drawing.Point(404, 32);
             this.UploadButton.Name = "UploadButton";
             this.UploadButton.Size = new System.Drawing.Size(84, 34);
             this.UploadButton.TabIndex = 2;
@@ -68,16 +65,6 @@
             this.UploadButton.UseMnemonic = false;
             this.UploadButton.UseVisualStyleBackColor = true;
             this.UploadButton.Click += new System.EventHandler(this.UploadButton_Click);
-            // 
-            // openImageButton
-            // 
-            this.openImageButton.Location = new System.Drawing.Point(7, 8);
-            this.openImageButton.Name = "openImageButton";
-            this.openImageButton.Size = new System.Drawing.Size(97, 34);
-            this.openImageButton.TabIndex = 3;
-            this.openImageButton.Text = "Open Image";
-            this.openImageButton.UseVisualStyleBackColor = true;
-            this.openImageButton.Click += new System.EventHandler(this.openImageButton_Click);
             // 
             // listBox1
             // 
@@ -90,7 +77,7 @@
             this.listBox1.Items.AddRange(new object[] {
             "Starting Window",
             "Hardware component is not connected!"});
-            this.listBox1.Location = new System.Drawing.Point(395, 292);
+            this.listBox1.Location = new System.Drawing.Point(395, 315);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(593, 270);
             this.listBox1.TabIndex = 4;
@@ -98,7 +85,7 @@
             // pictureBox1
             // 
             this.pictureBox1.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 89);
+            this.pictureBox1.Location = new System.Drawing.Point(12, 112);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(976, 87);
             this.pictureBox1.TabIndex = 5;
@@ -111,7 +98,7 @@
             // 
             // renderButton
             // 
-            this.renderButton.Location = new System.Drawing.Point(507, 8);
+            this.renderButton.Location = new System.Drawing.Point(314, 32);
             this.renderButton.Name = "renderButton";
             this.renderButton.Size = new System.Drawing.Size(84, 34);
             this.renderButton.TabIndex = 6;
@@ -122,7 +109,7 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Arial", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(203, 10);
+            this.textBox1.Location = new System.Drawing.Point(12, 32);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(295, 32);
             this.textBox1.TabIndex = 7;
@@ -130,7 +117,7 @@
             // pictureBox2
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBox2.Location = new System.Drawing.Point(14, 213);
+            this.pictureBox2.Location = new System.Drawing.Point(14, 236);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(350, 350);
             this.pictureBox2.TabIndex = 8;
@@ -141,7 +128,7 @@
             this.FileNameLabel.BackColor = System.Drawing.Color.Transparent;
             this.FileNameLabel.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileNameLabel.ForeColor = System.Drawing.Color.White;
-            this.FileNameLabel.Location = new System.Drawing.Point(788, 72);
+            this.FileNameLabel.Location = new System.Drawing.Point(788, 95);
             this.FileNameLabel.Name = "FileNameLabel";
             this.FileNameLabel.Size = new System.Drawing.Size(200, 14);
             this.FileNameLabel.TabIndex = 9;
@@ -155,7 +142,7 @@
             this.FileTypeLabel.BackColor = System.Drawing.Color.Transparent;
             this.FileTypeLabel.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileTypeLabel.ForeColor = System.Drawing.Color.White;
-            this.FileTypeLabel.Location = new System.Drawing.Point(21, 218);
+            this.FileTypeLabel.Location = new System.Drawing.Point(21, 241);
             this.FileTypeLabel.Name = "FileTypeLabel";
             this.FileTypeLabel.Size = new System.Drawing.Size(35, 14);
             this.FileTypeLabel.TabIndex = 10;
@@ -168,7 +155,7 @@
             this.FileWidthLabel.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileWidthLabel.ForeColor = System.Drawing.Color.White;
             this.FileWidthLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.FileWidthLabel.Location = new System.Drawing.Point(311, 218);
+            this.FileWidthLabel.Location = new System.Drawing.Point(311, 241);
             this.FileWidthLabel.Name = "FileWidthLabel";
             this.FileWidthLabel.Size = new System.Drawing.Size(42, 15);
             this.FileWidthLabel.TabIndex = 11;
@@ -182,7 +169,7 @@
             this.FileHeightLabel.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FileHeightLabel.ForeColor = System.Drawing.Color.White;
             this.FileHeightLabel.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.FileHeightLabel.Location = new System.Drawing.Point(311, 233);
+            this.FileHeightLabel.Location = new System.Drawing.Point(311, 256);
             this.FileHeightLabel.Name = "FileHeightLabel";
             this.FileHeightLabel.Size = new System.Drawing.Size(49, 15);
             this.FileHeightLabel.TabIndex = 12;
@@ -200,7 +187,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.Transparent;
             this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.Location = new System.Drawing.Point(395, 217);
+            this.button1.Location = new System.Drawing.Point(395, 240);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(40, 40);
             this.button1.TabIndex = 13;
@@ -218,7 +205,7 @@
             this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
             this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(441, 217);
+            this.button2.Location = new System.Drawing.Point(441, 240);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(40, 40);
             this.button2.TabIndex = 14;
@@ -233,7 +220,7 @@
             this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.Transparent;
-            this.button3.Location = new System.Drawing.Point(487, 217);
+            this.button3.Location = new System.Drawing.Point(487, 240);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(40, 40);
             this.button3.TabIndex = 15;
@@ -242,13 +229,81 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(299, 184);
+            this.button4.Location = new System.Drawing.Point(299, 207);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(65, 23);
             this.button4.TabIndex = 16;
             this.button4.Text = "Refresh";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.BackColor = System.Drawing.Color.Gray;
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.renderToolStripMenuItem,
+            this.uploadToolStripMenuItem1});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(1000, 24);
+            this.menuStrip1.TabIndex = 17;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
+            this.openToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.saveToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.newToolStripMenuItem.Text = "New";
+            this.newToolStripMenuItem.Click += new System.EventHandler(this.newToolStripMenuItem_Click);
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click_1);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(183, 6);
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Enabled = false;
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // renderToolStripMenuItem
+            // 
+            this.renderToolStripMenuItem.Name = "renderToolStripMenuItem";
+            this.renderToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
+            this.renderToolStripMenuItem.Text = "Render Text";
+            this.renderToolStripMenuItem.Click += new System.EventHandler(this.renderToolStripMenuItem_Click);
+            // 
+            // uploadToolStripMenuItem1
+            // 
+            this.uploadToolStripMenuItem1.Name = "uploadToolStripMenuItem1";
+            this.uploadToolStripMenuItem1.Size = new System.Drawing.Size(57, 20);
+            this.uploadToolStripMenuItem1.Text = "Upload";
+            this.uploadToolStripMenuItem1.Click += new System.EventHandler(this.uploadToolStripMenuItem1_Click);
             // 
             // MainWindow
             // 
@@ -270,17 +325,19 @@
             this.Controls.Add(this.renderButton);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.listBox1);
-            this.Controls.Add(this.openImageButton);
             this.Controls.Add(this.UploadButton);
-            this.Controls.Add(this.NewFileButton);
+            this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MainMenuStrip = this.menuStrip1;
             this.MaximizeBox = false;
             this.Name = "MainWindow";
             this.Text = "POV Wheel - Group 38";
             this.Load += new System.EventHandler(this.MainWindow_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -288,9 +345,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button NewFileButton;
         private System.Windows.Forms.Button UploadButton;
-        private System.Windows.Forms.Button openImageButton;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button renderButton;
@@ -304,6 +359,14 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem renderToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uploadToolStripMenuItem1;
 
     }
 }

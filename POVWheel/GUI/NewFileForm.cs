@@ -12,58 +12,96 @@ namespace POVWheel.GUI
 {
     public partial class NewFileForm : Form
     {
-        public Bitmap Image;
         public string ImageName;
-        public string ImageType;
+        public int ImageType;
+        public int Width;
+        public int Heigh;
+        public bool IsValid()
+        {
+            if (nameTextBox.Text.Equals("")) // Empty name field
+            {
+                errorLabel.Text = "Empty File Name";
+                return false;
+            }
+
+            int Width;
+            if (!Int32.TryParse(widthTextBox.Text, out Width)) // Empty or invalid width field
+            {
+                errorLabel.Text = "Invalid Width Size";
+                return false;
+            }
+
+            int Heigh;
+            if (!Int32.TryParse(heighTextBox.Text, out Heigh)) // // Empty or invalid width field
+            {
+                errorLabel.Text = "Invalid Heigh Value";
+                return false;
+            }
+
+            if (Width > 360 || Width < 1) // Invaid size
+            {
+                errorLabel.Text = "Invaid Width Size";
+                return false;
+            }
+
+            if (Heigh > 32 || Heigh < 1) // Invaid size
+            {
+                errorLabel.Text = "Invalid Heigh Size";
+                return false;
+            }
+
+            if (imageTypeComboBox.SelectedIndex < 0) 
+            {
+                errorLabel.Text = "Please select image type!";
+                return false;
+            }
+
+            return true;
+        }
         public NewFileForm()
         {
             InitializeComponent();
         }
+    
 
-        private void label1_Click(object sender, EventArgs e)
+
+        private void okButton_Click(object sender, EventArgs e)
         {
-
+            if (IsValid())
+            {
+                this.DialogResult = DialogResult.OK;
+                ImageName = nameTextBox.Text;
+                ImageType = imageTypeComboBox.SelectedIndex + 1; 
+                Width = Int16.Parse(widthTextBox.Text);
+                Heigh = Int16.Parse(heighTextBox.Text);
+                this.Hide();
+            }
+            
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
+        
 
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.DialogResult = DialogResult.OK;
-            ImageName = textBox1.Text;
-            Image = new Bitmap(Int16.Parse(textBox2.Text), Int16.Parse(textBox3.Text));
-            this.Hide();
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Dispose();
         }
 
-        private void label6_Click(object sender, EventArgs e)
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void NewFileForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void imageTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }

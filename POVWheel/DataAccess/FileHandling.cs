@@ -389,7 +389,7 @@ namespace POVWheel.DataAccess
                 for (int x = 0; x < resultBitmap.Width; x++)
                 {
                     // Console.WriteLine("X= " + x + "Y= " + y);
-                    if (pixels.Get(y * resultBitmap.Width + x))
+                    if (pixels.Get(y * resultBitmap.Width + x)) 
                     {
                         resultBitmap.SetPixel(x, y, System.Drawing.Color.Black);
                     }
@@ -438,7 +438,90 @@ namespace POVWheel.DataAccess
             return resultBitmap;
 
         }
-        
+
+        public static void SavingImage(string filePath, int fileType, Bitmap image)
+        {
+            /*
+            Console.WriteLine("Width: " + image.Width + "Heigh: " + image.Height);
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    byte R = image.GetPixel(x, y).R;
+                    byte G = image.GetPixel(x, y).G;
+                    byte B = image.GetPixel(x, y).B;
+                    Console.Write("[" + R + "] [" + G + "] [" + B + "] | ");
+                   
+                }
+                
+            }
+             */
+            
+            using (StreamWriter Writer = new StreamWriter(filePath, false))
+            {
+                //Write Magic Number
+                if (fileType == 1) Writer.WriteLine("P1"); //Black and White Image
+                else if (fileType == 2) Writer.WriteLine("P2"); //Gray-scale image
+                else if (fileType == 3) Writer.WriteLine("P3"); //Color Image
+
+                //Write Width and Height
+                string Size = image.Width + " " + image.Height;
+                Writer.WriteLine(Size);
+
+                //Write maximum brighness value if the image is either gray-scale of color
+                if (fileType == 2 || fileType == 3) Writer.WriteLine("255");
+
+                //Write Image Data
+                if (fileType == 1) //Black-White Image
+                {
+                    for (int y = 0; y < image.Height; y++)
+                    {
+                        for (int x = 0; x < image.Width; x++)
+                        {
+                            byte R = image.GetPixel(x, y).R;
+                            byte G = image.GetPixel(x, y).G;
+                            byte B = image.GetPixel(x, y).B;
+                            //Console.Write("("+x+","+y+")"+"["+R+"] ["+G+"] ["+B+"]");
+                            if (R == 0 && G == 0 && B == 0) Writer.Write('1'); //Black Pixel
+                            else Writer.Write('0'); //White Pixel
+                        }
+                        Writer.WriteLine();
+                    }
+                }
+
+                else if (fileType == 2) //Gray-scale Image
+                {
+                    for (int y = 0; y < image.Height; y++)
+                    {
+                        for (int x = 0; x < image.Width; x++)
+                        {
+                            byte R = image.GetPixel(x, y).R;
+                            Writer.Write(R); //Gray Scale Value
+                        }
+                        Writer.WriteLine();
+                    }
+                }
+
+                else if (fileType == 3) //Color Image
+                {
+                    for (int y = 0; y < image.Height; y++)
+                    {
+                        for (int x = 0; x < image.Width; x++)
+                        {
+                            byte R = image.GetPixel(x, y).R;
+                            byte G = image.GetPixel(x, y).G;
+                            byte B = image.GetPixel(x, y).B;
+
+                            Writer.WriteLine(R+" "+G+" "+B); //Write RGB value
+                        }
+                       
+                    }
+                }
+
+                Writer.Close();
+            }
+            
+        }
 
 }
 }

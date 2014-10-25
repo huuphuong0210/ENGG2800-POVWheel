@@ -48,6 +48,12 @@ namespace POVWheel.GUI
 
         private void UploadButton_Click(object sender, EventArgs e)
         {
+            if (Program.CurrentImage == null) 
+            {
+                MessageBox.Show("Please open image or render the text first!");
+                return;
+            }
+            
             COMPortForm testDialog = new COMPortForm();
             testDialog.SetComPorts(System.IO.Ports.SerialPort.GetPortNames());
             testDialog.StartPosition = FormStartPosition.CenterParent;
@@ -66,47 +72,6 @@ namespace POVWheel.GUI
             }
             testDialog.Dispose();
         }
-
-        private void openImageButton_Click(object sender, EventArgs e)
-        {
-            
-            OpenFileDialog openDialog = new OpenFileDialog();
-            //openDialog.Filter = "PBM Files (*.pbm)|*.pbm | PGM Files (*.pgm) |*.pgm";
-
-            if (openDialog.ShowDialog() == DialogResult.OK)
-            {
-                try
-                {
-                    String FilePath = openDialog.FileName;
-                    //Get Image From File
-                    int OriginalW = 0;
-                    int OrginalH = 0;
-                    System.Drawing.Bitmap image = Program.OpenImage(FilePath, ref OriginalW, ref OrginalH);
-                    pictureBox1.Image = Program.resizeBitmap(image,976,87);
-
-                    //Display Preview Image
-                    System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
-                    pictureBox2.Image = previewImage;
-                    
-                    addLog("Openned file: " + openDialog.SafeFileName);
-                    string FileName = Path.GetFileNameWithoutExtension(FilePath);
-                    string FileType = Path.GetExtension(FilePath);
-                    string FileWidth = OriginalW.ToString();
-                    string FileHeight = OrginalH.ToString();
-
-                    AddFileInfor(FileName, FileType, FileWidth, FileHeight);
-
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.StackTrace);
-                   addLog("Error: " + ex.Message);
-                }
-            }
-        }
-
-       
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -156,7 +121,7 @@ namespace POVWheel.GUI
 
             addLog("Render Sucessfully: " + textInput);
             renderButton.Enabled = true;
-
+            saveToolStripMenuItem.Enabled = true;
             //Dipslay image RGB value
             for (int x = 0; x < image.Width; x++)
             {
@@ -183,33 +148,6 @@ namespace POVWheel.GUI
 
         private void FileHeightLabel_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void NewFileButton_Click(object sender, EventArgs e)
-        {
-            NewFileForm NewFileDialog = new NewFileForm();
-            NewFileDialog.StartPosition = FormStartPosition.CenterParent;
-
-            // Show testDialog as a modal dialog and determine if DialogResult = OK. 
-            if (NewFileDialog.ShowDialog(this) == DialogResult.OK)
-            {
-                // Read the contents of testDialog's TextBox. 
-                //this.txtResult.Text = testDialog.TextBox1.Text;
-                Console.WriteLine("OK");
-                pictureBox1.Image = new Bitmap(976, 87);
-                Graphics g = Graphics.FromImage(pictureBox1.Image);
-                g.Clear(Color.White);
-                AddFileInfor(NewFileDialog.ImageName, " ", NewFileDialog.Image.Width.ToString(), NewFileDialog.Image.Height.ToString());
-            }
-            else
-            {
-                Console.WriteLine("Cancel");
-                //this.txtResult.Text = "Cancelled";
-            }           
-            //pictureBox1.Image = NewFileDialog.Image;
-           
-            NewFileDialog.Dispose();
 
         }
 
@@ -278,6 +216,151 @@ namespace POVWheel.GUI
         private void button1_MouseHover(object sender, EventArgs e)
         {
            
+        }
+
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewFileForm NewFileDialog = new NewFileForm();
+
+            NewFileDialog.StartPosition = FormStartPosition.CenterParent;
+
+            // Show testDialog as a modal dialog and determine if DialogResult = OK. 
+            if (NewFileDialog.ShowDialog(this) == DialogResult.OK)
+            {
+                // Read the contents of testDialog's TextBox. 
+                //this.txtResult.Text = testDialog.TextBox1.Text;
+                Console.WriteLine("OK");
+
+                Bitmap image = Program.CreateNewImage(NewFileDialog.ImageType, NewFileDialog.Width, NewFileDialog.Heigh, NewFileDialog.ImageName);
+                //AddFileInfor(NewFileDialog.ImageName, " ", NewFileDialog.Image.Width.ToString(), NewFileDialog.Image.Height.ToString());
+                
+                pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
+
+                //Display Preview Image
+                System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
+                pictureBox2.Image = previewImage;
+
+                addLog("Create new file: " + NewFileDialog.ImageName);
+                string FileName = NewFileDialog.ImageName;
+                string FileType = "";
+                string FileWidth = Program.CurrentImage.Width.ToString();
+                string FileHeight = Program.CurrentImage.Width.ToString();
+
+                AddFileInfor(FileName, FileType, FileWidth, FileHeight);
+                saveToolStripMenuItem.Enabled = true;
+            }
+            else
+            {
+                Console.WriteLine("Cancel");
+            }
+            NewFileDialog.Dispose();
+            
+        }
+
+        private void openToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+
+            OpenFileDialog OpenDialog = new OpenFileDialog();
+            //openDialog.Filter = "PBM Files (*.pbm)|*.pbm | PGM Files (*.pgm) |*.pgm";
+
+            if (OpenDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    String FilePath = OpenDialog.FileName;
+                    //Get Image From File
+                    int OriginalW = 0;
+                    int OrginalH = 0;
+                    System.Drawing.Bitmap image = Program.OpenImage(FilePath, ref OriginalW, ref OrginalH);
+                    pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
+
+                    //Display Preview Image
+                    System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
+                    pictureBox2.Image = previewImage;
+
+                    addLog("Openned file: " + OpenDialog.SafeFileName);
+                    string FileName = Path.GetFileNameWithoutExtension(FilePath);
+                    string FileType = Path.GetExtension(FilePath);
+                    string FileWidth = OriginalW.ToString();
+                    string FileHeight = OrginalH.ToString();
+
+                    AddFileInfor(FileName, FileType, FileWidth, FileHeight);
+                    saveToolStripMenuItem.Enabled = true;
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.StackTrace);
+                    addLog("Error: " + ex.Message);
+                }
+            }
+        }
+
+        private void uploadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void renderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            renderButton.Enabled = false;
+            String textInput = textBox1.Text;
+            //textBox1.Clear();
+            System.Drawing.Bitmap image = Program.renderImageFromText(textInput);
+            Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
+            pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
+
+            //Display Preview Image
+            System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
+            pictureBox2.Image = previewImage;
+
+            addLog("Render Sucessfully: " + textInput);
+            renderButton.Enabled = true;
+            saveToolStripMenuItem.Enabled = true;
+            //Dipslay image RGB value
+            for (int x = 0; x < image.Width; x++)
+            {
+                for (int y = 0; y < image.Height; y++)
+                {
+                    Console.WriteLine("R: " + image.GetPixel(x, y).R
+                        + " B: " + image.GetPixel(x, y).B
+                        + " G: " + image.GetPixel(x, y).G);
+                }
+            } 
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (Program.ImageType == 1) // Black-White Image
+                saveFileDialog.Filter = "PBM File |*.pbm";
+            else if (Program.ImageType == 2) // Gray-scale Image
+                saveFileDialog.Filter = "PGM File |*.pgm";
+            else if (Program.ImageType == 3) // Color Image
+                saveFileDialog.Filter = "PPM File |*.ppm";
+
+            saveFileDialog.FilterIndex = 1;
+            saveFileDialog.RestoreDirectory = true;
+
+
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    DataAccess.FileHandling.SavingImage(saveFileDialog.FileName, Program.ImageType, Program.CurrentImage);
+
+                }
+                catch (Exception exeption)
+                {
+                    MessageBox.Show(exeption.Message);
+                }
+            }
+        }
+
+        private void uploadToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

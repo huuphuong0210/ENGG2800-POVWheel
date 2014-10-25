@@ -14,9 +14,9 @@ namespace POVWheel
     {
         public static int ImageType; // 1 - Blackwhite | 2 - Grayscale | 3 - Color |  Image Type of Current Display Image
         public static Bitmap CurrentImage; // Current Image Data
-
+        public static string CurrentFileName;
         /// <summary>
-        /// This method used to open image file
+        /// This method is called to open image file
         /// </summary>
         /// <param name="filePath">The image file path</param>
         /// <param name="originalW">Reference argument to return the orginial with of image</param>
@@ -53,16 +53,22 @@ namespace POVWheel
             //Reading Image Data
             System.Drawing.Bitmap imageBitmap = DataAccess.FileHandling.readData(filePath);
 
-            CurrentImage = new Bitmap(imageBitmap);
             originalW = imageBitmap.Width;
             originalH = imageBitmap.Height;
             CurrentImage = imageBitmap;
 
-            if (imageBitmap.Width == 360 && imageBitmap.Height == 32) //Return Image If image size = 360x32
+            //return CurrentImage;
+            return GetImageForDipslay(imageBitmap);
+
+        }
+
+        public static System.Drawing.Bitmap GetImageForDipslay(Bitmap orginalImage)
+        {
+            if (orginalImage.Width == 360 && orginalImage.Height == 32) //Return Image If image size = 360x32
             {
-                return imageBitmap;
+                return orginalImage;
             }
-            else if (imageBitmap.Width <= 360 && imageBitmap.Height <= 32) // Image size smaller than 360x32
+            else if (orginalImage.Width <= 360 && orginalImage.Height <= 32) // Image size smaller than 360x32
             {
                 Bitmap returnImage = new Bitmap(360, 32); //Prepare image for dipslay - adding background 
                 using (Graphics g = Graphics.FromImage((Image)returnImage))
@@ -70,19 +76,31 @@ namespace POVWheel
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
                     g.FillRectangle(new SolidBrush(ColorTranslator.FromHtml("#646464")), new Rectangle(0, 0, 360, 32));
-                    g.DrawImage(imageBitmap, new Point((360 - imageBitmap.Width) / 2, 0));
+                    g.DrawImage(orginalImage, new Point((360 - orginalImage.Width) / 2, 0));
                 }
                 return returnImage;
 
             }
             else // Throw error when image lager than 360x32
             {
-                Console.WriteLine("W: " + imageBitmap.Width + "H: " + imageBitmap.Height);
+                Console.WriteLine("W: " + orginalImage.Width + "H: " + orginalImage.Height);
                 throw new Exception("Image size is larger than 320x32 pixels");
             }
-
         }
 
+        public static System.Drawing.Bitmap CreateNewImage(int imageType, int width, int heigh, string fileName)
+        {
+            CurrentFileName = fileName;
+            //Create new bitmap
+            CurrentImage = new Bitmap(width, heigh);
+
+            //Add white background
+            Graphics g = Graphics.FromImage(CurrentImage);
+            g.Clear(Color.White);
+
+            //Create image for displaying
+            return GetImageForDipslay(CurrentImage);
+        }
         public static System.Drawing.Bitmap renderImageFromText(String textInput)
         {
             Font objFont = new Font("Arial", 26, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Pixel);

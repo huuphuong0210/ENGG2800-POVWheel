@@ -37,104 +37,36 @@ namespace POVWheel.GUI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            //Combox Item is selected
+            if (comboBox1.SelectedIndex > -1) 
+            {
+                
+                //Hidden ComboBox & Label 1
+                comboBox1.Hide();
+                label1.Hide();
 
-            DialogResult = DialogResult.OK;
+                //Disabel OK and Cancel Button
+                button1.Enabled = false;
+                button2.Enabled = false;
 
-            //Thread readThread = new Thread();
-            //List the coms port           
-           // Byte[] image = DataAccess.USBCommunication.GetBytesFromCurrentImage();
-            //Console.Write("Width:" + image[1] + "Height" + image[2]);
-            //Initialize the serialport class
-         try{
-                 System.IO.Ports.SerialPort sp = new System.IO.Ports.SerialPort((string)comboBox1.Items[comboBox1.SelectedIndex], 19200);
-                //4 5 3
-                char[] c = new char[3] { '3', '4', '5' };
-                byte[] image = new byte[32*360];
-                sp.Open();
-                Random rm = new Random();
-                int sleep = 200;
-                int i =  0;
-
-                bool delay = false;
-                Console.WriteLine("Hi Jeremy, Do you want to set the delay for sending process?");
-                Console.WriteLine("Press 1 for Yes or 0 for No! then hit enter");
-                string keyCode = Console.ReadLine();
-                char key = keyCode[0];
-                if (key == '1')
+                //Show Progress Bar
+                progressBar1.Show();
+                sendingLabel.Show();
+                //Making fake progress effect
+                for (int i = 0; i < 90; i++)
                 {
-                    delay = true;
-                    Console.WriteLine("Enter delay time (ms):");
-                    string delayTime = Console.ReadLine();
-                    sleep = Int32.Parse(delayTime);
+                    progressBar1.PerformStep();
+                    Thread.Sleep(10);
                 }
 
-
-                image = DataAccess.USBCommunication.GetBytesFromCurrentImage();
-
-                if (delay)
-                {
-                    for (i = 0; i < 32 * 360; i++)
-                    {
-                        if ( image[i] == 255 ) Console.WriteLine("Byte number: " + i + " Value: " + image[i]);
-                        sp.Write(image, i, 1);
-                        Thread.Sleep(sleep);
-                    }
-                }
-                else
-                {
-                    sp.Write(image, 0, 32 * 360);
-                    Console.Write("Sucessfull 32*360 bytes was sent");
-                }
-
-
-         }catch(Exception ee){
-             Console.WriteLine("ERROR: " + ee.Message);
-             Console.WriteLine(ee.StackTrace);
-             Console.WriteLine("Close and try again!");
-         }   
+                string SelectedCom = (string)comboBox1.Items[comboBox1.SelectedIndex];
+                DataAccess.USBCommunication.UploadData(SelectedCom, 19200);
+               
+                progressBar1.Increment(10);
+                DialogResult = DialogResult.OK;
+                           
+            }
             
-            //while (true)
-            //{
-            //    Console.WriteLine("Sequential Display");
-            //    for (int k = 0; k < 20; k++)
-            //    {
-            //        //light up
-            //        for (int i = 0; i < 3; i++)
-            //        {
-            //            sp.Write(c, i, 1);
-            //            Thread.Sleep(sleep);
-            //        }
-            //        //Turn off
-
-            //        //for (int i = 2; i >= 0; i--)
-            //        //{
-            //        //    sp.Write(c, i, 1);
-            //        //    Thread.Sleep(sleep);
-            //        //}
-            //    }
-
-            //    //Flash three line
-            //    Console.WriteLine("Flashing three light");
-            //    for (int k = 0; k < 20; k++)
-            //    {
-            //        sp.Write(c, 0, 3);
-            //        Thread.Sleep(sleep);
-            //    }
-            //    //
-            //    sp.Write(c, 0, 1);
-            //    sp.Write(c, 2, 1);
-            //    for (int k = 0; k < 30; k++)
-            //    {
-            //        sp.Write(c, 0, 3);
-            //        Thread.Sleep(400);
-            //    }
-            //    sp.Write(c, 0, 1);
-            //    sp.Write(c, 2, 1);
-            //}
-
-
-            //Console.Read();
-            ///////////////////////////////////////
         }
 
         private void COMPortForm_Load(object sender, EventArgs e)
@@ -146,5 +78,22 @@ namespace POVWheel.GUI
         {
 
         }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void successLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+    
     }
 }

@@ -3,9 +3,9 @@ D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.exe
 D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.pdb
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.GUI.COMPortForm.resources
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.GUI.MainWindow.resources
-D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.GUI.NewFileForm.resources
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.Properties.Resources.resources
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.csproj.GenerateResource.Cache
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.exe
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.pdb
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.csprojResolveAssemblyReference.cache
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.GUI.NewFileForm.resources

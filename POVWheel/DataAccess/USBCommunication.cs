@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-
+using System.Threading;
 namespace POVWheel.DataAccess
 {
     class USBCommunication
@@ -44,11 +44,12 @@ namespace POVWheel.DataAccess
                         byte R = FinalImage.GetPixel(x, y).R;
                         byte G = FinalImage.GetPixel(x, y).G;
                         byte B = FinalImage.GetPixel(x, y).B;
-                        if (R == 0 && G == 0 && B == 0){
+                        if (R == 0 && G == 0 && B == 0)
+                        {
                             //Console.WriteLine("WHITE");
                             BytesArray[byteOffset] = 255; //Set the white byte
                         }
-                            
+
                         else BytesArray[byteOffset] = 0; //Set the black byte
                         byteOffset++;
                     }
@@ -93,10 +94,27 @@ namespace POVWheel.DataAccess
             return BytesArray;
         }
 
-        public static int UploadData(string comPort, int baudRate)
+        public static void UploadData(string comPort, int baudRate)
         {
-            System.IO.Ports.SerialPort sp = new System.IO.Ports.SerialPort(comPort, baudRate);
-            return 1;
+                System.IO.Ports.SerialPort Com = new System.IO.Ports.SerialPort(comPort, baudRate);
+                byte[] Data = GetBytesFromCurrentImage(); // Get image data for sending
+                int offset = 0;
+
+                Com.Open(); //Open port for transfering data
+                Com.ReadTimeout = 5000;
+
+                //Sending data to the com port
+                while (offset < 360 * 32)
+                {
+                    Com.Write(Data, offset, 32 * 4);
+                    offset += 32 * 4;
+                    Com.ReadByte();
+                }
+
+
+                Com.Close(); //Close port
+           
+            
         }
     }
 }
