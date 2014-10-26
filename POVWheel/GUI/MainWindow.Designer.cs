@@ -36,9 +36,6 @@
             this.FileTypeLabel = new System.Windows.Forms.Label();
             this.FileWidthLabel = new System.Windows.Forms.Label();
             this.FileHeightLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -69,11 +66,10 @@
             this.listBox1.HorizontalScrollbar = true;
             this.listBox1.ItemHeight = 15;
             this.listBox1.Items.AddRange(new object[] {
-            "Starting Window",
-            "Hardware component is not connected!"});
-            this.listBox1.Location = new System.Drawing.Point(395, 315);
+            "Starting Window!"});
+            this.listBox1.Location = new System.Drawing.Point(404, 241);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(593, 270);
+            this.listBox1.Size = new System.Drawing.Size(574, 315);
             this.listBox1.TabIndex = 4;
             // 
             // pictureBox1
@@ -152,56 +148,6 @@
             this.FileHeightLabel.Text = "Height";
             this.FileHeightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.FileHeightLabel.Click += new System.EventHandler(this.FileHeightLabel_Click);
-            // 
-            // button1
-            // 
-            this.button1.BackColor = System.Drawing.Color.Transparent;
-            this.button1.BackgroundImage = global::POVWheel.Properties.Resources.Cursor;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.ForeColor = System.Drawing.Color.Transparent;
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.button1.Location = new System.Drawing.Point(395, 240);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(40, 40);
-            this.button1.TabIndex = 13;
-            this.button1.TabStop = false;
-            this.button1.UseVisualStyleBackColor = false;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            this.button1.MouseEnter += new System.EventHandler(this.button1_MouseEnter);
-            this.button1.MouseHover += new System.EventHandler(this.button1_MouseHover);
-            // 
-            // button2
-            // 
-            this.button2.BackColor = System.Drawing.Color.Transparent;
-            this.button2.BackgroundImage = global::POVWheel.Properties.Resources.Pencil;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(441, 240);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(40, 40);
-            this.button2.TabIndex = 14;
-            this.button2.UseVisualStyleBackColor = false;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Transparent;
-            this.button3.BackgroundImage = global::POVWheel.Properties.Resources.Palette;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.button3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.ForeColor = System.Drawing.Color.Transparent;
-            this.button3.Location = new System.Drawing.Point(487, 240);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(40, 40);
-            this.button3.TabIndex = 15;
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -297,7 +243,7 @@
             this.toolStrip1.Location = new System.Drawing.Point(17, 28);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.toolStrip1.Size = new System.Drawing.Size(178, 39);
+            this.toolStrip1.Size = new System.Drawing.Size(147, 39);
             this.toolStrip1.Stretch = true;
             this.toolStrip1.TabIndex = 18;
             this.toolStrip1.Text = "toolStrip1";
@@ -305,6 +251,7 @@
             // toolStripPointerButton
             // 
             this.toolStripPointerButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripPointerButton.Enabled = false;
             this.toolStripPointerButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripPointerButton.Image")));
             this.toolStripPointerButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripPointerButton.Name = "toolStripPointerButton";
@@ -330,6 +277,7 @@
             this.toolStripEraserButton.Name = "toolStripEraserButton";
             this.toolStripEraserButton.Size = new System.Drawing.Size(36, 36);
             this.toolStripEraserButton.Text = "toolStripButton4";
+            this.toolStripEraserButton.Click += new System.EventHandler(this.toolStripEraserButton_Click);
             // 
             // toolStripColorPickerButton
             // 
@@ -339,6 +287,7 @@
             this.toolStripColorPickerButton.Name = "toolStripColorPickerButton";
             this.toolStripColorPickerButton.Size = new System.Drawing.Size(36, 36);
             this.toolStripColorPickerButton.Text = "toolStripButton5";
+            this.toolStripColorPickerButton.Click += new System.EventHandler(this.toolStripColorPickerButton_Click);
             // 
             // MainWindow
             // 
@@ -349,9 +298,6 @@
             this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.FileHeightLabel);
             this.Controls.Add(this.FileWidthLabel);
             this.Controls.Add(this.FileTypeLabel);
@@ -387,9 +333,6 @@
         private System.Windows.Forms.Label FileTypeLabel;
         private System.Windows.Forms.Label FileWidthLabel;
         private System.Windows.Forms.Label FileHeightLabel;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;

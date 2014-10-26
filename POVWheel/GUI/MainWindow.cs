@@ -12,7 +12,7 @@ namespace POVWheel.GUI
 {
     public partial class MainWindow : Form
     {
-        public int CurrentCursor = 2; // 1-pointer | 2-brushes
+        public int CurrentCursor = 1; // 1-pointer | 2-brushes | 3-erasers
         private System.Drawing.Color Color = System.Drawing.Color.Black;
         public MainWindow()
         {
@@ -102,29 +102,11 @@ namespace POVWheel.GUI
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown == true)
+            if (mouseDown == true && CurrentCursor != 1)
             {
-                Bitmap image = (Bitmap)pictureBox1.Image;
-                Graphics g = Graphics.FromImage(image);
-
-                //Graphics graphicOrginialImage = Graphics.FromImage(Program.CurrentImage);
-                //if (e.X >= 0 && e.Y >= 0)
-                //{
-                //    float x,y;
-
-                //    if (e.X >= 1) x = e.X - 1;
-                //    else x = e.X;
-
-                //    y = e.Y + 1;
-                //    //image.SetPixel(e.X, e.Y, Color.Black);
-                //    //image.SetPixel(e.X, e.Y, Color.Black);
-                //    g.FillRectangle(new SolidBrush(Color), x, y, (float)2.7, (float)2.7);
-                //    //Console.WriteLine("X: " + e.X + " Y: " + e.Y);
-                //    pictureBox1.Image = image;
-                //}
-
                 if (e.X >= 0 && e.Y >= 0)
                 {
+                   
                     //Console.WriteLine("["+e.X+","+e.Y+"]");
                     int haftScaleWidth = Convert.ToInt32(Math.Floor(Program.CurrentImage.Width / 2 * 2.71));
                     int xLowerBound = 488 - haftScaleWidth;
@@ -141,27 +123,19 @@ namespace POVWheel.GUI
 
                     Console.WriteLine("[" + mapBackX + "," + mapBackY + "]");
 
-                    float x, y;
+                    if (CurrentCursor == 3) //Eraser
+                    {
+                        Program.CurrentImage.SetPixel(mapBackX, mapBackY, System.Drawing.Color.White);
+                    }
+                    else
+                    {
+                        Program.CurrentImage.SetPixel(mapBackX, mapBackY, Color);
+                    }
 
-                    //if (e.X >= 1) x = e.X - 1;
-                    //else x = e.X;
-
-                    //y = e.Y + 1;
-                    //image.SetPixel(e.X, e.Y, Color.Black);
-                    //image.SetPixel(e.X, e.Y, Color.Black);
-                    //g.FillRectangle(new SolidBrush(Color), x, y, (float)2.7, (float)2.7);
-                    //Console.WriteLine("X: " + e.X + " Y: " + e.Y);
-                    Color myRgbColor = new Color();
-                    myRgbColor = Color.FromArgb(0, 0, 0);
-                    Program.CurrentImage.SetPixel(mapBackX, mapBackY, myRgbColor);
-
+                    //Rerendering image for dipslay
                     System.Drawing.Bitmap image2 = Program.GetImageForDipslay(Program.CurrentImage);
                     pictureBox1.Image = Program.resizeBitmap(image2, 976, 87);
-
-                    //Display Preview Image
-                    //System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
-                    //pictureBox2.Image = previewImage;
-                    //pictureBox1.Image = image;
+                    
                 }
                 
             }
@@ -169,12 +143,7 @@ namespace POVWheel.GUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-            ColorDialog ColorChoser = new ColorDialog();
-
-            if (ColorChoser.ShowDialog(this) == DialogResult.OK)
-            {
-                Color = ColorChoser.Color;
-            }
+           
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -402,12 +371,59 @@ namespace POVWheel.GUI
         {
             //Set Current Cursor to Brush
             CurrentCursor = 2;
+
+            //Disable Brush Button
+            toolStripBrushButton.Enabled = false;
+
+            //Enable Pointer and Eraser Button
+            toolStripPointerButton.Enabled = true;
+            toolStripEraserButton.Enabled = true;
         }
 
         private void toolStripPointerButton_Click(object sender, EventArgs e)
         {
             //Set Current Cursor to Pointer
             CurrentCursor = 1;
+
+            //Disable Pointer Button
+            toolStripPointerButton.Enabled = false;
+
+            //Enable Brush and Eraser Button
+            toolStripBrushButton.Enabled = true;
+            toolStripEraserButton.Enabled = true;
+        }
+
+        private void toolStripEraserButton_Click(object sender, EventArgs e)
+        {
+            //Set Current Cursor to Eraser
+            CurrentCursor = 3;
+
+            //Disable Eraser Button
+            toolStripEraserButton.Enabled = false;
+
+            //Enable Brush and Pointer Button
+            toolStripBrushButton.Enabled = true;
+            toolStripPointerButton.Enabled = true;
+        }
+
+        private void pictureBox1_MouseEnter(object sender, EventArgs e)
+        {
+            Console.WriteLine("Mouse Enter");
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e)
+        {
+            Console.WriteLine("Mouse Leave");
+        }
+
+        private void toolStripColorPickerButton_Click(object sender, EventArgs e)
+        {
+            ColorDialog ColorChoser = new ColorDialog();
+
+            if (ColorChoser.ShowDialog(this) == DialogResult.OK)
+            {
+                Color = ColorChoser.Color;
+            }
         }
     }
 }

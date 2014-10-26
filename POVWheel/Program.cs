@@ -78,7 +78,7 @@ namespace POVWheel
             else // Throw error when image lager than 360x32
             {
                 Console.WriteLine("W: " + orginalImage.Width + "H: " + orginalImage.Height);
-                throw new Exception("Image size is larger than 320x32 pixels");
+                throw new Exception("Image size is larger than 360x32 pixels");
             }
         }
 

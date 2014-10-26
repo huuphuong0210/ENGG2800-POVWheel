@@ -47,10 +47,10 @@ namespace POVWheel.DataAccess
                         if (R == 0 && G == 0 && B == 0)
                         {
                             //Console.WriteLine("WHITE");
-                            BytesArray[byteOffset] = 255; //Set the white byte
+                            BytesArray[byteOffset] = 0; //Set the white byte
                         }
 
-                        else BytesArray[byteOffset] = 0; //Set the black byte
+                        else BytesArray[byteOffset] = 255; //Set the black byte
                         byteOffset++;
                     }
                 }
@@ -93,24 +93,53 @@ namespace POVWheel.DataAccess
 
             return BytesArray;
         }
-
         public static void UploadData(string comPort, int baudRate)
         {
-                
-                System.IO.Ports.SerialPort Com = new System.IO.Ports.SerialPort(comPort, baudRate);
+
+            System.IO.Ports.SerialPort Com = new System.IO.Ports.SerialPort(comPort, baudRate, System.IO.Ports.Parity.None,8,System.IO.Ports.StopBits.Two);
                 byte[] Data = GetBytesFromCurrentImage(); // Get image data for sending
-                int offset = 0;
+                
 
                 Com.Open(); //Open port for transfering data
                 Com.ReadTimeout = 5000;
+                Com.WriteTimeout = 5000;
 
-                //Sending data to the com port
-                while (offset < 360 * 32)
+                //Waiting
+
+                Com.Write("A");
+                Com.ReadByte();
+                
+
+                int i = 1;
+                int col = 360;
+                Console.WriteLine("Sending data!");
+                for (i = 0; i < 32 * col; i++)
                 {
-                    Com.Write(Data, offset, 32 * 4);
-                    offset += 32 * 4;
-                    Com.ReadByte();
+                    Console.WriteLine(+i+" [" + Data[i] + "]");
                 }
+
+                i = 0;
+                int offset = 0;
+                //Sending data to the com port
+                while (offset < 32 * col)
+                {
+                    Console.WriteLine(i + " Time");
+                    Com.Write(Data, offset, 32*4);
+                    Com.ReadByte();
+                    offset += 32 * 4;
+                    i++;
+                }
+                
+                //Read back data 
+                //Console.WriteLine("Waiting for receiving the data");
+                //byte[] dataBack = new byte[32];
+                //for (i = 0; i < 32 * col; i++)
+                //{
+                //    byte temp = (byte)Com.ReadByte();
+                //    Console.WriteLine(i+" ["+temp+"]");
+                //}
+                
+
                 Com.Close(); //Close port
            
             
