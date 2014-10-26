@@ -20,19 +20,9 @@ namespace POVWheel.GUI
             InitializeComponent();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Dispose();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -48,7 +38,7 @@ namespace POVWheel.GUI
 
                     //Disabel OK and Cancel Button
                     button1.Enabled = false;
-                    button2.Enabled = false;
+                    cancelButton.Enabled = false;
 
                     //Show Progress Bar
                     progressBar1.Show();
@@ -72,38 +62,8 @@ namespace POVWheel.GUI
                 {
                     MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.Dispose();
-                }
-                
-                           
+                } 
             }
-            
         }
-
-        private void COMPortForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void progressBar1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void successLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-    
     }
 }

@@ -63,8 +63,6 @@ namespace POVWheel.GUI
             InitializeComponent();
         }
     
-
-
         private void okButton_Click(object sender, EventArgs e)
         {
             if (IsValid())
@@ -79,31 +77,9 @@ namespace POVWheel.GUI
             
         }
 
-        
-
         private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Dispose();
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
-        {
-
-        }
-
-        private void NewFileForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void imageTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

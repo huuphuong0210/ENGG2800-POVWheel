@@ -150,7 +150,7 @@ namespace POVWheel
                 {
                     g.InterpolationMode = InterpolationMode.NearestNeighbor;
                     g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
-                    g.FillRectangle(System.Drawing.Brushes.White, new Rectangle(0, 0, 360, 32));
+                    g.FillRectangle(System.Drawing.Brushes.Black, new Rectangle(0, 0, 360, 32));
                     g.DrawImage(image, new Point((360 - image.Width) / 2, 0));
                 }
             }

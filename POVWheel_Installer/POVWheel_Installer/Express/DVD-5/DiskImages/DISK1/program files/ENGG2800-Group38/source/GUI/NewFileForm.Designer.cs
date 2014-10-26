@@ -125,7 +125,6 @@
             this.imageTypeComboBox.Name = "imageTypeComboBox";
             this.imageTypeComboBox.Size = new System.Drawing.Size(166, 23);
             this.imageTypeComboBox.TabIndex = 11;
-            this.imageTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.imageTypeComboBox_SelectedIndexChanged);
             // 
             // groupBox1
             // 
@@ -141,7 +140,6 @@
             this.groupBox1.TabIndex = 12;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Image Type";
-            this.groupBox1.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // heighTextBox
             // 
@@ -192,7 +190,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "NewFileForm";
             this.Text = "New";
-            this.Load += new System.EventHandler(this.NewFileForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

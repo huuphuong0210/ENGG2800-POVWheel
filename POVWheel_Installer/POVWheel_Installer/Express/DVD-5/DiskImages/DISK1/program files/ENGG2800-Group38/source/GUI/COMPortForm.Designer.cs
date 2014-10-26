@@ -30,7 +30,7 @@
         {
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.sendingLabel = new System.Windows.Forms.Label();
@@ -47,7 +47,6 @@
             this.comboBox1.Size = new System.Drawing.Size(234, 41);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.TabStop = false;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged_1);
             // 
             // button1
             // 
@@ -59,15 +58,15 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // cancelButton
             // 
-            this.button2.Location = new System.Drawing.Point(147, 97);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(89, 36);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Cancel";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.cancelButton.Location = new System.Drawing.Point(147, 97);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(89, 36);
+            this.cancelButton.TabIndex = 2;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // label1
             // 
@@ -77,7 +76,6 @@
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Chose Com Port:";
-            this.label1.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // progressBar1
             // 
@@ -86,7 +84,6 @@
             this.progressBar1.Size = new System.Drawing.Size(234, 41);
             this.progressBar1.TabIndex = 0;
             this.progressBar1.Visible = false;
-            this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
             // sendingLabel
             // 
@@ -97,7 +94,6 @@
             this.sendingLabel.TabIndex = 4;
             this.sendingLabel.Text = "Uploading . . .";
             this.sendingLabel.Visible = false;
-            this.sendingLabel.Click += new System.EventHandler(this.successLabel_Click);
             // 
             // COMPortForm
             // 
@@ -107,15 +103,14 @@
             this.Controls.Add(this.sendingLabel);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.comboBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "COMPortForm";
             this.Text = "Upload to Firmware";
-            this.Load += new System.EventHandler(this.COMPortForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 
         }
 
@@ -123,7 +118,7 @@
 
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.Label sendingLabel;

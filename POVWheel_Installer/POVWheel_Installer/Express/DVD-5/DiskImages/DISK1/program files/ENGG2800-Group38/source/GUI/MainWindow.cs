@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using System.Drawing;
 namespace POVWheel.GUI
 {
     public partial class MainWindow : Form
@@ -175,6 +174,16 @@ namespace POVWheel.GUI
 
                     //Enable Draw Tools
                     toolStrip1.Enabled = true;
+
+                    //For black-white image, disable color picker button and set brush color to black
+                    if (Program.CurrentImageType == 1)
+                    {
+                        toolStripColorPickerButton.Enabled = false;
+                        m_BrushColor = Color.Black;
+                    }
+                    else
+                        toolStripColorPickerButton.Enabled = true;
+                    
                 }
                 newFileDialog.Dispose();
             }
@@ -222,12 +231,23 @@ namespace POVWheel.GUI
 
                         //Enable Draw Tools
                         toolStrip1.Enabled = true;
+
+                        //For black-white image, disable color picker button and set brush color to black
+                        if (Program.CurrentImageType == 1)
+                        {
+                            toolStripColorPickerButton.Enabled = false;
+                            m_BrushColor = Color.Black;
+                        }
+                        else
+                            toolStripColorPickerButton.Enabled = true;
+                        
                         
                 }
             }
             catch (Exception exeption)
             {
                 MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Add log
                 AddLog("Error: " + exeption.Message);
             }
             
@@ -265,12 +285,17 @@ namespace POVWheel.GUI
 
                     //Enable Draw Tools
                     toolStrip1.Enabled = true;
+                    
+                    //Enable color picker button
+                    toolStripColorPickerButton.Enabled = true;
                 }
                 renderForm.Dispose();
             }
             catch (Exception exeption)
             {
                 MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Add Log
+                AddLog("Error: " + exeption.Message);
             }
         }
 
@@ -299,6 +324,8 @@ namespace POVWheel.GUI
             catch (Exception exeption)
             {
                 MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //Add Log
+                AddLog("Error: " + exeption.Message);
             }
            
         }
@@ -330,51 +357,101 @@ namespace POVWheel.GUI
 
         private void toolStripBrushButton_Click(object sender, EventArgs e)
         {
-            //Set Current Cursor to Brush
-            CurrentCursor = 2;
+            try
+            {
+                //Set Current Cursor to Brush
+                CurrentCursor = 2;
 
-            //Disable Brush Button
-            toolStripBrushButton.Enabled = false;
+                //Disable Brush Button
+                toolStripBrushButton.Enabled = false;
 
-            //Enable Pointer and Eraser Button
-            toolStripPointerButton.Enabled = true;
-            toolStripEraserButton.Enabled = true;
+                //Enable Pointer and Eraser Button
+                toolStripPointerButton.Enabled = true;
+                toolStripEraserButton.Enabled = true;
+            }
+            catch (Exception exeption)
+            {
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
+            }
+            
         }
 
         private void toolStripPointerButton_Click(object sender, EventArgs e)
         {
-            //Set Current Cursor to Pointer
-            CurrentCursor = 1;
+            try
+            {
+                //Set Current Cursor to Pointer
+                CurrentCursor = 1;
 
-            //Disable Pointer Button
-            toolStripPointerButton.Enabled = false;
+                //Disable Pointer Button
+                toolStripPointerButton.Enabled = false;
 
-            //Enable Brush and Eraser Button
-            toolStripBrushButton.Enabled = true;
-            toolStripEraserButton.Enabled = true;
+                //Enable Brush and Eraser Button
+                toolStripBrushButton.Enabled = true;
+                toolStripEraserButton.Enabled = true;
+            }
+            catch (Exception exeption)
+            {
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
+            }
+            
         }
 
         private void toolStripEraserButton_Click(object sender, EventArgs e)
         {
-            //Set Current Cursor to Eraser
-            CurrentCursor = 3;
+            try
+            {
+                //Set Current Cursor to Eraser
+                CurrentCursor = 3;
 
-            //Disable Eraser Button
-            toolStripEraserButton.Enabled = false;
+                //Disable Eraser Button
+                toolStripEraserButton.Enabled = false;
 
-            //Enable Brush and Pointer Button
-            toolStripBrushButton.Enabled = true;
-            toolStripPointerButton.Enabled = true;
+                //Enable Brush and Pointer Button
+                toolStripBrushButton.Enabled = true;
+                toolStripPointerButton.Enabled = true;
+            }
+            catch (Exception exeption)
+            {
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
+            }
+            
         }
 
         private void toolStripColorPickerButton_Click(object sender, EventArgs e)
         {
-            ColorDialog ColorChoser = new ColorDialog();
-
-            if (ColorChoser.ShowDialog(this) == DialogResult.OK)
+            try
             {
-                m_BrushColor = ColorChoser.Color;
+                if (Program.CurrentImageType == 2) //Gray-scale Image
+                {
+                    GrayScaleColorChoser ColorChoser = new GrayScaleColorChoser();
+                    //Show the color choser window and obtain the color when user click ok
+                    if (ColorChoser.ShowDialog(this) == DialogResult.OK)
+                    {
+                        m_BrushColor = ColorChoser.Color;
+                    }
+                }
+                else
+                    if (Program.CurrentImageType == 3) //Color image
+                    {
+                        ColorDialog ColorChoser = new ColorDialog();
+                        //Show the color choser window and obtain the color when user click ok
+                        if (ColorChoser.ShowDialog(this) == DialogResult.OK)
+                        {
+                            m_BrushColor = ColorChoser.Color;
+                        }
+                    }
             }
+            catch (Exception exeption)
+            {
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
+            }
+            
+           
         }
     }
 }

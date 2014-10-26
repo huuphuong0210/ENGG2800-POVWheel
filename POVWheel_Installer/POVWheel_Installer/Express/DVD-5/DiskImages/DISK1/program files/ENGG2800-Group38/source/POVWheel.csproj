@@ -59,6 +59,12 @@
     </Compile>
     <Compile Include="DataAccess\FileHandling.cs" />
     <Compile Include="DataAccess\USBCommunication.cs" />
+    <Compile Include="GUI\GrayScaleColorChoser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\GrayScaleColorChoser.Designer.cs">
+      <DependentUpon>GrayScaleColorChoser.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +87,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="GUI\COMPortForm.resx">
       <DependentUpon>COMPortForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GrayScaleColorChoser.resx">
+      <DependentUpon>GrayScaleColorChoser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
