@@ -54,8 +54,6 @@ namespace POVWheel.DataAccess
                         byteOffset++;
                     }
                 }
-
-
             }
             else if (Program.CurrentImageType == 2) //Gray-scale Image
             {
@@ -118,14 +116,11 @@ namespace POVWheel.DataAccess
             {
                 //Sending 4 column at a time
                 Com.Write(Data, offset, 32 * 4);
-                //Wating for ackknowledge
+                //Waiting for ackknowledge
                 Com.ReadByte();
                 offset += 32 * 4;
             }
-            
             Com.Close(); //Close port
-
-
         }
     }
 }
