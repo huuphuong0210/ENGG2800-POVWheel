@@ -10,3 +10,4 @@ D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.exe
 D:\Project\Visualstudio\POVWheel\POVWheel\bin\Debug\POVWheel.pdb
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.csprojResolveAssemblyReference.cache
 D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.exe
+D:\Project\Visualstudio\POVWheel\POVWheel\obj\Debug\POVWheel.GUI.GrayScaleColorChoser.resources

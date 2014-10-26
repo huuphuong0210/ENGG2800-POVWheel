@@ -68,10 +68,6 @@ namespace POVWheel.DataAccess
                         byte R = finalImage.GetPixel(x, y).R;
                         byte G = finalImage.GetPixel(x, y).G;
                         byte B = finalImage.GetPixel(x, y).B;
-                        //if (R != G || R != B) Console.Write("FUCK"); 
-                        //if (R < 255 && R != 0) Console.Write("FUCK");
-                        Console.WriteLine("[" + R + "," + G + "," + B + "]");
-                        //Thread.Sleep(10);
                         bytesArray[byteOffSet] = R;
                         byteOffSet++;
                     }

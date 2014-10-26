@@ -71,6 +71,7 @@ namespace POVWheel.GUI
                 catch (Exception exeption)
                 {
                     MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    this.Dispose();
                 }
                 
                            

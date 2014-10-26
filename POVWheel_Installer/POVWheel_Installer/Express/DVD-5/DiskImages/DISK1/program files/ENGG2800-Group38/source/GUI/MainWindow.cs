@@ -117,21 +117,25 @@ namespace POVWheel.GUI
 
         private void refreshPreviewButton_Click(object sender, EventArgs e)
         {
-            try
+            if (Program.CurrentImage != null)
             {
-                //Get current displayed picture
-                Bitmap image = (Bitmap)pictureBox1.Image;
-                image = Program.ResizeBitmap(image, 360, 32);
+                try
+                {
+                    //Get current displayed picture
+                    Bitmap image = (Bitmap)pictureBox1.Image;
+                    image = Program.ResizeBitmap(image, 360, 32);
 
-                //Get and dipslay preview image
-                Bitmap previewImage = Program.GetWheelPreviewImage(image, pictureBox2.Width, pictureBox2.Height);
-                pictureBox2.Image = previewImage;
+                    //Get and dipslay preview image
+                    Bitmap previewImage = Program.GetWheelPreviewImage(image, pictureBox2.Width, pictureBox2.Height);
+                    pictureBox2.Image = previewImage;
+                }
+                catch (Exception exeption)
+                {
+                    MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    AddLog("Error: " + exeption.Message);
+                }
             }
-            catch (Exception exeption)
-            {
-                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                AddLog("Error: " + exeption.Message);
-            }
+            
         }
 
         
