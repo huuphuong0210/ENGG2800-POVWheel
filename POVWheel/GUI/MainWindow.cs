@@ -8,12 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Drawing;
 namespace POVWheel.GUI
 {
     public partial class MainWindow : Form
     {
-        public int CurrentCursor = 1; // 1-pointer | 2-brushes | 3-erasers
-        private System.Drawing.Color Color = System.Drawing.Color.Black;
+        //Current Cursor Type [1-pointer | 2-brushes | 3-erasers] default value is pointer
+        public int CurrentCursor = 1;
+        //Brush color
+        private Color m_BrushColor = Color.Black;
+        private bool m_MouseDown = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -34,183 +39,147 @@ namespace POVWheel.GUI
             FileWidthLabel.Text = " ";
             FileHeightLabel.Text = " ";
         }
-        public void addLog(string message)
+
+        public void AddLog(string message)
         {
             DateTime saveNow = DateTime.Now;
             listBox1.Items.Add('[' + saveNow.ToString() + "]  " + message);
             listBox1.TopIndex = listBox1.Items.Count - 1;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void MainWindow_Load(object sender, EventArgs e)
         {
 
         }
-
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            //using (Font arialFont = new Font("Arial", 10))
-            //{
-            //    g.DrawString("HEHEHEH", arialFont, Brushes.Blue, new PointF(10f, 10f));
-            //    //g.DrawString("HIHIHIHI", arialFont, Brushes.Red, new PointF(10f, 10f));
-            //}
-            //int numOfCells = 200;
-            //int cellSize = 10;
-            //Pen p = new Pen(System.Drawing.ColorTranslator.FromHtml("#eaeff2"));
-
-            //for (int y = 0; y < numOfCells; ++y)
-            //{
-            //    g.DrawLine(p, 0, y * cellSize, numOfCells * cellSize, y * cellSize);
-            //}
-
-            //for (int x = 0; x < numOfCells; ++x)
-            //{
-            //    g.DrawLine(p, x * cellSize, 0, x * cellSize, numOfCells * cellSize);
-            //}
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FileHeightLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private bool mouseDown = false;
+        
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
         {
-            mouseDown = true;
+            //Setting the mouse down value to true when mouse is click down
+            m_MouseDown = true;
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
-            mouseDown = false;
+            //Setting the mouse down value to true when mouse click is up
+            m_MouseDown = false;
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (mouseDown == true && CurrentCursor != 1)
+            try
             {
-                if (e.X >= 0 && e.Y >= 0)
+                //Drawing when cursor is brush or pointer
+                if (m_MouseDown == true && CurrentCursor != 1)
                 {
-                   
-                    //Console.WriteLine("["+e.X+","+e.Y+"]");
-                    int haftScaleWidth = Convert.ToInt32(Math.Floor(Program.CurrentImage.Width / 2 * 2.71));
-                    int xLowerBound = 488 - haftScaleWidth;
-                    int xUpperBound = 488 + haftScaleWidth;
-
-                    int haftScaleHeight= Convert.ToInt32(Math.Floor(Program.CurrentImage.Height/2*2.71));
-                    int yLowerBound = 43 - haftScaleHeight;
-                    int yUpperBound = 43 + haftScaleHeight;
-
-                    int mapBackX = Convert.ToInt32(Math.Floor((e.X - xLowerBound)/2.71));
-                    int mapBackY = Convert.ToInt32(Math.Floor((e.Y - yLowerBound) / 2.71));
-
-                    if (e.X < xLowerBound || e.X > xUpperBound || e.Y < yLowerBound || e.Y > yUpperBound) return;
-
-                    Console.WriteLine("[" + mapBackX + "," + mapBackY + "]");
-
-                    if (CurrentCursor == 3) //Eraser
+                    //Detect the location of mouse'pointer over the picture box
+                    if (e.X >= 0 && e.Y >= 0)
                     {
-                        Program.CurrentImage.SetPixel(mapBackX, mapBackY, System.Drawing.Color.White);
-                    }
-                    else
-                    {
-                        Program.CurrentImage.SetPixel(mapBackX, mapBackY, Color);
+                        //Mapping pointer coordinate to image pixel coordinate
+                        int haftScaleWidth = Convert.ToInt32(Math.Floor(Program.CurrentImage.Width / 2 * 2.71));
+                        int xLowerBound = 488 - haftScaleWidth;
+                        int xUpperBound = 488 + haftScaleWidth;
+
+                        int haftScaleHeight = Convert.ToInt32(Math.Floor(Program.CurrentImage.Height / 2 * 2.71));
+                        int yLowerBound = 43 - haftScaleHeight;
+                        int yUpperBound = 43 + haftScaleHeight;
+
+                        int mapBackX = Convert.ToInt32(Math.Floor((e.X - xLowerBound) / 2.71));
+                        int mapBackY = Convert.ToInt32(Math.Floor((e.Y - yLowerBound) / 2.71));
+
+                        if (e.X < xLowerBound || e.X > xUpperBound || e.Y < yLowerBound || e.Y > yUpperBound) return;
+
+                        //Drawing on the image
+                        if (CurrentCursor == 3) //Eraser
+                        {
+                            Program.CurrentImage.SetPixel(mapBackX, mapBackY, System.Drawing.Color.White);
+                        }
+                        else //Brush
+                        {
+                            Program.CurrentImage.SetPixel(mapBackX, mapBackY, m_BrushColor);
+                        }
+
+                        //Rerendering image for dipslay
+                        System.Drawing.Bitmap image2 = Program.GetImageToDipslay(Program.CurrentImage);
+                        pictureBox1.Image = Program.ResizeBitmap(image2, 976, 87);
+
                     }
 
-                    //Rerendering image for dipslay
-                    System.Drawing.Bitmap image2 = Program.GetImageForDipslay(Program.CurrentImage);
-                    pictureBox1.Image = Program.resizeBitmap(image2, 976, 87);
-                    
                 }
-                
+            }
+            catch (Exception exeption)
+            {
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
+            }
+            
+        }
+
+
+        private void refreshPreviewButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //Get current displayed picture
+                Bitmap image = (Bitmap)pictureBox1.Image;
+                image = Program.ResizeBitmap(image, 360, 32);
+
+                //Get and dipslay preview image
+                Bitmap previewImage = Program.GetWheelPreviewImage(image, pictureBox2.Width, pictureBox2.Height);
+                pictureBox2.Image = previewImage;
+            }
+            catch (Exception exeption)
+            {
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-           
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            Bitmap image = (Bitmap)pictureBox1.Image;
-            image = Program.resizeBitmap(image, 360, 32);
-            System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
-            pictureBox2.Image = previewImage;
-
-        }
-
-        private void button1_MouseEnter(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void button1_MouseHover(object sender, EventArgs e)
-        {
-           
-        }
-
+        
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            NewFileForm NewFileDialog = new NewFileForm();
-
-            NewFileDialog.StartPosition = FormStartPosition.CenterParent;
-
-            // Show testDialog as a modal dialog and determine if DialogResult = OK. 
-            if (NewFileDialog.ShowDialog(this) == DialogResult.OK)
+            try
             {
-                // Read the contents of testDialog's TextBox. 
-                //this.txtResult.Text = testDialog.TextBox1.Text;
-                Console.WriteLine("OK");
+                NewFileForm newFileDialog = new NewFileForm();
 
-                Bitmap image = Program.CreateNewImage(NewFileDialog.ImageType, NewFileDialog.Width, NewFileDialog.Heigh, NewFileDialog.ImageName);
-                //AddFileInfor(NewFileDialog.ImageName, " ", NewFileDialog.Image.Width.ToString(), NewFileDialog.Image.Height.ToString());
-                
-                pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
+                //Center the new file diagle
+                newFileDialog.StartPosition = FormStartPosition.CenterParent;
 
-                //Display Preview Image
-                System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
-                pictureBox2.Image = previewImage;
+                // Show new file diaglog as a modal dialog and determine if DialogResult = OK 
+                if (newFileDialog.ShowDialog(this) == DialogResult.OK)
+                {
+                    //Create new bitmap image base on user's input
+                    Bitmap image = Program.CreateNewImage(newFileDialog.ImageType, newFileDialog.Width, newFileDialog.Heigh, newFileDialog.ImageName);
 
-                addLog("Create new file: " + NewFileDialog.ImageName);
-                string FileName = NewFileDialog.ImageName;
-                string FileType = "";
-                string FileWidth = Program.CurrentImage.Width.ToString();
-                string FileHeight = Program.CurrentImage.Width.ToString();
+                    //Get image to dipslay
+                    pictureBox1.Image = Program.ResizeBitmap(image, 976, 87);
 
-                AddFileInfor(FileName, FileType, FileWidth, FileHeight);
+                    //Display Preview Image
+                    Bitmap previewImage = Program.GetWheelPreviewImage(image, pictureBox2.Width, pictureBox2.Height);
+                    pictureBox2.Image = previewImage;
 
-                //Enable Save Menu
-                saveToolStripMenuItem.Enabled = true;
+                    //Add log to history list
+                    AddLog("Create new file: " + newFileDialog.ImageName);
+                    string FileName = newFileDialog.ImageName;
+                    string FileType = "";
+                    string FileWidth = Program.CurrentImage.Width.ToString();
+                    string FileHeight = Program.CurrentImage.Width.ToString();
 
-                //Enable Draw Tools
-                toolStrip1.Enabled = true;
+                    AddFileInfor(FileName, FileType, FileWidth, FileHeight);
+
+                    //Enable Save Menu
+                    saveToolStripMenuItem.Enabled = true;
+
+                    //Enable Draw Tools
+                    toolStrip1.Enabled = true;
+                }
+                newFileDialog.Dispose();
             }
-            else
+            catch (Exception exeption)
             {
-                Console.WriteLine("Cancel");
+                MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                AddLog("Error: " + exeption.Message);
             }
-            NewFileDialog.Dispose();
+           
             
         }
 
@@ -218,28 +187,30 @@ namespace POVWheel.GUI
         {
             try
             {
-                OpenFileDialog OpenDialog = new OpenFileDialog();
-                //openDialog.Filter = "PBM Files (*.pbm)|*.pbm | PGM Files (*.pgm) |*.pgm";
+                //Initilize open file dialog
+                OpenFileDialog openDialog = new OpenFileDialog();
 
-                if (OpenDialog.ShowDialog() == DialogResult.OK)
+                if (openDialog.ShowDialog() == DialogResult.OK)
                 {
-                        String FilePath = OpenDialog.FileName;
+                        String FilePath = openDialog.FileName;
+
                         //Get Image From File
                         int OriginalW = 0;
                         int OrginalH = 0;
                         System.Drawing.Bitmap image = Program.OpenImage(FilePath, ref OriginalW, ref OrginalH);
-                        pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
+                        pictureBox1.Image = Program.ResizeBitmap(image, 976, 87);
 
                         //Display Preview Image
-                        System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
+                        System.Drawing.Bitmap previewImage = Program.GetWheelPreviewImage(image, pictureBox2.Width, pictureBox2.Height);
                         pictureBox2.Image = previewImage;
 
-                        addLog("Openned file: " + OpenDialog.SafeFileName);
+                        AddLog("Openned file: " + openDialog.SafeFileName);
                         string FileName = Path.GetFileNameWithoutExtension(FilePath);
                         string FileType = Path.GetExtension(FilePath);
                         string FileWidth = OriginalW.ToString();
                         string FileHeight = OrginalH.ToString();
-
+                        
+                        //Add file info
                         AddFileInfor(FileName, FileType, FileWidth, FileHeight);
 
                         //Enable Save File Menu
@@ -253,52 +224,43 @@ namespace POVWheel.GUI
             catch (Exception exeption)
             {
                 MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                addLog("Error: " + exeption.Message);
+                AddLog("Error: " + exeption.Message);
             }
             
-        }
-
-        private void uploadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void renderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
+                //Initilize text render dialog
                 TextRenderForm renderForm = new TextRenderForm();
+
+                //Center the dialog
                 renderForm.StartPosition = FormStartPosition.CenterParent;
 
                 // Show testDialog as a modal dialog and determine if DialogResult = OK. 
                 if (renderForm.ShowDialog(this) == DialogResult.OK)
                 {
-                    // Read the contents of testDialog's TextBox. 
-                    //this.txtResult.Text = testDialog.TextBox1.Text;
-                    //Console.WriteLine("OK");
-
+                    //Get text input from user
                     String textInput = renderForm.Input;
-                    //Render Image from Text
-                    System.Drawing.Bitmap image = Program.renderImageFromText(textInput);
-                    //Console.WriteLine("Rendering Image Width: " + image.Width + " Heigh: " + image.Height);
-                    pictureBox1.Image = Program.resizeBitmap(image, 976, 87);
 
-                    //Display Preview Image
-                    System.Drawing.Bitmap previewImage = Program.getWheelPreview(image, pictureBox2.Width, pictureBox2.Height);
+                    //Render image from user input and display 
+                    System.Drawing.Bitmap image = Program.RenderImageFromText(textInput);
+                    pictureBox1.Image = Program.ResizeBitmap(image, 976, 87);
+
+                    //Display preview image
+                    System.Drawing.Bitmap previewImage = Program.GetWheelPreviewImage(image, pictureBox2.Width, pictureBox2.Height);
                     pictureBox2.Image = previewImage;
-
-                    addLog("Render Sucessfully: " + textInput);
+                    
+                    //Add Log
+                    AddLog("Render Sucessfully: " + textInput);
                     
                     //Enable Save Menu
                     saveToolStripMenuItem.Enabled = true;
 
                     //Enable Draw Tools
                     toolStrip1.Enabled = true;
-                }
-                else
-                {
-                    Console.WriteLine("Cancel");
-                    //this.txtResult.Text = "Cancelled";
                 }
                 renderForm.Dispose();
             }
@@ -312,18 +274,23 @@ namespace POVWheel.GUI
         {
             try
             {
+                //Initialize save file diaglog
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
-                if (Program.ImageType == 1) // Black-White Image
+
+                //Adding file extension filter
+                if (Program.CurrentImageType == 1) // Black-White Image
                     saveFileDialog.Filter = "PBM File |*.pbm";
-                else if (Program.ImageType == 2) // Gray-scale Image
+                else if (Program.CurrentImageType == 2) // Gray-scale Image
                     saveFileDialog.Filter = "PGM File |*.pgm";
-                else if (Program.ImageType == 3) // Color Image
+                else if (Program.CurrentImageType == 3) // Color Image
                     saveFileDialog.Filter = "PPM File |*.ppm";
 
                 saveFileDialog.FilterIndex = 1;
                 saveFileDialog.RestoreDirectory = true;
+                
+                //Saving file
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    DataAccess.FileHandling.SavingImage(saveFileDialog.FileName, Program.ImageType, Program.CurrentImage);
+                    DataAccess.FileHandling.SavingImage(saveFileDialog.FileName, Program.CurrentImageType, Program.CurrentImage);
             }
             catch (Exception exeption)
             {
@@ -342,23 +309,13 @@ namespace POVWheel.GUI
                     return;
                 }
 
-                COMPortForm testDialog = new COMPortForm();
-                testDialog.SetComPorts(System.IO.Ports.SerialPort.GetPortNames());
-                testDialog.StartPosition = FormStartPosition.CenterParent;
+                //Initialize the comport chosing diaglog
+                COMPortForm comPortDialog = new COMPortForm();
+                comPortDialog.SetComPorts(System.IO.Ports.SerialPort.GetPortNames());
+                comPortDialog.StartPosition = FormStartPosition.CenterParent;
 
-                // Show testDialog as a modal dialog and determine if DialogResult = OK. 
-                if (testDialog.ShowDialog(this) == DialogResult.OK)
-                {
-                    // Read the contents of testDialog's TextBox. 
-                    //this.txtResult.Text = testDialog.TextBox1.Text;
-                    Console.WriteLine("OK");
-                }
-                else
-                {
-                    Console.WriteLine("Cancel");
-                    //this.txtResult.Text = "Cancelled";
-                }
-                testDialog.Dispose();
+                // Show comPortDialog as a modal dialog and determine if DialogResult = OK. 
+                comPortDialog.ShowDialog(this);
             }
             catch (Exception exeption)
             {
@@ -406,23 +363,13 @@ namespace POVWheel.GUI
             toolStripPointerButton.Enabled = true;
         }
 
-        private void pictureBox1_MouseEnter(object sender, EventArgs e)
-        {
-            Console.WriteLine("Mouse Enter");
-        }
-
-        private void pictureBox1_MouseLeave(object sender, EventArgs e)
-        {
-            Console.WriteLine("Mouse Leave");
-        }
-
         private void toolStripColorPickerButton_Click(object sender, EventArgs e)
         {
             ColorDialog ColorChoser = new ColorDialog();
 
             if (ColorChoser.ShowDialog(this) == DialogResult.OK)
             {
-                Color = ColorChoser.Color;
+                m_BrushColor = ColorChoser.Color;
             }
         }
     }

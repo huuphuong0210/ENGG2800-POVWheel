@@ -36,7 +36,7 @@
             this.FileTypeLabel = new System.Windows.Forms.Label();
             this.FileWidthLabel = new System.Windows.Forms.Label();
             this.FileHeightLabel = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
+            this.refreshPreviewButton = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -80,8 +80,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(976, 87);
             this.pictureBox1.TabIndex = 5;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseUp);
@@ -106,7 +104,6 @@
             this.FileNameLabel.TabIndex = 9;
             this.FileNameLabel.Text = "FileName";
             this.FileNameLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.FileNameLabel.Click += new System.EventHandler(this.label1_Click_1);
             // 
             // FileTypeLabel
             // 
@@ -147,17 +144,16 @@
             this.FileHeightLabel.TabIndex = 12;
             this.FileHeightLabel.Text = "Height";
             this.FileHeightLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.FileHeightLabel.Click += new System.EventHandler(this.FileHeightLabel_Click);
             // 
-            // button4
+            // refreshPreviewButton
             // 
-            this.button4.Location = new System.Drawing.Point(299, 207);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(65, 23);
-            this.button4.TabIndex = 16;
-            this.button4.Text = "Refresh";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.refreshPreviewButton.Location = new System.Drawing.Point(299, 207);
+            this.refreshPreviewButton.Name = "refreshPreviewButton";
+            this.refreshPreviewButton.Size = new System.Drawing.Size(65, 23);
+            this.refreshPreviewButton.TabIndex = 16;
+            this.refreshPreviewButton.Text = "Refresh";
+            this.refreshPreviewButton.UseVisualStyleBackColor = true;
+            this.refreshPreviewButton.Click += new System.EventHandler(this.refreshPreviewButton_Click);
             // 
             // menuStrip1
             // 
@@ -297,7 +293,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1000, 600);
             this.Controls.Add(this.toolStrip1);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.refreshPreviewButton);
             this.Controls.Add(this.FileHeightLabel);
             this.Controls.Add(this.FileWidthLabel);
             this.Controls.Add(this.FileTypeLabel);
@@ -333,7 +329,7 @@
         private System.Windows.Forms.Label FileTypeLabel;
         private System.Windows.Forms.Label FileWidthLabel;
         private System.Windows.Forms.Label FileHeightLabel;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button refreshPreviewButton;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;

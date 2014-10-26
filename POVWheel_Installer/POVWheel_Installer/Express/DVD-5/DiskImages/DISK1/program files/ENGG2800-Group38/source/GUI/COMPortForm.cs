@@ -40,30 +40,39 @@ namespace POVWheel.GUI
             //Combox Item is selected
             if (comboBox1.SelectedIndex > -1) 
             {
-                
-                //Hidden ComboBox & Label 1
-                comboBox1.Hide();
-                label1.Hide();
-
-                //Disabel OK and Cancel Button
-                button1.Enabled = false;
-                button2.Enabled = false;
-
-                //Show Progress Bar
-                progressBar1.Show();
-                sendingLabel.Show();
-                //Making fake progress effect
-                for (int i = 0; i < 90; i++)
+                try
                 {
-                    progressBar1.PerformStep();
-                    Thread.Sleep(10);
-                }
+                    //Hidden ComboBox & Label 1
+                    comboBox1.Hide();
+                    label1.Hide();
 
-                string SelectedCom = (string)comboBox1.Items[comboBox1.SelectedIndex];
-                DataAccess.USBCommunication.UploadData(SelectedCom, 19200);
-               
-                progressBar1.Increment(10);
-                DialogResult = DialogResult.OK;
+                    //Disabel OK and Cancel Button
+                    button1.Enabled = false;
+                    button2.Enabled = false;
+
+                    //Show Progress Bar
+                    progressBar1.Show();
+                    sendingLabel.Show();
+                    //Making fake progress effect
+                    for (int i = 0; i < 90; i++)
+                    {
+                        progressBar1.PerformStep();
+                        Thread.Sleep(10);
+                    }
+
+                    string SelectedCom = (string)comboBox1.Items[comboBox1.SelectedIndex];
+                    DataAccess.USBCommunication.UploadData(SelectedCom, 19200);
+
+                    progressBar1.Increment(10);
+                    DialogResult = DialogResult.OK;
+                    MessageBox.Show("Upload Successful!");
+
+                }
+                catch (Exception exeption)
+                {
+                    MessageBox.Show(exeption.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                
                            
             }
             

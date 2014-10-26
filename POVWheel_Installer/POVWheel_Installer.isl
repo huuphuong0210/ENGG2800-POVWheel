@@ -3751,7 +3751,7 @@
 		<row><td>IDS__TargetReq_DESC_PROCESSOR</td><td>1033</td><td>The processor is not adequate for running [ProductName].</td><td>0</td><td/><td>-719156335</td></row>
 		<row><td>IDS__TargetReq_DESC_RAM</td><td>1033</td><td>The amount of RAM is not adequate for running [ProductName].</td><td>0</td><td/><td>-719156335</td></row>
 		<row><td>IDS__TargetReq_DESC_RESOLUTION</td><td>1033</td><td>The screen resolution is not adequate for running [ProductName].</td><td>0</td><td/><td>-719156335</td></row>
-		<row><td>ID_STRING1</td><td>1033</td><td>http://www.huuphuong.com</td><td>0</td><td/><td>-719156207</td></row>
+		<row><td>ID_STRING1</td><td>1033</td><td>http://www.huuphuong.net</td><td>0</td><td/><td>-719156526</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>ENGG2800-Group38</td><td>0</td><td/><td>-719141903</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>POVWheel Management Software</td><td>0</td><td/><td>-719157038</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>-719156335</td></row>
