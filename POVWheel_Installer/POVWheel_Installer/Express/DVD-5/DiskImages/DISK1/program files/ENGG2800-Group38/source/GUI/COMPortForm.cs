@@ -39,21 +39,20 @@ namespace POVWheel.GUI
                     //Disabel OK and Cancel Button
                     button1.Enabled = false;
                     cancelButton.Enabled = false;
-
+                    
                     //Show Progress Bar
                     progressBar1.Show();
                     sendingLabel.Show();
+
+                    //Get Seleted Com
+                    string SelectedCom = (string)comboBox1.Items[comboBox1.SelectedIndex];
+                    DataAccess.USBCommunication.UploadData(SelectedCom, 19200);
                     //Making fake progress effect
-                    for (int i = 0; i < 90; i++)
+                    for (int i = 0; i < 100; i++)
                     {
                         progressBar1.PerformStep();
                         Thread.Sleep(10);
                     }
-
-                    string SelectedCom = (string)comboBox1.Items[comboBox1.SelectedIndex];
-                    DataAccess.USBCommunication.UploadData(SelectedCom, 19200);
-
-                    progressBar1.Increment(10);
                     DialogResult = DialogResult.OK;
                     MessageBox.Show("Upload Successful!");
 
@@ -64,6 +63,11 @@ namespace POVWheel.GUI
                     this.Dispose();
                 } 
             }
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

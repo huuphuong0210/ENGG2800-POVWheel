@@ -1,0 +1,186 @@
+commit 035cf803331cc44292e24291851ae4703b9439c7
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Mon Oct 27 01:43:21 2014 +1000
+
+    Update Com Port Form
+
+commit 9a50aa231b48b597e68c981a585c4cc0e4c37bb2
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Mon Oct 27 01:32:52 2014 +1000
+
+    Edit coding style
+
+commit 83e103c6296e105c6c6d309529675a3bdcc95548
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Mon Oct 27 01:18:52 2014 +1000
+
+    Add Gray Scale Color Choser
+
+commit 22d369819e1cef744541d1cbd54e7e1c81c8f6f6
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Oct 26 22:32:51 2014 +1000
+
+    Update coding style
+
+commit 3b51fb3ee57f4ecdece9c040320258a7dec4aeb9
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Oct 26 18:20:18 2014 +1000
+
+    Add Software Installer
+
+commit 856f421fffacac00200ae0ca01a3845e6de7e52a
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Oct 26 18:19:48 2014 +1000
+
+    Fixed USB Communication Class
+
+commit c5419425187f944b275e53586c8e2922e7172e95
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Oct 26 04:09:07 2014 +1000
+
+    Update Display and Drawing Function - Update GUI
+
+commit 91101aba3e8381281375d42e04461bd57d8cfd7c
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Oct 26 04:08:24 2014 +1000
+
+    Add Text Render Form to GUI
+
+commit d40dee0327236c6a94989d6231d4b00264b57f41
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sat Oct 25 23:30:16 2014 +1000
+
+    Update GUI
+
+commit 1e31c2c0724e3d8edec71c9664a57dbd2068659e
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Fri Oct 24 02:03:17 2014 +1000
+
+    Update USB Communication Class
+
+commit 0f8336f46057e1ae476a05973f4c424aa3e96080
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Wed Oct 1 01:29:36 2014 +1000
+
+    Upgrade USB Communication Class
+
+commit aab93eea9be33b3edacf82d87ec37a76aa1a25d6
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Tue Sep 23 13:21:19 2014 +1000
+
+    Add Single Drawing Function
+
+commit ea12835de3098663ff9ddd67457f9629f1c9a116
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Sep 21 01:51:38 2014 +1000
+
+    Add NewFileForm to GUI
+
+commit 98d5facb41c14bd970cb1e369748124854adcc49
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sat Sep 20 03:05:37 2014 +1000
+
+    Add USBCommunication Class
+
+commit 2767dfcb6fa6380dddc32f3cad7348ebd6a3d20a
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Wed Sep 17 02:21:48 2014 +1000
+
+    Add chosing COM port popup menu to GUI
+
+commit 85206a93cec50e00e34426b6866a4a071c27aa01
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Mon Sep 8 16:36:58 2014 +1000
+
+    Update new color scheme for GUI - FileHanlding Support JPG,PNG,GIF image
+
+commit 650bdc18636dcf7fff9bcb477d2b634350674336
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Sep 7 23:59:05 2014 +1000
+
+    Upgrade FileHandling to support PPM Image Color File
+
+commit 36cc075edc94dafc5dfb847087651a7936988e18
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Sep 7 19:17:16 2014 +1000
+
+    Fix open and dipslay image function
+
+commit dd39eed0837ab46ced05e97cb46043e246ad52d4
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Sep 7 02:01:31 2014 +1000
+
+    Add Wheel_Dipslay_Preview function
+
+commit e60901107f3d15e68a18361dbb0a2233fa62338c
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Wed Sep 3 21:49:17 2014 +1000
+
+    Add preview picture box to GUI
+
+commit 18edf51045eaf2e95b27d3daab29aca8f5a40571
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Wed Sep 3 19:06:28 2014 +1000
+
+    Add rendering image from text input function
+
+commit 8a4f3e10372b05ea2fa71301c1a7121016102ecc
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Wed Sep 3 17:20:07 2014 +1000
+
+    Add TextBox and Render Button to GUI
+
+commit fc99fe3becfba633d6dc2cc052ce7db75b4667f3
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Wed Sep 3 01:35:37 2014 +1000
+
+    Fix File Hanlding Class to support BinaryFile
+
+commit bca96c1784a19156830c2cc87c7a2e539068b7a5
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Tue Sep 2 15:08:26 2014 +1000
+
+    Update Display Image Method
+
+commit c45bf7303a957b4a8398a2fa087bd6ecb8eb9349
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Sun Aug 31 18:43:38 2014 +1000
+
+    Add FileHandler
+
+commit de66589bf5df06d02efac938e8203bf88e6373f4
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Fri Aug 15 01:32:16 2014 +1000
+
+    First Implementation GUI
+
+commit 7d4f04a32db8739ab9bb38927326a7b6b4c4402b
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Thu Aug 14 18:28:56 2014 +1000
+
+    Modify README.md
+
+commit d1402def478d7fdef77ab7858a90faddbf2dc6d5
+Merge: e3ea72c 65227bf
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Thu Aug 14 18:22:50 2014 +1000
+
+    Merge branch 'master' of http://github.com/huuphuong0210/ENGG2800-POVWheel
+
+commit e3ea72ce61ca4d78ddef72e1550e11ff9b447992
+Author: HuuPhuong Bui <bhuuphuong@gmail.com>
+Date:   Thu Aug 14 15:59:06 2014 +1000
+
+    Initialisation of the project
+
+commit 65227bf1ee770b63d9275a92b2d9b79e656c2040
+Author: huuphuong0210 <hphuongbui@gmail.com>
+Date:   Thu Aug 14 02:00:28 2014 +1000
+
+    Update README.md
+
+commit 35a651082c60e597eab11c47353163c4b15a1716
+Author: huuphuong0210 <hphuongbui@gmail.com>
+Date:   Thu Aug 14 01:57:50 2014 +1000
+
+    Initial commit
